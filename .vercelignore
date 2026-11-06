@@ -1,0 +1,13 @@
+tests/
+tools/
+docs/
+.github/
+.cline/
+.clinerules/
+__pycache__/
+*.pyc
+.pytest_cache/
+extract_cv.py
+frontend/fix_img.py
+frontend/replace_img.py
+

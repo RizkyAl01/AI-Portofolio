@@ -1,0 +1,9 @@
+.vercel
+.env
+__pycache__/
+tools/.copilot/
+tools/.prompts/
+*.rar
+*.blend
+*.bak
+extracted_assets/

@@ -1,0 +1,2747 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rizky Alviando | AI Engineer &amp; Data Specialist</title>
+    <meta name="description" content="Portofolio dan dossier lengkap Rizky Alviando: AI Engineer, data pipeline, S1 Matematika ITS Cum Laude, pengalaman Komdigi, proyek, dan chatbot interaktif.">
+    <meta name="author" content="Rizky Alviando">
+    <meta name="theme-color" content="#f8fafc">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:title" content="Rizky Alviando | AI Engineer &amp; Data Specialist">
+    <meta property="og:description" content="Pusat informasi dan portofolio profesional Rizky Alviando: AI, data engineering, matematika, dan pengalaman kerja.">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230284c7'/%3E%3Ctext x='16' y='22' font-size='18' font-family='monospace' font-weight='700' text-anchor='middle' fill='%23ffffff'%3ER%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --canvas: #f8fafc;
+            --card: #ffffff;
+            --card-hover: #f1f5f9;
+            --subtle: #f1f5f9;
+            --border: #e2e8f0;
+            --border-subtle: #cbd5e1;
+            --text: #0f172a;
+            --muted: #475569;
+            --accent: #0284c7;
+            --accent-hover: #0369a1;
+            --accent-text: #0369a1;
+            --accent-glow: rgba(2, 132, 199, 0.12);
+            --danger: #dc2626;
+            --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+
+        body {
+            background: var(--canvas);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent-text); text-underline-offset: 3px; }
+        a:hover { color: var(--text); }
+
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 16px;
+            top: -64px;
+            background: var(--accent);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            z-index: 2000;
+            text-decoration: none;
+        }
+        .skip-link:focus { top: 16px; }
+
+        .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+        /* Single Sticky Top Header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(248, 250, 252, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            width: 100%;
+            overflow: hidden;
+        }
+        .site-header .wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 56px;
+            gap: 8px 16px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .brand {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .brand .badge {
+            font-size: 0.7rem;
+            background: #e0f2fe;
+            color: var(--accent-text);
+            border: 1px solid #bae6fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .site-nav { max-width: 100%; }
+        .site-nav ul { display: flex; flex-wrap: wrap; list-style: none; gap: 4px; }
+        .site-nav a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0 10px;
+            border-radius: 6px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.15s, background 0.15s;
+        }
+        .site-nav a:hover { background: var(--subtle); color: var(--text); }
+        .site-nav a[aria-current="true"] {
+            color: var(--accent-text);
+            background: #e0f2fe;
+            font-weight: 600;
+        }
+
+        @media (max-width: 820px) {
+            .site-nav { overflow-x: auto; width: 100%; scrollbar-width: none; }
+            .site-nav::-webkit-scrollbar { display: none; }
+            .site-nav ul { flex-wrap: nowrap; }
+            .site-nav a { white-space: nowrap; }
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            padding: 56px 0 44px;
+            align-items: center;
+        }
+        @media (min-width: 760px) {
+            .hero {
+                grid-template-columns: 1fr 280px;
+                gap: 56px;
+                padding: 72px 0 56px;
+            }
+        }
+        .hero-photo { order: -1; display: flex; justify-content: center; }
+        @media (min-width: 760px) { .hero-photo { order: 0; justify-content: flex-end; } }
+        .hero-photo img {
+            display: block;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: 75% 55%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card);
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+        }
+        .eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: var(--accent-text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+        .hero-name {
+            font-size: clamp(2.2rem, 5vw, 3.25rem);
+            line-height: 1.12;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .hero .role {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .lead {
+            max-width: 58ch;
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+        .facts {
+            list-style: none;
+            display: grid;
+            gap: 6px;
+            margin-bottom: 28px;
+            font-size: 0.9375rem;
+            color: var(--muted);
+        }
+        .facts strong { color: var(--text); font-weight: 600; }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover { background: var(--subtle); border-color: var(--accent); color: var(--accent-text); }
+        .btn-primary { background: var(--accent); border-color: var(--accent); color: #ffffff; }
+        .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #ffffff; }
+        .btn-sm { min-height: 38px; padding: 0 14px; font-size: 0.8125rem; }
+
+        /* General Section Blocks */
+        section.block {
+            padding: 56px 0;
+            border-top: 1px solid var(--border);
+        }
+        h2 {
+            font-size: 1.75rem;
+            line-height: 1.25;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .section-intro {
+            color: var(--muted);
+            max-width: 65ch;
+            margin-bottom: 32px;
+            font-size: 0.975rem;
+        }
+        h3 { font-size: 1.15rem; line-height: 1.4; font-weight: 600; color: var(--text); }
+
+        /* Cartographic Blueprint Atlas 360° Section (Light Editorial Theme) */
+        .atlas {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%);
+            padding: 40px 0 32px;
+            position: relative;
+        }
+        .atlas-header { margin-bottom: 16px; }
+        .atlas-header h2 { margin-bottom: 6px; }
+        .atlas-hint { color: var(--muted); font-size: 0.875rem; max-width: 62ch; }
+        .atlas-stage {
+            position: relative;
+            width: 100%;
+            height: clamp(420px, 64vh, 560px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 65%, #e2e8f0 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 4px 20px rgba(15, 23, 42, 0.05);
+            overflow: hidden;
+        }
+        .atlas-canvas {
+            display: none;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+            touch-action: pan-y;
+        }
+        .atlas-canvas:active { cursor: grabbing; }
+        .js-atlas .atlas-canvas { display: block; }
+        .atlas-canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+        /* Unified Overlay Controls Inside .atlas-stage (Pure SVG Icon Buttons) */
+        .atlas-controls-bar {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 10;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .atlas-nav-btns,
+        .hud-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+        }
+        .atlas-icon-btn {
+            width: 44px;
+            height: 44px;
+            min-height: 44px;
+            padding: 0;
+            border-radius: 9999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+            transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+            pointer-events: auto;
+        }
+        .atlas-icon-btn:hover {
+            background: #ffffff;
+            border-color: var(--accent);
+            color: var(--accent-text);
+            transform: translateY(-1px);
+        }
+        .atlas-icon-btn[aria-pressed="true"],
+        .atlas-icon-btn.btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+        }
+        .atlas-icon-btn[aria-pressed="true"]:hover,
+        .atlas-icon-btn.btn-primary:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            color: #ffffff;
+        }
+        .atlas-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            pointer-events: none;
+        }
+        .atlas-icon-btn .icon-pause { display: none; }
+        .atlas-icon-btn.is-playing .icon-play { display: none; }
+        .atlas-icon-btn.is-playing .icon-pause { display: block; }
+
+        /* Detail card for selected destination */
+        .atlas-detail {
+            margin-top: 16px;
+            padding: 18px 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: grid;
+            gap: 6px;
+            min-height: 100px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+        .atlas-detail .meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-text);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+        .atlas-detail h2 { font-size: 1.15rem; margin: 0; color: var(--text); }
+        .atlas-detail p { color: var(--muted); font-size: 0.9375rem; max-width: 75ch; }
+        .atlas-detail a { font-size: 0.875rem; display: inline-flex; align-items: center; font-weight: 600; }
+
+        /* Archipelago Island Bar & Node Destination Pills */
+        .atlas-index { margin-top: 16px; display: grid; gap: 12px; }
+        .atlas-index h2 {
+            font-size: 0.8125rem;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .atlas-island-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .island-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 0 14px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+            background: var(--card);
+            color: var(--text);
+            font: inherit;
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+        .island-pill .island-swatch {
+            width: 10px;
+            height: 10px;
+            border-radius: 9999px;
+            flex-shrink: 0;
+            border: 1.5px solid currentColor;
+        }
+        .island-pill:hover,
+        .island-pill[aria-pressed="true"] {
+            border-color: var(--accent);
+            background: #e0f2fe;
+            color: var(--accent-text);
+        }
+        .atlas-regions { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+        .atlas-regions > li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+        .js-atlas .atlas-regions > li > a { display: none; }
+        .atlas-nodes { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+        .atlas-nodes button {
+            min-height: 34px;
+            padding: 0 11px;
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            background: var(--card);
+            color: var(--muted);
+            font: inherit;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .atlas-nodes button:hover, .atlas-nodes button[aria-pressed="true"] {
+            color: var(--accent-text);
+            border-color: var(--accent);
+            background: #e0f2fe;
+            font-weight: 600;
+        }
+
+        /* Projects Section - Horizontal Category Filter & Editorial 2-Column Grid */
+        .project-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .filter-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 38px;
+            padding: 0 14px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+            background: var(--card);
+            color: var(--muted);
+            font: inherit;
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+            background: var(--subtle);
+        }
+        .filter-btn[aria-pressed="true"] {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+        }
+        .project-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            list-style: none;
+        }
+        @media (min-width: 760px) {
+            .project-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .project {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+        }
+        .project[hidden] { display: none !important; }
+        .project:hover {
+            border-color: var(--accent);
+            background: var(--card-hover);
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+        .project-head {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .project-head h3 { font-size: 1.08rem; color: var(--text); line-height: 1.35; }
+        .repo-badge {
+            display: inline-flex;
+            align-items: center;
+            align-self: flex-start;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent-text);
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            padding: 2px 8px;
+        }
+        .project dl { display: grid; gap: 10px; font-size: 0.9375rem; }
+        .project dt { font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-text); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+        .project dd { margin: 0; color: var(--muted); line-height: 1.55; }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+            color: var(--accent-text);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin-top: 12px; }
+        .tag {
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            background: var(--subtle);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 3px 8px;
+            color: var(--muted);
+        }
+
+        /* Timeline for Experience & Education */
+        .timeline { list-style: none; display: grid; gap: 0; }
+        .entry {
+            display: grid;
+            gap: 8px 32px;
+            padding: 28px 0;
+            border-top: 1px solid var(--border);
+        }
+        .entry:first-child { border-top: 0; padding-top: 0; }
+        @media (min-width: 760px) {
+            .entry { grid-template-columns: 200px 1fr; }
+        }
+        .entry time {
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: var(--muted);
+            padding-top: 4px;
+        }
+        .entry h3 { color: var(--text); font-size: 1.125rem; }
+        .entry .org {
+            color: var(--accent-text);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .entry p, .entry li { font-size: 0.9375rem; color: var(--muted); }
+        .entry p strong { color: var(--text); }
+        .entry ul { padding-left: 20px; display: grid; gap: 6px; margin-top: 8px; }
+
+        /* Skills & Certifications Two-Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        @media (min-width: 760px) {
+            .two-col { grid-template-columns: 1fr 1fr; }
+        }
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .panel h3 { font-size: 1rem; color: var(--accent-text); text-transform: uppercase; font-family: var(--font-mono); letter-spacing: 0.05em; }
+        .plain { list-style: none; display: grid; gap: 14px; font-size: 0.9375rem; color: var(--muted); }
+        .plain strong { color: var(--text); }
+        .plain li .meta { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-text); font-weight: 600; }
+        .interests {
+            margin-top: 24px;
+            padding: 20px 24px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            background: var(--card);
+            border-radius: 0 10px 10px 0;
+        }
+        .interests h3 { font-size: 1rem; margin-bottom: 6px; color: var(--text); }
+        .interests p { color: var(--muted); font-size: 0.9375rem; }
+
+        /* Contact Section */
+        .contact-list { list-style: none; display: grid; gap: 10px; margin-bottom: 24px; font-size: 1rem; }
+        .contact-list a { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+
+        /* Floating Back to Top Pure Icon Button */
+        .back-to-top {
+            position: fixed;
+            z-index: 95;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s, background 0.15s, border-color 0.15s;
+        }
+        .back-to-top.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--subtle);
+            border-color: var(--accent);
+            color: var(--accent-text);
+        }
+        @media (min-width: 901px) {
+            .back-to-top {
+                right: 176px;
+                bottom: 24px;
+            }
+        }
+        @media (max-width: 900px) {
+            .back-to-top {
+                right: 16px;
+                bottom: 16px;
+            }
+        }
+
+        /* Chat FAB & Dialog */
+        .chat-fab {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 1000;
+            min-height: 48px;
+            padding: 0 20px;
+            border-radius: 9999px;
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: #ffffff;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.28);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-fab:hover { background: var(--accent-hover); }
+        @media (max-width: 900px) {
+            .chat-fab { display: none !important; }
+        }
+
+        .chat-panel {
+            position: fixed;
+            right: 24px;
+            bottom: 84px;
+            width: min(400px, calc(100vw - 32px));
+            height: min(560px, calc(100vh - 120px));
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-panel[hidden] { display: none; }
+        @media (max-width: 520px) {
+            .chat-panel { right: 16px; bottom: 16px; width: calc(100vw - 32px); height: calc(100vh - 40px); }
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--subtle);
+        }
+        .chat-header h2 { font-size: 0.95rem; margin: 0; color: var(--text); }
+        .chat-header .meta { display: block; font-size: 0.75rem; color: var(--muted); }
+        .icon-btn {
+            min-width: 36px;
+            min-height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--card);
+            color: var(--text);
+            font: inherit;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            padding: 0 8px;
+        }
+        .icon-btn:hover { background: var(--card-hover); border-color: var(--accent); }
+        .header-actions { display: flex; gap: 6px; }
+
+        .chat-name { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); }
+        .chat-name input {
+            flex: 1;
+            min-width: 0;
+            background: var(--canvas);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            padding: 4px 8px;
+            font-size: 0.8125rem;
+        }
+
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .msg { max-width: 88%; padding: 8px 14px; border-radius: 10px; font-size: 0.9375rem; overflow-wrap: anywhere; line-height: 1.55; }
+        .msg.bot { align-self: flex-start; background: var(--subtle); border: 1px solid var(--border); color: var(--text); }
+        .msg.bot strong { font-weight: 700; color: var(--text); }
+        .msg.bot em { font-style: italic; }
+        .msg.bot code { font-family: var(--font-mono); font-size: 0.85em; background: rgba(15, 23, 42, 0.06); padding: 1px 5px; border-radius: 4px; }
+        .msg.bot a { color: var(--accent-text); font-weight: 600; text-decoration: underline; }
+        .msg.user { align-self: flex-end; background: var(--accent); color: #ffffff; font-weight: 500; }
+        .msg.error { align-self: flex-start; background: #fef2f2; border: 1px solid var(--danger); color: var(--text); }
+        .msg.error::before { content: 'Gagal: '; font-weight: 700; color: var(--danger); }
+
+        .chat-status { min-height: 24px; padding: 2px 16px; font-size: 0.8125rem; color: var(--muted); }
+        .chat-status.is-error { color: var(--danger); }
+        .chat-form { display: flex; gap: 8px; align-items: flex-end; padding: 8px 16px 16px; }
+        .chat-form textarea {
+            flex: 1;
+            min-width: 0;
+            resize: none;
+            max-height: 120px;
+            line-height: 1.4;
+            background: var(--canvas);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text);
+            font: inherit;
+        }
+        .chat-form textarea:focus-visible { outline: 2px solid var(--accent); }
+        .chat-form .btn { flex-shrink: 0; }
+
+        /* Certifications Grid & In-Page PDF Viewer Modal */
+        .cert-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 14px;
+            margin-top: 12px;
+        }
+        @media (max-width: 640px) {
+            .cert-list { grid-template-columns: 1fr; }
+        }
+        .cert-card {
+            background: var(--canvas);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .cert-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        }
+        .cert-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-family: var(--font-mono);
+        }
+        .cert-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.35;
+            margin: 4px 0;
+        }
+        .cert-issuer {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+        .cert-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .btn-xs {
+            min-height: 32px;
+            padding: 5px 11px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            background: var(--card);
+            color: var(--accent-text);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+        .btn-xs:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+        }
+        .btn-xs-outline {
+            background: transparent;
+            color: var(--muted);
+        }
+        .btn-xs-outline:hover {
+            background: var(--card-hover);
+            border-color: var(--accent);
+            color: var(--accent-text);
+        }
+
+        .pdf-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2500;
+            background: rgba(15, 23, 42, 0.62);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .pdf-modal[hidden] { display: none !important; }
+        .pdf-modal-dialog {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            width: min(980px, 100%);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 48px rgba(15, 23, 42, 0.28);
+            overflow: hidden;
+        }
+        .pdf-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 12px 18px;
+            background: var(--subtle);
+            border-bottom: 1px solid var(--border);
+        }
+        .pdf-modal-header h2 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+        .pdf-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pdf-modal-body {
+            padding: 12px;
+            background: #e2e8f0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .pdf-modal-frame {
+            width: 100%;
+            height: 78vh;
+            border: 0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+        @media (max-width: 640px) {
+            .pdf-modal { padding: 8px; }
+            .pdf-modal-frame { height: 72vh; }
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0 48px;
+            font-size: 0.875rem;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .mono { font-family: var(--font-mono); }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#konten">Lompat ke konten</a>
+
+    <header class="site-header">
+        <div class="wrap">
+            <a class="brand" href="#profil">
+                <span>rizky.alviando</span>
+                <span class="badge">AI Engineer</span>
+            </a>
+            <nav class="site-nav" aria-label="Navigasi utama">
+                <ul>
+                    <li><a href="#profil">Profil</a></li>
+                    
+                    <li><a href="#proyek">Proyek</a></li>
+                    <li><a href="#pengalaman">Pengalaman</a></li>
+                    <li><a href="#organisasi">Organisasi</a></li>
+                    <li><a href="#pendidikan">Pendidikan</a></li>
+                    <li><a href="#keahlian">Keahlian</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="open-world.html" style="color: var(--accent); font-weight: 700;">Ruang Kerja 3D &rarr;</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="konten">
+        <!-- Hero Section - Human & Editorial -->
+        <div class="wrap">
+            <section class="hero" id="profil" aria-labelledby="judul-profil">
+                <div class="hero-text">
+                    <p class="eyebrow">S1 Matematika ITS &middot; Cum Laude</p>
+                    <h1 class="hero-name" id="judul-profil">Rizky Alviando</h1>
+                    <p class="role">AI Engineer &amp; Data Specialist</p>
+                    <p class="lead">Lulusan S1 Matematika ITS yang berfokus pada pengembangan sistem AI praktis, pipeline pengolahan data otomatis, dan evaluasi model bahasa. Saat ini berkontribusi sebagai AI Engineer di Direktorat Kecerdasan Artifisial dan Ekosistem Teknologi Baru, DJED Komdigi.</p>
+                    <ul class="facts">
+                        <li><strong>Pengalaman Saat Ini:</strong> AI Engineer di Direktorat Kecerdasan Artifisial dan Ekosistem Teknologi Baru, DJED Komdigi (Sep 2026 - Sekarang)</li>
+                        <li><strong>Akademik:</strong> S1 Matematika Institut Teknologi Sepuluh Nopember (IPK <span class="mono">3,67 / 4,00</span>)</li>
+                    </ul>
+                    <div class="actions">
+                        <a class="btn btn-primary" href="mailto:risky.alviando@gmail.com">Kirim email</a>
+                        <a class="btn" href="https://www.linkedin.com/in/rizky-alviando-31b47021b/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (tab baru)</span></a>
+                        <a class="btn" href="https://github.com/RizkyAl01" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (tab baru)</span></a>
+                        <button type="button" class="btn" data-pdf-preview="/assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf" data-pdf-title="Slide Deck Portofolio AI & ML - Rizky Alviando">Lihat Slide Portofolio (PDF)</button>
+                        <button type="button" class="btn" data-open-chat>Tanya chatbot</button>
+                    </div>
+                </div>
+                <div class="hero-photo">
+                    <img src="assets/images/IMG-20250903-WA0024.jpg" width="727" height="870"
+                        alt="Rizky Alviando di depan papan nama Shibaura Institute of Technology, Tokyo"
+                        fetchpriority="high" decoding="async">
+                </div>
+            </section>
+        </div>
+
+        <!-- Interactive 360° Cartographic Archipelago Section (NO visible slider!) -->
+        
+
+        <!-- Projects Section - Complete 13 Verified Projects Catalog with Category Filter -->
+        <div class="wrap">
+            <section class="block" id="proyek" aria-labelledby="judul-proyek">
+                <h2 id="judul-proyek">Proyek &amp; Eksplorasi Teknis (13 Proyek)</h2>
+                <p class="section-intro">Kumpulan pekerjaan rekayasa data, aplikasi AI, riset akademik S1, serta proyek pemodelan mandiri yang pernah saya bangun dan uji secara langsung.</p>
+
+                <!-- Horizontal Category Filter Bar (No Sidebar) -->
+                <div class="project-filter-bar" role="group" aria-label="Filter kategori proyek">
+                    <button type="button" class="filter-btn" data-filter="all" aria-pressed="true">Semua (13)</button>
+                    <button type="button" class="filter-btn" data-filter="pipeline" aria-pressed="false">Data &amp; AI Pipeline (3)</button>
+                    <button type="button" class="filter-btn" data-filter="llm-rag" aria-pressed="false">LLM, RAG &amp; Governance (4)</button>
+                    <button type="button" class="filter-btn" data-filter="nlp-speech" aria-pressed="false">NLP &amp; Speech (3)</button>
+                    <button type="button" class="filter-btn" data-filter="research" aria-pressed="false">Riset &amp; Pemodelan ML (3)</button>
+                </div>
+
+                <ul class="project-list" id="project-list">
+                    <!-- 1. AegisLake -->
+                    <li class="project" data-category="pipeline">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Data Engineering &amp; Tata Kelola AI</span>
+                                <h3>AegisLake: Pipeline Data Medallion &amp; Sandbox Pelatihan AI</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Arsitektur Data &amp; Privasi &middot; 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Mengelola alur data bertahap (Bronze, Silver, Gold) dengan penyensoran data pribadi (PII) otomatis sebelum data dipakai melatih model atau dieksplorasi lewat dashboard.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Menyusun konektor pengumpulan data ber-fingerprint SHA-256, modul <code>IndonesianPIIGuard</code> untuk menyamarkan NIK, nomor telepon, rekening, dan nama orang secara otomatis sesuai UU PDP, serta menyediakan akses kueri DuckDB yang aman bagi tim analitik.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">Python &amp; FastAPI</li>
+                                <li class="tag">DuckDB</li>
+                                <li class="tag">Polars / Pandas</li>
+                                <li class="tag">Penyensoran PII</li>
+                                <li class="tag">Airflow</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Pipeline Bronze-Silver-Gold &middot; Proteksi Data Pribadi</span>
+                    </li>
+
+                    <!-- 2. LexGraph -->
+                    <li class="project" data-category="llm-rag">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Pencarian Regulasi &amp; Graph-RAG</span>
+                                <h3>LexGraph: Pencarian Regulasi &amp; Dokumen Hukum dengan Graph-RAG</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Sistem Pencarian Dokumen &middot; 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Membantu pencarian pasal dan aturan yang saling merujuk dengan menggabungkan pencarian teks (BM25), kemiripan vektor, dan grafik relasi antar-pasal.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Membuat pemotong dokumen per Pasal dan Ayat agar konteks hukum tidak terputus, menggabungkan skor pencarian vektor (<code>pgvector</code>) dan kata kunci menggunakan Reciprocal Rank Fusion (RRF), serta menelusuri keterkaitan antar-aturan di Neo4j.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">FastAPI</li>
+                                <li class="tag">PostgreSQL pgvector</li>
+                                <li class="tag">Neo4j</li>
+                                <li class="tag">FlashRank ONNX</li>
+                                <li class="tag">Groq LLM</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Pencarian Hibrida BM25 + Vektor &middot; Sitasi Terverifikasi</span>
+                    </li>
+
+                    <!-- 3. SentinelEval -->
+                    <li class="project" data-category="llm-rag">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Evaluasi Keamanan LLM</span>
+                                <h3>SentinelEval: Uji Keamanan &amp; Evaluasi Risiko Model Bahasa (LLM)</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Pengujian Model &amp; Tata Kelola AI &middot; 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Menguji seberapa tahan model AI terhadap prompt berbahaya, kebocoran data sensitif, dan jawaban bias sebelum model dirilis ke pengguna.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Membangun rangkaian skenario uji otomatis (variasi karakter mirip/homoglyph, bahasa percakapan lokal Nusantara, dan penyamaran instruksi) serta dasbor pencatatan tingkat kesiapan dan risiko tiap use-case AI.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">Python</li>
+                                <li class="tag">Next.js &amp; TypeScript</li>
+                                <li class="tag">Red-Teaming LLM</li>
+                                <li class="tag">Evaluasi Risiko AI</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">5 Modul Uji Prompt &middot; Katalog Evaluasi Risiko</span>
+                    </li>
+
+                    <!-- 4. NusantaraASR -->
+                    <li class="project" data-category="nlp-speech">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Pemrosesan Suara &amp; NLP</span>
+                                <h3>NusantaraASR: Transkripsi YouTube &amp; Koreksi Bahasa Daerah</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Pipeline Audio &amp; Teks &middot; 2025 - 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Mengunduh dan mentranskripsi ribuan video YouTube secara otomatis, memisahkan suara pembicara, lalu merapikan hasil transkripsi bahasa Indonesia maupun daerah.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Menggabungkan WhisperX (<code>large-v3</code>), perataan waktu <code>Wav2Vec2</code>, dan pemisahan pembicara <code>Pyannote</code>, lalu mendeteksi kata yang meragukan agar diperbaiki oleh LLM tanpa mengubah makna aslinya.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">WhisperX large-v3</li>
+                                <li class="tag">Wav2Vec2 &amp; Pyannote</li>
+                                <li class="tag">Koreksi Teks LLM</li>
+                                <li class="tag">Evaluasi WER/CER</li>
+                            </ul>
+                        </div>
+                        <a class="project-link" href="https://t.me/crawlyt_bot" target="_blank" rel="noopener noreferrer" aria-label="Buka chatbot YouTube crawlyt_bot di Telegram (tab baru)">Buka bot Telegram (@crawlyt_bot) <span aria-hidden="true">&nearr;</span></a>
+                    </li>
+
+                    <!-- 5. CyberPulse -->
+                    <li class="project" data-category="pipeline">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Web Crawler &amp; Moderasi</span>
+                                <h3>CyberPulse: Crawler Web Paralel &amp; Pemantauan Konten</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Otomasi Pengumpulan Web &middot; 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Mengumpulkan halaman web secara paralel dengan browser otomatis dan menyaring konten berisiko menggunakan aturan teks cepat serta klasifikasi AI.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Merancang crawler berbasis Selenium yang mengambil teks dan tangkapan layar halaman secara otomatis, lalu menjalankan pembacaan teks gambar (OCR) dan klasifikasi topik secara paralel di backend FastAPI.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">FastAPI</li>
+                                <li class="tag">Selenium</li>
+                                <li class="tag">SQLAlchemy</li>
+                                <li class="tag">OCR &amp; Klasifikasi Teks</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Crawler Multi-Mesin Pencari &middot; Pemrosesan Paralel</span>
+                    </li>
+
+                    <!-- 6. GarudaSentimen -->
+                    <li class="project" data-category="nlp-speech">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Analisis Opini Publik</span>
+                                <h3>GarudaSentimen: Analisis Opini Publik Sepak Bola Indonesia</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Analisis Teks Media Sosial &middot; 2025</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Memetakan ribuan komentar suporter sepak bola Indonesia berdasarkan topik pembicaraan (pelatih, pemain, federasi, taktik) dan nada sentimennya.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Menyusun kamus normalisasi singkatan dan bahasa gaul media sosial Indonesia, mengekstrak fitur TF-IDF N-Gram, serta mengelompokkan komentar ke tiap aspek pembahasan secara otomatis.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">Python</li>
+                                <li class="tag">Scikit-Learn</li>
+                                <li class="tag">TF-IDF N-Gram</li>
+                                <li class="tag">Normalisasi Slang Indonesia</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Pemetaan Topik Opini &middot; Normalisasi Bahasa Pergaulan</span>
+                    </li>
+
+                    <!-- 7. Deteksi Dini Chattering pada Proses Pemesinan -->
+                    <li class="project" data-category="research">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Riset Sensor &amp; Machine Learning</span>
+                                <h3>Deteksi Dini Chattering pada Proses Pemesinan</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">GPBL Data Science, Shibaura Institute of Technology (Tokyo) &middot; 2025</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Mengolah data sinyal sensor pemesinan untuk mendeteksi gejala getaran berlebih (chattering) lebih awal sebelum merusak kualitas permukaan benda kerja.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Mengekstraksi fitur sinyal pada domain waktu dan frekuensi serta melatih model klasifikasi machine learning hingga mencapai akurasi 92,83%, sekaligus meraih predikat tim dengan presentasi hasil terbaik dari 12 tim lintas 6 negara.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">Signal Processing (FFT)</li>
+                                <li class="tag">XGBoost &amp; Klasifikasi ML</li>
+                                <li class="tag">Analisis Sensor Getaran</li>
+                                <li class="tag">Python &amp; Scikit-Learn</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Akurasi Model 92,83% &middot; Presentasi Terbaik GPBL Tokyo</span>
+                    </li>
+
+                    <!-- 8. Penemuan Pola Penyebab Kecelakaan Pesawat dengan Metode T-BUM -->
+                    <li class="project" data-category="research">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Riset Algoritma Data Mining</span>
+                                <h3>Penemuan Pola Penyebab Kecelakaan Pesawat dengan Metode T-BUM</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Riset Matematika ITS &middot; 2025</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Mengembangkan metode Targeted Balanced Utility Pattern Mining (T-BUM) untuk menemukan pola kombinasi faktor penyebab kecelakaan pesawat secara efisien.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Merancang proses pembentukan dan penggabungan kandidat pola (candidate generation &amp; join) yang lebih hemat waktu komputasi dan memori dibandingkan metode pencarian pola utilitas konvensional.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">Targeted Balanced Utility Mining (T-BUM)</li>
+                                <li class="tag">Optimasi Kandidat &amp; Utility-List</li>
+                                <li class="tag">Data Mining</li>
+                                <li class="tag">Python &amp; NumPy</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Optimasi Waktu Komputasi &middot; Algoritma T-BUM</span>
+                    </li>
+
+                    <!-- 9. Portofolio Web Interaktif & Asisten AI Pribadi -->
+                    <li class="project" data-category="llm-rag">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Aplikasi Web &amp; Asisten CV</span>
+                                <h3>Portofolio Web Interaktif &amp; Asisten AI Pribadi</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Proyek Pribadi &middot; 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Website portofolio ini sendiri, dilengkapi peta bola dunia 360&deg; berbasis pulau navigasi dan chatbot tanya-jawab CV yang terhubung ke RAG.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Membangun visualisasi kanvas 3D kepulauan tanpa library berat, backend FastAPI dengan pembatas laju permintaan (Upstash Redis &amp; memori lokal), pencatatan riwayat ke Google Sheets, serta pengujian otomatis dengan Playwright.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">FastAPI</li>
+                                <li class="tag">Groq LLM</li>
+                                <li class="tag">Upstash Redis</li>
+                                <li class="tag">HTML5 Canvas</li>
+                                <li class="tag">Playwright</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary" style="margin-top:12px; align-self:flex-start;" data-open-chat>Uji Coba Chatbot Web &rarr;</button>
+                    </li>
+
+                    <!-- 10. Sugaryzer: Aplikasi Analisis & Rekomendasi Konsumsi Gula Harian -->
+                    <li class="project" data-category="research">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Computer Vision &amp; Machine Learning</span>
+                                <h3>Sugaryzer: Aplikasi Analisis &amp; Rekomendasi Konsumsi Gula Harian</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Capstone Project Bangkit Academy &middot; 2024</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Membangun aplikasi kesehatan yang membantu pengguna memantau dan mengelompokkan tingkat konsumsi gula harian dari produk makanan maupun minuman kemasan.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Berkolaborasi dalam tim lintas fungsi (6 orang) merancang model OCR untuk membaca kode barcode/informasi produk serta model klasifikasi dan clustering konsumsi gula harian menggunakan TensorFlow dengan akurasi 89%.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">OCR &amp; Computer Vision</li>
+                                <li class="tag">TensorFlow</li>
+                                <li class="tag">Unsupervised &amp; Classification ML</li>
+                                <li class="tag">Bangkit Capstone</li>
+                            </ul>
+                        </div>
+                        <a class="project-link" href="https://github.com/orgs/Sugaryzer/repositories" target="_blank" rel="noopener noreferrer" aria-label="Lihat repositori Sugaryzer di GitHub (tab baru)">Lihat repositori Sugaryzer di GitHub <span aria-hidden="true">&nearr;</span></a>
+                    </li>
+
+                    <!-- 11. Smart Agentic RAG: AI Document Assistant -->
+                    <li class="project" data-category="llm-rag">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Agentic RAG &amp; Tanya-Jawab Dokumen</span>
+                                <h3>Smart Agentic RAG: AI Document Assistant</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Aplikasi Web &amp; Bot Dokumen &middot; 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Aplikasi tanya-jawab dokumen PDF pintar menggunakan LangGraph, FastAPI, Groq LLM, dan pencarian vektor Supabase (<code>pgvector</code>) yang bisa mengekstrak isi dokumen, menyusun ulang pertanyaan, dan menjawab berdasarkan isi dokumen secara akurat.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Merancang alur agen bertahap dengan LangGraph (pemilihan alat otomatis, penulisan ulang kueri, dan pemeriksaan relevansi kutipan), ekstraksi teks PDF dengan PyMuPDF, serta antarmuka web interaktif dan bot Telegram yang langsung siap diuji.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">LangGraph</li>
+                                <li class="tag">FastAPI</li>
+                                <li class="tag">Supabase pgvector</li>
+                                <li class="tag">Groq LLM</li>
+                                <li class="tag">PyMuPDF</li>
+                            </ul>
+                        </div>
+                        <a class="project-link" href="https://project-rag-zeta.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Buka live demo Smart Agentic RAG: AI Document Assistant (tab baru)">Buka Live Demo (project-rag-zeta.vercel.app) <span aria-hidden="true">&nearr;</span></a>
+                    </li>
+
+                    <!-- 12. Otomasi Transkripsi & Dataset Audio Skala Besar (Komdigi) -->
+                    <li class="project" data-category="pipeline">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Pipeline Data &amp; Audio</span>
+                                <h3>Otomasi Transkripsi &amp; Dataset Audio Skala Besar (Komdigi)</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Kementerian Komunikasi dan Digital &middot; Nov 2025 - Mei 2026</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Merancang alur kerja otomatis di lingkungan kerja untuk mengumpulkan dan mentranskripsi puluhan ribu jam audio YouTube sebagai bahan pelatihan model bahasa.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Merestrukturisasi antrean pengambilan data dan transkripsi otomatis bervolume tinggi agar minim intervensi manual, mencapai tingkat keberhasilan alur kerja (workflow success rate) 95%.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">Otomasi Pipeline</li>
+                                <li class="tag">Ekstraksi Audio/Video</li>
+                                <li class="tag">Fine-Tuning Model</li>
+                                <li class="tag">Data LLM</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">Workflow Success Rate 95% &middot; Fine-Tuning Akurasi 72,04%</span>
+                    </li>
+
+                    <!-- 13. Analisis Sentimen Multi-Kelas dengan Arsitektur Transformer (Big Data Challenge 2024) -->
+                    <li class="project" data-category="nlp-speech">
+                        <div>
+                            <div class="project-head">
+                                <span class="repo-badge">Analisis Sentimen &amp; Deep Learning</span>
+                                <h3>Analisis Sentimen Multi-Kelas dengan Arsitektur Transformer (Big Data Challenge 2024)</h3>
+                                <span class="meta mono" style="font-size:0.8rem; color:var(--muted);">Proyek Pemodelan NLP &middot; 2024</span>
+                            </div>
+                            <dl>
+                                <div><dt>Tujuan</dt><dd>Mengimplementasikan arsitektur Transformer untuk klasifikasi sentimen multi-kelas pada data teks bahasa Indonesia.</dd></div>
+                                <div><dt>Peran &amp; Cara Kerja</dt><dd>Membangun alur pembersihan teks media sosial Indonesia dan melakukan fine-tuning model IndoBERT serta RoBERTa hingga mencapai F1-score 70% pada 8 kelas sentimen.</dd></div>
+                            </dl>
+                            <ul class="tags" aria-label="Metode">
+                                <li class="tag">IndoBERT &amp; RoBERTa</li>
+                                <li class="tag">Fine-Tuning Transformer</li>
+                                <li class="tag">Klasifikasi Multi-Kelas</li>
+                            </ul>
+                        </div>
+                        <span class="meta mono" style="font-size:0.8rem; color:var(--accent-text); font-weight:600; margin-top:8px; display:inline-block;">F1-Score 70% pada 8 Kelas &middot; Arsitektur Transformer</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Experience Section -->
+            <section class="block" id="pengalaman" aria-labelledby="judul-pengalaman">
+                <h2 id="judul-pengalaman">Pengalaman Profesional</h2>
+                <p class="section-intro">Jejak karier di bidang rekayasa kecerdasan artifisial, tata kelola data, statistik, dan pelatihan pengolahan data.</p>
+
+                <ol class="timeline">
+                    <li class="entry">
+                        <time>Sep 2026 - Sekarang</time>
+                        <div>
+                            <h3>AI Engineer</h3>
+                            <p class="org">Direktorat Kecerdasan Artifisial dan Ekosistem Teknologi Baru, DJED Komdigi &middot; Jakarta</p>
+                            <ul>
+                                <li>Mengembangkan sistem rekayasa kecerdasan artifisial, sandbox tata kelola data, serta perangkat evaluasi keamanan dan risiko model bahasa.</li>
+                                <li>Membangun sistem pencarian dokumen regulasi berbasis Graph-RAG dan otomasi pemantauan konten multi-modal.</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Jun 2026 - Jul 2026</time>
+                        <div>
+                            <h3>Freelance Excel &amp; Data Trainer</h3>
+                            <p class="org">Pelatihan Profesional Mandiri</p>
+                            <ul>
+                                <li>Menyusun kurikulum dan memberikan pelatihan intensif pengolahan data serta visualisasi menggunakan Microsoft Excel lanjutan (XLOOKUP, Pivot Table, Power Query) bagi 15 profesional korporat.</li>
+                                <li>Membimbing peserta dalam menyederhanakan pelaporan rutin dan menyusun grafik analitis untuk pengambilan keputusan berbasis data.</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Nov 2025 - Mei 2026</time>
+                        <div>
+                            <h3>AI Engineer (Magang / Proyek)</h3>
+                            <p class="org">Kementerian Komunikasi dan Digital (Komdigi) &middot; Jakarta Pusat</p>
+                            <ul>
+                                <li>Melakukan Supervised Fine-Tuning (SFT) dan Continued Pre-Training (CPT) pada berbagai LLM open-source (Qwen dan Gemma) menggunakan LoRA/QLoRA dan HuggingFace Transformers (akurasi 72,04% pada domain target).</li>
+                                <li>Melakukan fine-tuning model Gemma 2B untuk klasifikasi tingkat desil rumah tangga (DTSEN Desil 1-10) beserta pembuatan narasi penalaran otomatis dari metadata dan kondisi rumah (akurasi toleransi +-1 desil mencapai 99%), serta eksplorasi Vision-Language Models (VLM).</li>
+                                <li>Merancang pipeline pengumpulan data, transkripsi YouTube otomatis bervolume tinggi (tingkat keberhasilan alur kerja 95%), dan scraping situs anti-bot (&gt;90%).</li>
+                                <li>Berkolaborasi dalam pemetaan alur teknis agen AI pendidikan nusantara serta monitoring dan quality assurance model RAG peserta AITFxUB.</li>
+                            </ul>
+                            <div class="cert-actions" style="margin-top:8px;">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/sertifikat_dff5d104-76a7-4fe8-924b-a61df52a3010.pdf" data-pdf-title="Sertifikat Pemagangan AI Engineer Komdigi (Predikat: Sangat Baik)">Lihat Sertifikat Pemagangan (PDF)</button>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Sep 2024 - Jan 2025</time>
+                        <div>
+                            <h3>Machine Learning Cohort</h3>
+                            <p class="org">Bangkit Academy led by Google, Tokopedia, Gojek, &amp; Traveloka &middot; Surabaya</p>
+                            <ul>
+                                <li>Menyelesaikan 900+ jam pelatihan intensif Machine Learning, Deep Learning, dan TensorFlow (12 kursus) dengan nilai akhir 92,79.</li>
+                                <li>Berkolaborasi dalam tim lintas fungsi (6 orang) membangun aplikasi &ldquo;Sugaryzer&rdquo; menggunakan OCR dan model klasifikasi konsumsi gula harian dengan akurasi 89%.</li>
+                            </ul>
+                            <div class="cert-actions" style="margin-top:8px;">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Bangkit_Academy_2024.pdf" data-pdf-title="Sertifikat Kelulusan & Transkrip Bangkit Academy 2024">Lihat Sertifikat &amp; Transkrip Bangkit (PDF)</button>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Jul 2024 - Sep 2025</time>
+                        <div>
+                            <h3>Agen Statistik &amp; Magang Statistisi</h3>
+                            <p class="org">BPS Provinsi Jawa Timur (Pojok Statistik ITS) &amp; Disperpusip Jawa Timur &middot; Surabaya</p>
+                            <ul>
+                                <li>Menyusun rancangan metadata kegiatan statistik untuk 4 kegiatan di Disperpusip Jatim (2 di antaranya disetujui BPS untuk dilaksanakan).</li>
+                                <li>Menganalisis 10 dataset regional dan membangun dasbor interaktif menggunakan Tableau serta menyusun infografis dan videografis evaluasi distribusi sumber daya daerah.</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Agu 2022 - Agu 2025</time>
+                        <div>
+                            <h3>Asisten Dosen Kalkulus (SKPB ITS) &amp; Koordinator Asisten Praktikum Departemen Matematika</h3>
+                            <p class="org">Institut Teknologi Sepuluh Nopember (ITS) &middot; Surabaya (3 tahun 1 bulan)</p>
+                            <ul>
+                                <li>Memimpin dan mengoordinasikan 30+ asisten dosen untuk mengelola operasional pembelajaran praktikum algoritma dan pemrograman bagi 150+ mahasiswa setiap semester.</li>
+                                <li>Membimbing tutorial dan evaluasi mata kuliah Kalkulus di bawah SKPB ITS, serta menstandardisasi proses penilaian kelas paralel hingga mencapai penyelesaian tugas tepat waktu sebesar 90%.</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Leadership & Organization Section -->
+            <section class="block" id="organisasi" aria-labelledby="judul-organisasi">
+                <h2 id="judul-organisasi">Organisasi &amp; Kepemimpinan</h2>
+                <p class="section-intro">Pengalaman memimpin tim akademik, manajemen asisten laboratorium, dan kepengurusan komunitas nasional.</p>
+
+                <ol class="timeline">
+                    <li class="entry">
+                        <time>Sep 2023 - Agu 2025</time>
+                        <div>
+                            <h3>Koordinator Asisten Laboratorium Pemrograman dan Komputasi Visual</h3>
+                            <p class="org">Departemen Matematika FSAD ITS &middot; Surabaya</p>
+                            <ul>
+                                <li>Memimpin dan mengoordinasikan 30 asisten laboratorium untuk pelaksanaan praktikum lebih dari 150 mahasiswa per semester.</li>
+                                <li>Mengorkestrasi 20 asisten praktikum untuk sinkronisasi modul pengajaran Java, mengawasi evaluasi akademik, dan mengelola operasional fasilitas laboratorium.</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>2022 - 2023</time>
+                        <div>
+                            <h3>Kepala Subdivisi &amp; Relawan Olimpiade Matematika ITS (OMITS)</h3>
+                            <p class="org">Himpunan Mahasiswa Matematika ITS</p>
+                            <ul>
+                                <li>Memimpin subdivisi pada OMITS ke-15 untuk menyelenggarakan kompetisi matematika berskala nasional yang diikuti ribuan peserta tingkat SD, SMP, dan SMA.</li>
+                                <li>Berperan aktif sebagai relawan pada OMITS ke-14 dalam pengelolaan logistik dan kelancaran ujian serentak.</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>2023 - Sekarang</time>
+                        <div>
+                            <h3>Pengurus Komunitas Pecinta Catur ID</h3>
+                            <p class="org">Komunitas Nasional</p>
+                            <ul>
+                                <li>Mendukung penyelenggaraan turnamen catur online/offline dan program edukasi strategi berpikir analitis bagi para anggota.</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Education Section -->
+            <section class="block" id="pendidikan" aria-labelledby="judul-pendidikan">
+                <h2 id="judul-pendidikan">Pendidikan Formal</h2>
+                <p class="section-intro">Latar belakang pendidikan matematika analitis dan program pembelajaran berbasis proyek internasional.</p>
+
+                <ol class="timeline">
+                    <li class="entry">
+                        <time>Jun 2021 - Agu 2025</time>
+                        <div>
+                            <h3>Sarjana Matematika (S.Mat)</h3>
+                            <p class="org">Institut Teknologi Sepuluh Nopember (ITS) &middot; Surabaya</p>
+                            <p><strong>Predikat: Cum Laude &middot; IPK: 3,67 / 4,00</strong></p>
+                            <p>Fokus: Analisis Data, Data Mining, Optimasi Komputasi, dan Machine Learning. Asisten dosen pada mata kuliah Kalkulus, Pemrograman Berbasis Objek, dan Komputasi Numerik.</p>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Sep 2025</time>
+                        <div>
+                            <h3>Global Project Based Learning (GPBL) Data Science</h3>
+                            <p class="org">Shibaura Institute of Technology &middot; Tokyo, Jepang</p>
+                            <p>Program intensif kolaborasi riset internasional dalam pengolahan sinyal getaran dan pemodelan machine learning XGBoost untuk pendeteksian chattering mesin presisi (Presentasi Terbaik dari 12 tim lintas 6 negara).</p>
+                        </div>
+                    </li>
+
+                    <li class="entry">
+                        <time>Jun 2018 - Mei 2021</time>
+                        <div>
+                            <h3>MIPA: SMA Negeri 2 Nganjuk</h3>
+                            <p class="org">Nganjuk, Jawa Timur &middot; Nilai Akhir: 89,40 / 100</p>
+                            <p>Peringkat 4 Olimpiade Sains Nasional (OSN) Bidang Matematika tingkat Kabupaten Nganjuk.</p>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Skills & Certifications Section -->
+            <section class="block" id="keahlian" aria-labelledby="judul-keahlian">
+                <h2 id="judul-keahlian">Keahlian &amp; Sertifikasi</h2>
+                <p class="section-intro">Kompetensi teknis teruji serta 12 lisensi sertifikasi profesional dan spesialisasi internasional lengkap dengan dokumen PDF yang dapat dilihat langsung di halaman ini.</p>
+
+                <div class="panel" style="margin-bottom: 20px;">
+                    <h3>Hard Skills &amp; Engineering Stack</h3>
+                    <ul class="tags" aria-label="Hard skills" style="margin-top: 8px;">
+                        <li class="tag">Fine-Tuning LLM (LoRA/QLoRA, SFT, CPT)</li>
+                        <li class="tag">Large Language Models (Qwen, Gemma, Llama)</li>
+                        <li class="tag">Vision-Language Models (VLM)</li>
+                        <li class="tag">Prompt Engineering &amp; Agentic RAG (LangGraph)</li>
+                        <li class="tag">Python (Pandas, NumPy, Scikit-Learn, PyTorch, TensorFlow)</li>
+                        <li class="tag">FastAPI, DuckDB &amp; PostgreSQL pgvector</li>
+                        <li class="tag">SQL &amp; Database Modeling</li>
+                        <li class="tag">Web Scraping &amp; Automated Audio/Text Pipeline</li>
+                        <li class="tag">Data Mining (Utility Pattern Mining T-BUM)</li>
+                        <li class="tag">Microsoft Excel (Power Query, Pivot Table, XLOOKUP)</li>
+                        <li class="tag">Tableau Data Visualization</li>
+                    </ul>
+
+                    <h3 style="margin-top:16px;">Soft Skills</h3>
+                    <p style="color:var(--muted); font-size:0.9375rem;">Problem Solving berbasis matematika, Analytical Thinking, Kepemimpinan Tim (30+ anggota), Public Speaking &amp; Training Korporat, serta Riset Terstruktur.</p>
+                </div>
+
+                <div class="panel">
+                    <h3>Lisensi &amp; Sertifikasi Terverifikasi (Klik untuk Pratinjau PDF di Halaman Ini)</h3>
+                    <ul class="cert-list" aria-label="Daftar sertifikasi profesional">
+                        <!-- 1. PASAS CISDE -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Jan 2026 - Jan 2029</span>
+                                    <span>ID: CISDE15620</span>
+                                </div>
+                                <h4 class="cert-title">Certified International Specialist in Data Engineering (CISDE)</h4>
+                                <p class="cert-issuer">PASAS Institute, Singapore</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/PASAS_CISDE_Data_Engineering.pdf" data-pdf-title="CISDE - PASAS Institute Singapore (ID: CISDE15620)">Lihat Sertifikat (PDF)</button>
+                            </div>
+                        </li>
+
+                        <!-- 2. BNSP Associate Data Scientist -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Des 2025 - Des 2028</span>
+                                    <span>Reg: J.1389.02283.2025</span>
+                                </div>
+                                <h4 class="cert-title">Certified Associate Data Scientist (Ilmuwan Data Madya)</h4>
+                                <p class="cert-issuer">BNSP &amp; LSP BPPTIK</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/BNSP_Ilmuwan_Data_Madya.pdf" data-pdf-title="Sertifikat Kompetensi BNSP - Ilmuwan Data Madya">Lihat Sertifikat (PDF)</button>
+                            </div>
+                        </li>
+
+                        <!-- 3. Sertifikat Pemagangan AI Engineer Komdigi -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Mei 2026</span>
+                                    <span>ID: MN.031.017197.02.2025</span>
+                                </div>
+                                <h4 class="cert-title">Sertifikat Pemagangan AI Engineer (Predikat: Sangat Baik)</h4>
+                                <p class="cert-issuer">Kemnaker RI &amp; Pusbang Talenta Digital BPSDM Komdigi</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/sertifikat_dff5d104-76a7-4fe8-924b-a61df52a3010.pdf" data-pdf-title="Sertifikat Pemagangan AI Engineer - Kemnaker & BPSDM Komdigi">Lihat Sertifikat (PDF)</button>
+                            </div>
+                        </li>
+
+                        <!-- 4. Bangkit Academy 2024 Graduate -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Jan 2025</span>
+                                    <span>ID: BA24/GRAD/XXIV-01/M004B4KY3923</span>
+                                </div>
+                                <h4 class="cert-title">Bangkit Academy 2024 Graduate: Machine Learning Path (Nilai Akhir 92,79 / 12 Kursus)</h4>
+                                <p class="cert-issuer">Bangkit Academy led by Google, GoTo, &amp; Traveloka</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Bangkit_Academy_2024.pdf" data-pdf-title="Sertifikat & Transkrip Bangkit Academy 2024 (Machine Learning)">Lihat Sertifikat &amp; Transkrip (PDF)</button>
+                            </div>
+                        </li>
+
+                        <!-- 5. DeepLearning.AI TensorFlow Developer Professional Certificate -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Nov 2024</span>
+                                    <span>ID: 7QM26EI7X8DK</span>
+                                </div>
+                                <h4 class="cert-title">DeepLearning.AI TensorFlow Developer Professional Certificate (4 Courses)</h4>
+                                <p class="cert-issuer">DeepLearning.AI via Coursera</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Coursera_Certificate_7QM26EI7X8DK.pdf" data-pdf-title="DeepLearning.AI TensorFlow Developer Professional Certificate (7QM26EI7X8DK)">Lihat Sertifikat (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://coursera.org/verify/professional-cert/7QM26EI7X8DK" target="_blank" rel="noopener noreferrer">Verifikasi Coursera &nearr;</a>
+                            </div>
+                        </li>
+
+                        <!-- 6. TensorFlow: Advanced Techniques Specialization -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Des 2024</span>
+                                    <span>ID: DWAXSL54L1K8</span>
+                                </div>
+                                <h4 class="cert-title">TensorFlow: Advanced Techniques Specialization (4 Courses)</h4>
+                                <p class="cert-issuer">DeepLearning.AI via Coursera</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Coursera_Certificate_DWAXSL54L1K8.pdf" data-pdf-title="TensorFlow: Advanced Techniques Specialization (DWAXSL54L1K8)">Lihat Sertifikat (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://coursera.org/verify/specialization/DWAXSL54L1K8" target="_blank" rel="noopener noreferrer">Verifikasi Coursera &nearr;</a>
+                            </div>
+                        </li>
+
+                        <!-- 7. Machine Learning Specialization -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Okt 2024</span>
+                                    <span>ID: R2QFYZQBKUZ0</span>
+                                </div>
+                                <h4 class="cert-title">Machine Learning Specialization (3 Courses)</h4>
+                                <p class="cert-issuer">Stanford Online &amp; DeepLearning.AI via Coursera</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Coursera_Certificate_R2QFYZQBKUZ0.pdf" data-pdf-title="Machine Learning Specialization - Stanford & DeepLearning.AI (R2QFYZQBKUZ0)">Lihat Sertifikat (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://coursera.org/verify/specialization/R2QFYZQBKUZ0" target="_blank" rel="noopener noreferrer">Verifikasi Coursera &nearr;</a>
+                            </div>
+                        </li>
+
+                        <!-- 8. Structuring Machine Learning Projects -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Nov 2024</span>
+                                    <span>ID: XQDE9UOUISYB</span>
+                                </div>
+                                <h4 class="cert-title">Structuring Machine Learning Projects</h4>
+                                <p class="cert-issuer">DeepLearning.AI via Coursera</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Coursera_Certificate_XQDE9UOUISYB.pdf" data-pdf-title="Structuring Machine Learning Projects (XQDE9UOUISYB)">Lihat Sertifikat (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://coursera.org/verify/XQDE9UOUISYB" target="_blank" rel="noopener noreferrer">Verifikasi Coursera &nearr;</a>
+                            </div>
+                        </li>
+
+                        <!-- 9. Linear Algebra for Machine Learning and Data Science -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Okt 2024</span>
+                                    <span>ID: IGGJJHSJPAYX</span>
+                                </div>
+                                <h4 class="cert-title">Linear Algebra for Machine Learning and Data Science</h4>
+                                <p class="cert-issuer">DeepLearning.AI via Coursera</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Coursera_Certificate_IGGJJHSJPAYX.pdf" data-pdf-title="Linear Algebra for Machine Learning and Data Science (IGGJJHSJPAYX)">Lihat Sertifikat (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://coursera.org/verify/IGGJJHSJPAYX" target="_blank" rel="noopener noreferrer">Verifikasi Coursera &nearr;</a>
+                            </div>
+                        </li>
+
+                        <!-- 10. Generative AI for Everyone -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Des 2024</span>
+                                    <span>ID: QYKA1M4SUDZJ</span>
+                                </div>
+                                <h4 class="cert-title">Generative AI for Everyone</h4>
+                                <p class="cert-issuer">DeepLearning.AI via Coursera</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/Coursera_Certificate_QYKA1M4SUDZJ.pdf" data-pdf-title="Generative AI for Everyone (QYKA1M4SUDZJ)">Lihat Sertifikat (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://coursera.org/verify/QYKA1M4SUDZJ" target="_blank" rel="noopener noreferrer">Verifikasi Coursera &nearr;</a>
+                            </div>
+                        </li>
+
+                        <!-- 11. Intermediate Data Science (FGA) & DQLab -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>21 Jul - 10 Agu 2025</span>
+                                    <span>No: 19510809840-739/FGA/BLSDM.Komdigi/2025</span>
+                                </div>
+                                <h4 class="cert-title">Intermediate Data Science (Fresh Graduate Academy)</h4>
+                                <p class="cert-issuer">Digital Talent Scholarship (DTS) 2025, BPSDM Komdigi &amp; DQLab</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/FGA_Intermediate_Data_Science.pdf" data-pdf-title="Sertifikat Intermediate Data Science FGA DTS Komdigi 2025 (19510809840-739/FGA/BLSDM.Komdigi/2025)">Lihat Sertifikat (PDF)</button>
+                            </div>
+                        </li>
+
+                        <!-- 12. Test of English Proficiency (TOEP 505 & TOEFL 580) -->
+                        <li class="cert-card">
+                            <div>
+                                <div class="cert-meta">
+                                    <span>Okt 2025 &amp; Jul 2026</span>
+                                    <span>ID: TOEP-88-201-261233-45978</span>
+                                </div>
+                                <h4 class="cert-title">Test of English Proficiency (TOEP Skor 505 &amp; TOEFL Skor 580)</h4>
+                                <p class="cert-issuer">TEFLIN &amp; PLTI (Jul 2026) &middot; Global Operation (Okt 2025)</p>
+                            </div>
+                            <div class="cert-actions">
+                                <button type="button" class="btn-xs" data-pdf-preview="/assets/certs/TOEP_PLTI_Certificate.pdf" data-pdf-title="Sertifikat TOEP PLTI (Skor 505)">Lihat Sertifikat TOEP (PDF)</button>
+                                <a class="btn-xs btn-xs-outline" href="https://plti.co.id" target="_blank" rel="noopener noreferrer">plti.co.id &nearr;</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="interests">
+                    <h3>Minat di Luar Pekerjaan</h3>
+                    <p>Futsal, strategi catur kompetitif, dan eksplorasi paper riset teknologi AI terbaru.</p>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="block" id="kontak" aria-labelledby="judul-kontak">
+                <h2 id="judul-kontak">Hubungi Rizky</h2>
+                <p class="section-intro">Terbuka untuk peluang karier sebagai AI Engineer, Data Specialist, konsultasi proyek data, atau kolaborasi riset.</p>
+
+                <ul class="contact-list">
+                    <li>
+                        <strong>Email:</strong> 
+                        <a href="mailto:risky.alviando@gmail.com">risky.alviando@gmail.com</a>
+                    </li>
+                    <li>
+                        <strong>LinkedIn:</strong> 
+                        <a href="https://www.linkedin.com/in/rizky-alviando-31b47021b/" target="_blank" rel="noopener noreferrer">linkedin.com/in/rizky-alviando-31b47021b/ &nearr;<span class="sr-only"> (tab baru)</span></a>
+                    </li>
+                    <li>
+                        <strong>GitHub:</strong> 
+                        <a href="https://github.com/RizkyAl01" target="_blank" rel="noopener noreferrer">github.com/RizkyAl01 &nearr;<span class="sr-only"> (tab baru)</span></a>
+                    </li>
+                    <li>
+                        <strong>Portofolio Visual:</strong> 
+                        <a href="https://canva.link/Rizky-Alviando-PortoAIML26" target="_blank" rel="noopener noreferrer">Portofolio AI &amp; ML di Canva &nearr;<span class="sr-only"> (tab baru)</span></a>
+                    </li>
+                </ul>
+
+                <div class="actions" style="margin-top: 16px;">
+                    <button type="button" class="btn btn-primary" data-open-chat>Buka Chatbot Portofolio</button>
+                    <button type="button" class="btn" data-pdf-preview="/assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf" data-pdf-title="Slide Deck Portofolio AI & ML - Rizky Alviando">Lihat Slide Deck Portofolio AI/ML (PDF)</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Back to Top Pure Icon Button -->
+    <button type="button" class="back-to-top" id="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+        <span class="sr-only">Ke Atas</span>
+    </button>
+
+    <!-- Floating Chat FAB -->
+    <button type="button" class="chat-fab" id="chat-fab" aria-expanded="false" aria-controls="chat-panel">Tanya Chatbot</button>
+
+    <!-- Interactive Chat Panel -->
+    <section class="chat-panel" id="chat-panel" role="dialog" aria-modal="false" aria-labelledby="chat-title" hidden>
+        <div class="chat-header">
+            <div>
+                <h2 id="chat-title">Chatbot Portofolio Rizky</h2>
+                <span class="meta">Asisten AI terlatih dengan basis data CV</span>
+            </div>
+            <div class="header-actions">
+                <button type="button" class="icon-btn" id="new-chat" aria-label="Mulai obrolan baru">Baru</button>
+                <button type="button" class="icon-btn" id="close-chat" aria-label="Tutup chatbot">Tutup</button>
+            </div>
+        </div>
+        <div class="chat-name">
+            <label for="username">Nama:</label>
+            <input type="text" id="username" value="Tamu" maxlength="80" autocomplete="nickname">
+        </div>
+        <div class="chat-box" id="chat-box" role="log" aria-live="polite" aria-label="Riwayat obrolan"></div>
+        <div class="chat-status" id="chat-status" role="status"></div>
+        <form class="chat-form" id="chat-form">
+            <label for="message-input" class="sr-only">Pertanyaan</label>
+            <textarea id="message-input" rows="1" maxlength="4000" placeholder="Tanyakan seputar proyek, stack, atau pengalaman Rizky..."></textarea>
+            <button type="submit" class="btn btn-primary" id="send-btn">Kirim</button>
+        </form>
+    </section>
+
+    <!-- In-Page PDF Viewer Modal (Liat PDF Tanpa Tab Baru) -->
+    <div id="pdf-modal" class="pdf-modal" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title" hidden>
+        <div class="pdf-modal-dialog">
+            <div class="pdf-modal-header">
+                <h2 id="pdf-modal-title">Pratinjau Dokumen PDF</h2>
+                <div class="pdf-modal-actions">
+                    <a id="pdf-modal-download" class="btn-xs btn-xs-outline" href="#" download>Unduh PDF</a>
+                    <button type="button" class="icon-btn" id="pdf-modal-close" aria-label="Tutup pratinjau PDF (Esc)">Tutup (Esc)</button>
+                </div>
+            </div>
+            <div class="pdf-modal-body">
+                <iframe id="pdf-modal-frame" class="pdf-modal-frame" title="Pratinjau Dokumen PDF" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="wrap">
+            <p>&copy; 2026 Rizky Alviando. Seluruh fakta diverifikasi dari CV resmi dan rekam jejak akademik/profesional.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive 360° Cartographic Archipelago Script -->
+    <script>
+        (function () {
+            'use strict';
+            var root = document.documentElement;
+            var canvas = document.getElementById('atlas-canvas');
+            var stage = document.getElementById('atlas-stage');
+            var ctx = null;
+            try {
+                ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+            } catch (error) {
+                console.warn('Atlas canvas is unavailable; using the static index.', error);
+            }
+            if (!ctx || !stage) return;
+
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+            var REGIONS = {
+                proyek: 'PULAU PROYEK', pengalaman: 'PULAU PENGALAMAN', organisasi: 'PULAU ORGANISASI',
+                pendidikan: 'PULAU PENDIDIKAN', keahlian: 'PULAU KEAHLIAN', kontak: 'PULAU KONTAK'
+            };
+
+            // 6 Kepulauan Kartografi Utama (Islands) yang memisahkan antar tab informasi
+            var ISLANDS = [
+                {
+                    id: 'proyek',
+                    name: 'Pulau Proyek & Rekayasa Sistem',
+                    short: 'PULAU PROYEK',
+                    lon: 0, lat: 8, rLon: 34, rLat: 24,
+                    fill: '#d1fae5', fillActive: '#a7f3d0', stroke: '#059669',
+                    seed: 1.2, href: '#proyek', count: 13,
+                    d: 'Kepulauan utama berisi 13 proyek rekayasa AI, data, dan riset: AegisLake, LexGraph, SentinelEval, NusantaraASR, CyberPulse, GarudaSentimen, Deteksi Dini Chattering (GPBL Tokyo), Metode T-BUM (Matematika ITS), Portofolio AI, Sugaryzer, Smart Agentic RAG, Otomasi Audio Komdigi, dan Analisis Sentimen Transformer (BDC 2024).'
+                },
+                {
+                    id: 'pengalaman',
+                    name: 'Pulau Pengalaman Profesional',
+                    short: 'PULAU PENGALAMAN',
+                    lon: 72, lat: 14, rLon: 26, rLat: 20,
+                    fill: '#e0f2fe', fillActive: '#bae6fd', stroke: '#0284c7',
+                    seed: 2.5, href: '#pengalaman', count: 6,
+                    d: 'Teritori rekam jejak karier: AI Engineer di Direktorat Kecerdasan Artifisial dan Ekosistem Teknologi Baru (DJED Komdigi, Sep 2026 - Sekarang), Freelance Excel & Data Trainer (Jun 2026 - Jul 2026), AI Engineer Magang di Komdigi (Nov 2025 - Mei 2026), Bangkit ML Cohort, Agen Statistik BPS & Disperpusip Jatim, serta Asisten Praktikum ITS.'
+                },
+                {
+                    id: 'organisasi',
+                    name: 'Pulau Organisasi & Kepemimpinan',
+                    short: 'PULAU ORGANISASI',
+                    lon: 140, lat: -10, rLon: 25, rLat: 19,
+                    fill: '#fef3c7', fillActive: '#fde68a', stroke: '#d97706',
+                    seed: 3.8, href: '#organisasi', count: 3,
+                    d: 'Wilayah kepemimpinan akademik dan komunitas: Koordinator Laboratorium Pemrograman & Komputasi Visual ITS (30 asisten, 150+ mahasiswa/semester), Kepala Subdivisi OMITS Nasional, dan Komunitas Catur ID.'
+                },
+                {
+                    id: 'pendidikan',
+                    name: 'Pulau Pendidikan & Riset',
+                    short: 'PULAU PENDIDIKAN',
+                    lon: 205, lat: 16, rLon: 26, rLat: 20,
+                    fill: '#ede9fe', fillActive: '#ddd6fe', stroke: '#7c3aed',
+                    seed: 5.1, href: '#pendidikan', count: 3,
+                    d: 'Daratan akademik: Sarjana Matematika ITS (Cum Laude, IPK 3,67 / 4,00), Global Project Based Learning (GPBL) di Shibaura Institute of Technology Tokyo, dan SMA Negeri 2 Nganjuk (Peringkat 4 OSN Matematika).'
+                },
+                {
+                    id: 'keahlian',
+                    name: 'Pulau Keahlian & Sertifikasi',
+                    short: 'PULAU KEAHLIAN',
+                    lon: 265, lat: -12, rLon: 25, rLat: 19,
+                    fill: '#fce7f3', fillActive: '#fbcfe8', stroke: '#db2777',
+                    seed: 6.4, href: '#keahlian', count: 12,
+                    d: 'Pusat kompetensi teknis (Fine-Tuning LLM LoRA/QLoRA, SFT, CPT, VLM, Python, FastAPI, DuckDB, LangGraph, SQL, Tableau) serta 12 sertifikasi resmi (CISDE PASAS, BNSP, Komdigi, Bangkit, DeepLearning.AI Coursera, FGA, dan TOEP/TOEFL).'
+                },
+                {
+                    id: 'kontak',
+                    name: 'Pulau Kontak & Kolaborasi',
+                    short: 'PULAU KONTAK',
+                    lon: 315, lat: 12, rLon: 22, rLat: 17,
+                    fill: '#ffedd5', fillActive: '#fed7aa', stroke: '#ea580c',
+                    seed: 7.7, href: '#kontak', count: 1,
+                    d: 'Pelabuhan kolaborasi & rekrutmen AI Engineer: terhubung langsung melalui Email, LinkedIn, GitHub (RizkyAl01), Slide Portofolio PDF, atau Chatbot Portofolio Interaktif.'
+                }
+            ];
+
+            // Landmark / Kota di dalam masing-masing pulau
+            var NODES = [
+                { r: 'proyek', label: 'AegisLake Sandbox', lon: -18, lat: 19, p: 0, t: 'AegisLake: Pipeline Data Medallion & Sandbox Pelatihan AI', d: 'Pipeline data Bronze-Silver-Gold untuk membersihkan dataset teks/CSV, menyamarkan data pribadi (PII) sesuai UU PDP, dan melatih model secara aman.' },
+                { r: 'proyek', label: 'LexGraph Legal RAG', lon: 2, lat: 22, p: 1, t: 'LexGraph: Pencarian Regulasi & Dokumen Hukum dengan Graph-RAG', d: 'Mesin pencari regulasi yang memotong dokumen per Pasal dan Ayat serta memetakan relasi aturan di Neo4j dan pgvector.' },
+                { r: 'proyek', label: 'SentinelEval Red-Team', lon: 20, lat: 16, p: 2, t: 'SentinelEval: Uji Keamanan & Evaluasi Risiko Model Bahasa (LLM)', d: 'Kerangka uji otomatis untuk menguji ketahanan chatbot/LLM terhadap prompt berbahaya dan menilai kesiapan model sebelum rilis.' },
+                { r: 'proyek', label: 'NusantaraASR YouTube', lon: -21, lat: 6, p: 3, t: 'NusantaraASR: Transkripsi YouTube & Koreksi Bahasa Daerah', d: 'Pipeline otomatis pengubah audio/video berbahasa Indonesia dan daerah menjadi teks rapi dengan WhisperX, Wav2Vec2, dan koreksi ejaan berbasis Levenshtein.' },
+                { r: 'proyek', label: 'CyberPulse Crawler', lon: -2, lat: 8, p: 4, t: 'CyberPulse: Crawler Web Paralel & Pemantauan Konten', d: 'Sistem pengumpul tautan dari berbagai mesin pencari sekaligus pemeriksa halaman web (teks dan tangkapan layar OCR) secara paralel.' },
+                { r: 'proyek', label: 'GarudaSentimen NLP', lon: 18, lat: 4, p: 5, t: 'GarudaSentimen: Analisis Opini Publik Sepak Bola Indonesia', d: 'Pipeline pembersih komentar media sosial dengan kamus slang Indonesia dan klasifikasi sentimen berbasis aspek.' },
+                { r: 'proyek', label: 'Deteksi Chattering Tokyo', lon: -19, lat: -5, p: 6, t: 'Deteksi Dini Chattering pada Proses Pemesinan', d: 'Ekstraksi fitur sinyal domain waktu-frekuensi dan model machine learning dengan akurasi 92,83% pada program GPBL di Shibaura Institute of Technology, Tokyo.' },
+                { r: 'proyek', label: 'Metode T-BUM ITS', lon: -5, lat: -7, p: 7, t: 'Penemuan Pola Penyebab Kecelakaan Pesawat dengan Metode T-BUM', d: 'Pengembangan metode Targeted Balanced Utility Pattern Mining (T-BUM) dengan proses pembentukan dan penggabungan kandidat pola yang lebih efisien.' },
+                { r: 'proyek', label: 'Portofolio & Asisten AI', lon: 8, lat: -5, p: 8, t: 'Portofolio Web Interaktif & Asisten AI Pribadi', d: 'Situs portofolio ringan dengan visualisasi globe interaktif dan chatbot FastAPI + Groq yang menjawab pertanyaan seputar CV secara faktual.' },
+                { r: 'proyek', label: 'Sugaryzer Bangkit', lon: 21, lat: -6, p: 9, t: 'Sugaryzer: Aplikasi Analisis & Rekomendasi Konsumsi Gula Harian', d: 'Aplikasi berbasis OCR dan klasifikasi konsumsi gula harian pada proyek capstone Bangkit Academy dengan akurasi model 89%.' },
+                { r: 'proyek', label: 'Smart Agentic RAG', lon: -8, lat: 13, p: 10, t: 'Smart Agentic RAG: AI Document Assistant', d: 'Aplikasi tanya-jawab dokumen PDF pintar menggunakan LangGraph, FastAPI, Groq LLM, dan Supabase pgvector (live di project-rag-zeta.vercel.app).' },
+                { r: 'proyek', label: 'Otomasi Audio Komdigi', lon: 11, lat: 13, p: 11, t: 'Otomasi Transkripsi & Dataset Audio Skala Besar (Komdigi)', d: 'Alur kerja otomatis pengunduhan, pemotongan suara, dan transkripsi ribuan video publik untuk dataset pelatihan AI dengan tingkat keberhasilan 95%.' },
+                { r: 'proyek', label: 'Sentimen Transformer BDC', lon: -3, lat: -1, p: 12, t: 'Analisis Sentimen Multi-Kelas dengan Arsitektur Transformer (Big Data Challenge 2024)', d: 'Implementasi arsitektur Transformer (IndoBERT & RoBERTa) untuk klasifikasi sentimen multi-kelas dengan capaian F1-score 70% pada 8 kelas sentimen.' },
+                { r: 'pengalaman', label: 'DJED Komdigi (AI Engineer)', lon: 63, lat: 22, h: '#pengalaman', t: 'AI Engineer: Direktorat Kecerdasan Artifisial & Ekosistem Teknologi Baru, DJED Komdigi', d: 'Sep 2026 - Sekarang: mengembangkan sistem rekayasa AI, sandbox tata kelola data & evaluasi keamanan model, Graph-RAG regulasi, serta pemantauan konten multi-modal.' },
+                { r: 'pengalaman', label: 'Excel & Data Trainer', lon: 79, lat: 20, h: '#pengalaman', t: 'Freelance Excel & Data Trainer', d: 'Jun 2026 - Jul 2026: melatih lebih dari 15 profesional korporat dalam otomasi laporan, pengolahan data lanjutan, dan visualisasi analitik.' },
+                { r: 'pengalaman', label: 'Komdigi (Magang AI)', lon: 65, lat: 13, h: '#pengalaman', t: 'AI Engineer (Magang / Proyek): Kementerian Komunikasi dan Digital', d: 'Nov 2025 - Mei 2026: SFT & CPT model Qwen/Gemma (LoRA/QLoRA), fine-tuning Gemma 2B klasifikasi DTSEN Desil 1-10 (akurasi toleransi +-1 desil 99%), pipeline YouTube 95%, dan scraping anti-bot >90%.' },
+                { r: 'pengalaman', label: 'Bangkit ML Cohort', lon: 81, lat: 12, h: '#pengalaman', t: 'Machine Learning Cohort: Bangkit Academy (Google, GoTo, Traveloka)', d: 'Sep 2024 - Jan 2025: menyelesaikan 900+ jam kurikulum ML (nilai 92,79) dan membangun fitur OCR + klasifikasi konsumsi gula pada aplikasi Sugaryzer (akurasi 89%).' },
+                { r: 'pengalaman', label: 'BPS & Disperpusip Jatim', lon: 68, lat: 5, h: '#pengalaman', t: 'Agen Statistik BPS Jatim & Magang Statistisi Disperpusip Jatim', d: 'Jul 2024 - Sep 2025: menyusun metadata kegiatan statistik, menganalisis 10 dataset regional, dan membangun dasbor interaktif Tableau.' },
+                { r: 'pengalaman', label: 'Asisten Dosen & Praktikum ITS', lon: 78, lat: 4, h: '#pengalaman', t: 'Asisten Dosen Kalkulus (SKPB ITS) & Koordinator Asisten Praktikum Matematika', d: 'Agu 2022 - Agu 2025 (3 tahun 1 bulan): mengoordinasikan 30+ asisten untuk 150+ mahasiswa/semester dan membimbing tutorial Kalkulus SKPB ITS.' },
+                { r: 'organisasi', label: 'Lab Komputasi ITS', lon: 133, lat: -4, h: '#organisasi', t: 'Koordinator Asisten Laboratorium Pemrograman dan Komputasi Visual ITS', d: 'Sep 2023 - Agu 2025: memimpin 30 asisten laboratorium dan sinkronisasi modul pengajaran Java untuk lebih dari 150 mahasiswa per semester.' },
+                { r: 'organisasi', label: 'Olimpiade OMITS', lon: 147, lat: -9, h: '#organisasi', t: 'Kepala Subdivisi & Relawan Olimpiade Matematika ITS (OMITS)', d: '2022 - 2023: mengelola kompetisi matematika berskala nasional OMITS ke-15 dan ke-14.' },
+                { r: 'organisasi', label: 'Komunitas Catur ID', lon: 139, lat: -17, h: '#organisasi', t: 'Pengurus Komunitas Pecinta Catur ID', d: '2023 - Sekarang: menyelenggarakan turnamen dan edukasi strategi berpikir analitis.' },
+                { r: 'pendidikan', label: 'ITS (Cum Laude)', lon: 197, lat: 21, h: '#pendidikan', t: 'Sarjana Matematika (S.Mat), ITS Surabaya', d: 'Jun 2021 - Agu 2025: lulus Cum Laude dengan IPK 3,67 / 4,00, fokus Data Mining, Optimasi, dan Machine Learning.' },
+                { r: 'pendidikan', label: 'Shibaura Tokyo', lon: 213, lat: 16, h: '#pendidikan', t: 'GPBL Data Science, Shibaura Institute of Technology', d: 'Sep 2025: kolaborasi riset internasional pengolahan sinyal getaran dan machine learning di Tokyo, Jepang (Presentasi Terbaik dari 12 tim lintas 6 negara).' },
+                { r: 'pendidikan', label: 'SMAN 2 Nganjuk', lon: 204, lat: 7, h: '#pendidikan', t: 'MIPA: SMA Negeri 2 Nganjuk', d: 'Nilai akhir 89,40 / 100 dan Peringkat 4 Olimpiade Sains Nasional (OSN) Matematika tingkat Kabupaten.' },
+                { r: 'keahlian', label: 'Stack LLM & Data', lon: 258, lat: -7, h: '#keahlian', t: 'Hard Skills & Engineering Stack', d: 'Fine-Tuning LLM (LoRA/QLoRA, SFT, CPT), Qwen/Gemma/Llama, VLM, Prompt Engineering, Python, FastAPI, DuckDB, LangGraph, SQL, dan Tableau.' },
+                { r: 'keahlian', label: '12 Sertifikasi Resmi', lon: 272, lat: -16, h: '#keahlian', t: '12 Lisensi & Sertifikasi Profesional (Pratinjau PDF In-Page)', d: 'CISDE PASAS Singapore, Associate Data Scientist BNSP, Pemagangan AI Komdigi, Bangkit 2024, 6 Sertifikat Coursera DeepLearning.AI/Stanford, FGA, dan TOEP/TOEFL.' },
+                { r: 'kontak', label: 'Hubungi Rizky', lon: 315, lat: 12, h: '#kontak', t: 'Kontak & Rekrutmen AI Engineer', d: 'Email (risky.alviando@gmail.com), LinkedIn, GitHub (RizkyAl01), Slide Portofolio PDF, dan Chatbot Interaktif.' }
+            ];
+            var COMPASS = ['Utara', 'Timur Laut', 'Timur', 'Tenggara', 'Selatan', 'Barat Daya', 'Barat', 'Barat Laut'];
+            var RAD = Math.PI / 180;
+
+            // Bangun geometri garis pantai organik (coastline, reef, & kontur dalam) untuk 6 Pulau
+            ISLANDS.forEach(function (isl) {
+                isl.coast = [];
+                isl.reef = [];
+                isl.inner = [];
+                var steps = 22;
+                for (var k = 0; k < steps; k += 1) {
+                    var theta = (k / steps) * Math.PI * 2;
+                    var wave = 1 + 0.16 * Math.sin(theta * 3 + isl.seed) + 0.09 * Math.cos(theta * 5 - isl.seed * 0.8) + 0.05 * Math.sin(theta * 4 + 1.7);
+                    var dLon = isl.rLon * wave * Math.cos(theta);
+                    var dLat = isl.rLat * wave * Math.sin(theta);
+                    isl.coast.push({ lon: isl.lon + dLon, lat: isl.lat + dLat });
+                    isl.reef.push({ lon: isl.lon + dLon * 1.18, lat: isl.lat + dLat * 1.18 });
+                    isl.inner.push({ lon: isl.lon + dLon * 0.56, lat: isl.lat + dLat * 0.56 });
+                }
+            });
+
+            var projects = document.querySelectorAll('.project');
+            projects.forEach(function (el, i) { if (!el.id) el.id = 'proyek-' + (i + 1); });
+            NODES.forEach(function (n, i) {
+                n.i = i;
+                n.href = n.h || (projects[n.p] ? '#' + projects[n.p].id : '#proyek');
+            });
+
+            var slider = document.getElementById('atlas-slider');
+            var headingOut = document.getElementById('atlas-heading');
+            var compassOut = document.getElementById('atlas-compass');
+            var spinBtn = document.getElementById('atlas-spin');
+            var spinLabel = document.getElementById('atlas-spin-label');
+            var detail = {
+                region: document.getElementById('atlas-detail-region'),
+                title: document.getElementById('atlas-detail-title'),
+                text: document.getElementById('atlas-detail-text'),
+                link: document.getElementById('atlas-detail-link')
+            };
+
+            var seed = 7;
+            function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+            var stars = [];
+            for (var s = 0; s < 160; s += 1) {
+                var lon = rnd() * 360 * RAD, sinLat = rnd() * 2 - 1, layer = s % 3;
+                var cl = Math.sqrt(1 - sinLat * sinLat);
+                stars.push({ x: cl * Math.sin(lon), y: sinLat, z: cl * Math.cos(lon), layer: layer, a: 0.14 + rnd() * 0.22, r: 0.8 + rnd() * 1.0 });
+            }
+
+            var W = 0, H = 0, dpr = 1;
+            var yaw = 0, pitch = 0.22, target = null, autoSpin = false;
+            var last = 0, running = false, visible = true, selected = null, activeIsland = ISLANDS[0];
+
+            function norm(a) { return ((a % 360) + 360) % 360; }
+
+            function turnTo(angle) { target = norm(angle); schedule(); }
+
+            function nudge(delta) {
+                autoSpinOff();
+                target = null;
+                yaw = norm(yaw + delta);
+                updateReadout();
+                schedule();
+                draw();
+            }
+
+            function setSpin(active) {
+                autoSpin = Boolean(active);
+                var labelText = autoSpin ? 'Jeda putaran' : 'Putar otomatis';
+                spinBtn.setAttribute('aria-pressed', autoSpin ? 'true' : 'false');
+                spinBtn.setAttribute('aria-label', labelText);
+                spinBtn.setAttribute('title', labelText);
+                spinBtn.classList.toggle('is-playing', autoSpin);
+                if (spinLabel) spinLabel.textContent = labelText;
+                if (autoSpin) { target = null; schedule(); }
+            }
+
+            function autoSpinOff() { if (autoSpin) setSpin(false); }
+
+            function syncIslandPills(regionId) {
+                document.querySelectorAll('.island-pill').forEach(function (pill) {
+                    var isMatch = pill.getAttribute('data-island') === regionId;
+                    pill.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+                });
+            }
+
+            function selectIsland(islandOrId, scroll) {
+                var isl = typeof islandOrId === 'string'
+                    ? ISLANDS.find(function (x) { return x.id === islandOrId; })
+                    : islandOrId;
+                if (!isl) return;
+                activeIsland = isl;
+                detail.region.textContent = isl.short + ' \u00b7 ' + isl.count + ' DESTINASI';
+                detail.title.textContent = isl.name;
+                detail.text.textContent = isl.d;
+                detail.link.href = isl.href;
+                detail.link.textContent = 'Lompat ke bagian ' + isl.name + ' \u2192';
+
+                syncIslandPills(isl.id);
+                var firstInIsland = NODES.find(function (n) { return n.r === isl.id; });
+                selected = firstInIsland || selected;
+
+                document.querySelectorAll('.atlas-nodes button').forEach(function (b) {
+                    var isCurrent = selected && b.getAttribute('data-index') === String(selected.i);
+                    b.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+                });
+
+                if (scroll && detail.link) {
+                    var el = document.querySelector(isl.href);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+                draw();
+            }
+
+            function select(node, scroll) {
+                selected = node;
+                var parentIsl = ISLANDS.find(function (x) { return x.id === node.r; });
+                if (parentIsl) activeIsland = parentIsl;
+                detail.region.textContent = (REGIONS[node.r] || 'PULAU') + ' \u00b7 LANDMARK';
+                detail.title.textContent = node.t;
+                detail.text.textContent = node.d;
+                detail.link.href = node.href;
+                detail.link.textContent = 'Buka bagian ' + node.t + ' \u2192';
+
+                syncIslandPills(node.r);
+                document.querySelectorAll('.atlas-nodes button').forEach(function (b) {
+                    var isCurrent = b.getAttribute('data-index') === String(node.i);
+                    b.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+                });
+
+                if (scroll && detail.link) {
+                    var el = document.querySelector(node.href);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+                draw();
+            }
+
+            // Event listener untuk tombol Pulau Wilayah (.island-pill)
+            document.querySelectorAll('.island-pill').forEach(function (pill) {
+                pill.addEventListener('click', function () {
+                    var id = pill.getAttribute('data-island');
+                    var isl = ISLANDS.find(function (x) { return x.id === id; });
+                    if (!isl) return;
+                    autoSpinOff();
+                    turnTo(-isl.lon);
+                    selectIsland(isl, false);
+                });
+            });
+
+            // Bangun daftar tombol landmark tujuan di dalam masing-masing pulau
+            var regionsList = document.querySelector('.atlas-regions');
+            if (regionsList) {
+                NODES.forEach(function (n) {
+                    var host = regionsList.querySelector('[data-region="' + n.r + '"] .atlas-nodes');
+                    if (!host) return;
+                    var li = document.createElement('li');
+                    var b = document.createElement('button');
+                    b.type = 'button';
+                    b.setAttribute('data-index', String(n.i));
+                    b.setAttribute('aria-pressed', 'false');
+                    b.textContent = n.label;
+                    b.addEventListener('click', function () {
+                        autoSpinOff();
+                        turnTo(-n.lon);
+                        select(n, false);
+                    });
+                    li.appendChild(b);
+                    host.appendChild(li);
+                });
+            }
+
+            function resize() {
+                var rect = stage.getBoundingClientRect();
+                W = Math.max(300, Math.floor(rect.width));
+                H = Math.max(300, Math.floor(rect.height));
+                dpr = Math.min(2, window.devicePixelRatio || 1);
+                canvas.width = Math.floor(W * dpr);
+                canvas.height = Math.floor(H * dpr);
+                draw();
+            }
+
+            function project(x, y, z, cx, cy, R) {
+                var cyaw = Math.cos(yaw * RAD), syaw = Math.sin(yaw * RAD);
+                var x1 = x * cyaw - z * syaw, z1 = x * syaw + z * cyaw;
+                var cpitch = Math.cos(pitch), spitch = Math.sin(pitch);
+                var y2 = y * cpitch - z1 * spitch, z2 = y * spitch + z1 * cpitch;
+                var fov = 2.8;
+                var scale = fov / (fov - z2 * 0.45);
+                return { sx: cx + x1 * R * scale, sy: cy - y2 * R * scale, z: z2, scale: scale };
+            }
+
+            function projectLonLat(lonDeg, latDeg, cx, cy, R) {
+                var clat = Math.cos(latDeg * RAD), slat = Math.sin(latDeg * RAD);
+                return project(clat * Math.sin(lonDeg * RAD), slat, clat * Math.cos(lonDeg * RAD), cx, cy, R);
+            }
+
+            function tracePolygon(pts, cx, cy, R) {
+                ctx.beginPath();
+                for (var idx = 0; idx < pts.length; idx += 1) {
+                    var p = projectLonLat(pts[idx].lon, pts[idx].lat, cx, cy, R);
+                    if (idx === 0) ctx.moveTo(p.sx, p.sy);
+                    else ctx.lineTo(p.sx, p.sy);
+                }
+                ctx.closePath();
+            }
+
+            function draw() {
+                if (!ctx || W === 0 || H === 0) return;
+                ctx.save();
+                ctx.scale(dpr, dpr);
+                ctx.clearRect(0, 0, W, H);
+
+                var cx = W / 2, cy = H / 2;
+                var R = Math.min(W, H) * 0.39;
+
+                // Titik koordinat latar blueprint
+                for (var i = 0; i < stars.length; i += 1) {
+                    var s = stars[i];
+                    var p = project(s.x, s.y, s.z, cx, cy, R * 1.35);
+                    ctx.fillStyle = 'rgba(100, 116, 139, ' + s.a + ')';
+                    ctx.fillRect(p.sx, p.sy, s.r, s.r);
+                }
+
+                // Samudra bola dunia terang (Cartographic Ocean Sphere)
+                var sphereGrad = ctx.createRadialGradient(cx - R * 0.28, cy - R * 0.28, R * 0.05, cx, cy, R);
+                sphereGrad.addColorStop(0, 'rgba(255, 255, 255, 0.98)');
+                sphereGrad.addColorStop(0.6, 'rgba(240, 249, 255, 0.92)');
+                sphereGrad.addColorStop(1, 'rgba(224, 242, 254, 0.82)');
+                ctx.fillStyle = sphereGrad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, R, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.lineWidth = 1.6;
+                ctx.strokeStyle = 'rgba(2, 132, 199, 0.36)';
+                ctx.stroke();
+
+                // Garis lintang (latitude parallels)
+                ctx.lineWidth = 1;
+                for (var lat = -60; lat <= 60; lat += 30) {
+                    ctx.strokeStyle = lat === 0 ? 'rgba(2, 132, 199, 0.28)' : 'rgba(148, 163, 184, 0.25)';
+                    ctx.beginPath();
+                    var rLat = Math.cos(lat * RAD), yLat = Math.sin(lat * RAD);
+                    for (var deg = 0; deg <= 360; deg += 8) {
+                        var pt = project(rLat * Math.sin(deg * RAD), yLat, rLat * Math.cos(deg * RAD), cx, cy, R);
+                        if (deg === 0) ctx.moveTo(pt.sx, pt.sy); else ctx.lineTo(pt.sx, pt.sy);
+                    }
+                    ctx.stroke();
+                }
+
+                // Garis bujur / meridian (longitude)
+                for (var lonDeg = 0; lonDeg < 360; lonDeg += 30) {
+                    ctx.strokeStyle = (lonDeg % 90 === 0) ? 'rgba(2, 132, 199, 0.22)' : 'rgba(148, 163, 184, 0.22)';
+                    ctx.beginPath();
+                    for (var latDeg = -90; latDeg <= 90; latDeg += 8) {
+                        var cLat = Math.cos(latDeg * RAD), sLat = Math.sin(latDeg * RAD);
+                        var ptLon = project(cLat * Math.sin(lonDeg * RAD), sLat, cLat * Math.cos(lonDeg * RAD), cx, cy, R);
+                        if (latDeg === -90) ctx.moveTo(ptLon.sx, ptLon.sy); else ctx.lineTo(ptLon.sx, ptLon.sy);
+                    }
+                    ctx.stroke();
+                }
+
+                // Proyeksi seluruh pusat pulau dan urutkan dari belakang ke depan
+                var sortedIslands = ISLANDS.slice();
+                for (var m = 0; m < sortedIslands.length; m += 1) {
+                    var isl = sortedIslands[m];
+                    var cp = projectLonLat(isl.lon, isl.lat, cx, cy, R);
+                    isl._sx = cp.sx;
+                    isl._sy = cp.sy;
+                    isl._z = cp.z;
+                    isl._scale = cp.scale;
+                    isl._hitRadius = Math.max(38, R * (isl.rLon / 90) * cp.scale * 0.95);
+                }
+                sortedIslands.sort(function (a, b) { return a._z - b._z; });
+
+                // Proyeksi semua landmark node
+                for (var j = 0; j < NODES.length; j += 1) {
+                    var node = NODES[j];
+                    var np = projectLonLat(node.lon, node.lat, cx, cy, R);
+                    node._sx = np.sx;
+                    node._sy = np.sy;
+                    node._z = np.z;
+                }
+
+                // Klip gambar pulau agar rapi di dalam tepi bola dunia
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, R - 1, 0, Math.PI * 2);
+                ctx.clip();
+
+                // 1) Gambar bayangan pulau di belahan belakang bola (back hemisphere silhouettes)
+                for (var bIdx = 0; bIdx < sortedIslands.length; bIdx += 1) {
+                    var backIsl = sortedIslands[bIdx];
+                    if (backIsl._z > -0.18) continue;
+                    tracePolygon(backIsl.coast, cx, cy, R);
+                    ctx.fillStyle = 'rgba(148, 163, 184, 0.14)';
+                    ctx.fill();
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+                    ctx.stroke();
+                }
+
+                // 2) Gambar Pulau-Pulau Wilayah di belahan depan (Reef Ring + Landmass + Inner Contour + Landmarks)
+                for (var fIdx = 0; fIdx < sortedIslands.length; fIdx += 1) {
+                    var fIsl = sortedIslands[fIdx];
+                    if (fIsl._z <= -0.18) continue;
+                    var isActiveIsl = activeIsland && activeIsland.id === fIsl.id;
+
+                    // Coastal Reef / Perairan Dangkal
+                    tracePolygon(fIsl.reef, cx, cy, R);
+                    ctx.fillStyle = isActiveIsl ? 'rgba(2, 132, 199, 0.15)' : 'rgba(2, 132, 199, 0.07)';
+                    ctx.fill();
+                    ctx.save();
+                    ctx.setLineDash([4, 4]);
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = isActiveIsl ? 'rgba(2, 132, 199, 0.45)' : 'rgba(2, 132, 199, 0.24)';
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Poligon Daratan Utama (Island Landmass)
+                    tracePolygon(fIsl.coast, cx, cy, R);
+                    ctx.fillStyle = isActiveIsl ? fIsl.fillActive : fIsl.fill;
+                    ctx.fill();
+                    ctx.lineWidth = isActiveIsl ? 2.6 : 1.7;
+                    ctx.strokeStyle = fIsl.stroke;
+                    ctx.stroke();
+
+                    // Kontur Topografi Dalam (Inner Elevation)
+                    tracePolygon(fIsl.inner, cx, cy, R);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+                    ctx.fill();
+                    ctx.save();
+                    ctx.globalAlpha = 0.4;
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = fIsl.stroke;
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Landmark / Kota kecil di dalam pulau ini
+                    for (var nIdx = 0; nIdx < NODES.length; nIdx += 1) {
+                        var lm = NODES[nIdx];
+                        if (lm.r !== fIsl.id || lm._z <= -0.15) continue;
+                        var isSelNode = selected && selected.i === lm.i;
+
+                        ctx.beginPath();
+                        ctx.arc(lm._sx, lm._sy, isSelNode ? 5.5 : 3.5, 0, Math.PI * 2);
+                        ctx.fillStyle = isSelNode ? '#0f172a' : fIsl.stroke;
+                        ctx.fill();
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.stroke();
+                    }
+                }
+                ctx.restore();
+
+                // 3) Gambar Banner Label Nama Pulau & Landmark Aktif di atas permukaan
+                for (var lIdx = 0; lIdx < sortedIslands.length; lIdx += 1) {
+                    var lblIsl = sortedIslands[lIdx];
+                    if (lblIsl._z <= -0.12) continue;
+                    var isCurrIsl = activeIsland && activeIsland.id === lblIsl.id;
+
+                    var bannerText = lblIsl.short + ' (' + lblIsl.count + ')';
+                    ctx.font = (isCurrIsl ? '700 ' : '600 ') + "11px 'JetBrains Mono', ui-monospace, monospace";
+                    var textW = ctx.measureText(bannerText).width;
+                    var padX = 8, boxH = 22;
+                    var boxW = textW + padX * 2;
+                    var bx = lblIsl._sx - boxW / 2;
+                    var by = lblIsl._sy - boxH / 2;
+
+                    // Pill banner pulau
+                    ctx.beginPath();
+                    if (ctx.roundRect) {
+                        ctx.roundRect(bx, by, boxW, boxH, 999);
+                    } else {
+                        ctx.rect(bx, by, boxW, boxH);
+                    }
+                    ctx.fillStyle = isCurrIsl ? '#0f172a' : 'rgba(255, 255, 255, 0.94)';
+                    ctx.fill();
+                    ctx.lineWidth = isCurrIsl ? 2 : 1.4;
+                    ctx.strokeStyle = lblIsl.stroke;
+                    ctx.stroke();
+
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = isCurrIsl ? '#ffffff' : '#0f172a';
+                    ctx.fillText(bannerText, lblIsl._sx, lblIsl._sy + 0.5);
+                }
+
+                // Tampilkan nama landmark yang sedang dipilih
+                if (selected && selected._z > -0.12) {
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'alphabetic';
+                    ctx.font = "700 11.5px 'JetBrains Mono', ui-monospace, monospace";
+                    ctx.lineJoin = 'round';
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.96)';
+                    ctx.lineWidth = 3.5;
+                    ctx.strokeText(selected.label, selected._sx + 8, selected._sy + 4);
+                    ctx.fillStyle = '#0369a1';
+                    ctx.fillText(selected.label, selected._sx + 8, selected._sy + 4);
+                }
+
+                ctx.restore();
+            }
+
+            function updateReadout() {
+                var a = Math.round(norm(yaw)) % 360;
+                slider.value = String(a);
+                headingOut.textContent = a + '\u00b0';
+                compassOut.textContent = COMPASS[Math.round(a / 45) % 8];
+                slider.setAttribute('aria-valuetext', a + ' derajat, ' + COMPASS[Math.round(a / 45) % 8]);
+            }
+
+            function tick(now) {
+                running = false;
+                var dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+                last = now;
+                var moving = false;
+
+                if (target !== null) {
+                    var diff = ((target - yaw + 540) % 360) - 180;
+                    if (Math.abs(diff) < 0.2) { yaw = target; target = null; }
+                    else { yaw = norm(yaw + diff * Math.min(1, dt * 6)); moving = true; }
+                    updateReadout();
+                } else if (autoSpin) {
+                    yaw = norm(yaw + dt * 16);
+                    moving = true;
+                    updateReadout();
+                }
+
+                draw();
+                if (moving || autoSpin || target !== null) schedule();
+            }
+
+            function schedule() {
+                if (!running && visible) {
+                    running = true;
+                    requestAnimationFrame(tick);
+                }
+            }
+
+            // Pointer drag interaction pada kanvas
+            var dragging = false, moved = false, lastX = 0, lastY = 0;
+            stage.addEventListener('pointerdown', function (ev) {
+                if (ev.target.closest('button, input, a')) return;
+                dragging = true;
+                moved = false;
+                lastX = ev.clientX;
+                lastY = ev.clientY;
+                autoSpinOff();
+                target = null;
+                if (stage.setPointerCapture) stage.setPointerCapture(ev.pointerId);
+            });
+            stage.addEventListener('pointermove', function (ev) {
+                if (!dragging) return;
+                var dx = ev.clientX - lastX;
+                var dy = ev.clientY - lastY;
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+                lastX = ev.clientX;
+                lastY = ev.clientY;
+                yaw = norm(yaw + dx * 0.45);
+                pitch = Math.max(-0.4, Math.min(0.8, pitch - dy * 0.005));
+                updateReadout();
+                draw();
+            });
+            function endDrag() { dragging = false; }
+            stage.addEventListener('pointerup', endDrag);
+            stage.addEventListener('pointercancel', endDrag);
+
+            // Klik Pulau Wilayah atau Landmark pada kanvas
+            stage.addEventListener('click', function (ev) {
+                if (moved) return;
+                if (ev.target.closest('button, input, a')) return;
+                var rect = stage.getBoundingClientRect();
+                var clickX = ev.clientX - rect.left;
+                var clickY = ev.clientY - rect.top;
+
+                // 1. Cek apakah klik tepat pada landmark di dalam pulau
+                for (var i = 0; i < NODES.length; i += 1) {
+                    var n = NODES[i];
+                    if (n._z > -0.15 && Math.hypot(n._sx - clickX, n._sy - clickY) < 12) {
+                        autoSpinOff();
+                        turnTo(-n.lon);
+                        select(n, false);
+                        return;
+                    }
+                }
+
+                // 2. Cek apakah klik mengenai salah satu dari 6 Pulau Wilayah
+                for (var k = ISLANDS.length - 1; k >= 0; k -= 1) {
+                    var isl = ISLANDS[k];
+                    if (isl._z > -0.15 && Math.hypot(isl._sx - clickX, isl._sy - clickY) < (isl._hitRadius || 48)) {
+                        autoSpinOff();
+                        turnTo(-isl.lon);
+                        selectIsland(isl, false);
+                        return;
+                    }
+                }
+            });
+
+            // Keyboard navigation pada stage
+            stage.addEventListener('keydown', function (ev) {
+                var step = ev.shiftKey ? 45 : 15;
+                if (ev.key === 'ArrowLeft') { nudge(-step); ev.preventDefault(); }
+                else if (ev.key === 'ArrowRight') { nudge(step); ev.preventDefault(); }
+                else if (ev.key === 'ArrowUp') { pitch = Math.min(0.8, pitch + 0.08); draw(); ev.preventDefault(); }
+                else if (ev.key === 'ArrowDown') { pitch = Math.max(-0.4, pitch - 0.08); draw(); ev.preventDefault(); }
+            });
+
+            slider.addEventListener('input', function () { autoSpinOff(); target = null; yaw = Number(slider.value); updateReadout(); draw(); });
+            document.getElementById('atlas-left').addEventListener('click', function () { nudge(-15); });
+            document.getElementById('atlas-right').addEventListener('click', function () { nudge(15); });
+            spinBtn.addEventListener('click', function () { setSpin(!autoSpin); });
+            document.getElementById('atlas-reset').addEventListener('click', function () { setSpin(false); pitch = 0.22; turnTo(0); selectIsland(ISLANDS[0], false); });
+            reduce.addEventListener && reduce.addEventListener('change', function () { if (reduce.matches) setSpin(false); });
+            if (reduce.matches) spinBtn.hidden = true;
+
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (entries) {
+                    visible = entries[0].isIntersecting;
+                    if (visible) { schedule(); draw(); }
+                }).observe(stage);
+            }
+            document.addEventListener('visibilitychange', function () { if (!document.hidden) schedule(); });
+            window.addEventListener('resize', resize, { passive: true });
+
+            updateReadout();
+            selectIsland(ISLANDS[0], false);
+            resize();
+            root.classList.add('js-atlas');
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+        }());
+    </script>
+
+    <!-- Chatbot & UI Interactive Script -->
+    <script>
+        (function () {
+            'use strict';
+
+            // Project Category Filter Bar
+            var filterBtns = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
+            var projectCards = Array.prototype.slice.call(document.querySelectorAll('.project-list .project'));
+            if (filterBtns.length > 0 && projectCards.length > 0) {
+                filterBtns.forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var cat = btn.getAttribute('data-filter') || 'all';
+                        filterBtns.forEach(function (b) {
+                            b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+                        });
+                        projectCards.forEach(function (card) {
+                            var cardCat = card.getAttribute('data-category');
+                            card.hidden = (cat !== 'all' && cardCat !== cat);
+                        });
+                    });
+                });
+            }
+
+            // Back to Top Button
+            var backToTop = document.getElementById('back-to-top');
+            if (backToTop) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 350) {
+                        backToTop.classList.add('is-visible');
+                    } else {
+                        backToTop.classList.remove('is-visible');
+                    }
+                }, { passive: true });
+                backToTop.addEventListener('click', function () {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // Main Nav Active Highlighting
+            var mainNavLinks = Array.prototype.slice.call(document.querySelectorAll('.site-nav a'));
+            if ('IntersectionObserver' in window && mainNavLinks.length > 0) {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (!en.isIntersecting) return;
+                        var targetId = '#' + en.target.id;
+                        mainNavLinks.forEach(function (a) {
+                            if (a.getAttribute('href') === targetId) {
+                                a.setAttribute('aria-current', 'true');
+                            } else {
+                                a.removeAttribute('aria-current');
+                            }
+                        });
+                    });
+                }, { rootMargin: '-20% 0px -65% 0px' });
+
+                var sectionsToWatch = ['profil', 'proyek', 'pengalaman', 'organisasi', 'pendidikan', 'keahlian', 'kontak'];
+                sectionsToWatch.forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) observer.observe(el);
+                });
+            }
+
+            // Chatbot Setup
+            var panel = document.getElementById('chat-panel');
+            var fab = document.getElementById('chat-fab');
+            var closeBtn = document.getElementById('close-chat');
+            var newChatBtn = document.getElementById('new-chat');
+            var form = document.getElementById('chat-form');
+            var input = document.getElementById('message-input');
+            var usernameInput = document.getElementById('username');
+            var chatBox = document.getElementById('chat-box');
+            var statusBox = document.getElementById('chat-status');
+            var sendBtn = document.getElementById('send-btn');
+            var lastOpener = null;
+            var busy = false;
+
+            function newSessionId() {
+                return 'web_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+            }
+            var sessionId = newSessionId();
+
+            function setBusy(state) {
+                busy = state;
+                input.disabled = state;
+                sendBtn.disabled = state;
+                statusBox.textContent = state ? 'Asisten sedang memproses jawaban...' : '';
+            }
+
+            function setStatus(text, isError) {
+                statusBox.textContent = text || '';
+                statusBox.className = 'chat-status' + (isError ? ' is-error' : '');
+            }
+
+            function openChat(opener) {
+                lastOpener = opener || document.activeElement;
+                panel.hidden = false;
+                if (fab) fab.setAttribute('aria-expanded', 'true');
+                autoResize();
+                input.focus();
+                if (chatBox.children.length === 0) {
+                    addMessage('bot', 'Halo! Saya asisten portofolio Rizky Alviando. Anda bisa menanyakan pengalaman kerja, proyek data/AI, riwayat pendidikan ITS, atau sertifikasi yang dimiliki Rizky.');
+                }
+            }
+
+            function closeChat() {
+                panel.hidden = true;
+                if (fab) fab.setAttribute('aria-expanded', 'false');
+                if (lastOpener && typeof lastOpener.focus === 'function') {
+                    lastOpener.focus();
+                }
+            }
+
+            if (fab) fab.addEventListener('click', function () { openChat(fab); });
+            if (closeBtn) closeBtn.addEventListener('click', closeChat);
+            document.querySelectorAll('[data-open-chat]').forEach(function (btn) {
+                btn.addEventListener('click', function () { openChat(btn); });
+            });
+
+            if (newChatBtn) {
+                newChatBtn.addEventListener('click', function () {
+                    sessionId = newSessionId();
+                    chatBox.innerHTML = '';
+                    setStatus('');
+                    addMessage('bot', 'Obrolan baru dimulai. Silakan tanyakan hal lain seputar latar belakang dan keahlian Rizky.');
+                    input.focus();
+                });
+            }
+
+            function autoResize() {
+                input.style.height = 'auto';
+                input.style.height = Math.min(120, input.scrollHeight) + 'px';
+            }
+            input.addEventListener('input', autoResize);
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    form.dispatchEvent(new Event('submit', { cancelable: true }));
+                }
+            });
+
+            function scrollToBottom() {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function formatMarkdown(text) {
+                if (!text) return '';
+                // 1. Escape HTML untuk mencegah XSS
+                var escaped = text
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+                // 2. Bold + Italic: ***text***
+                escaped = escaped.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+                // 3. Bold: **text**
+                escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                // 4. Italic: *text* atau _text_
+                escaped = escaped.replace(/\*([^*\n]+?)\*/g, '<em>$1</em>');
+                escaped = escaped.replace(/(^|\s)_([^_\n]+?)_($|\s)/g, '$1<em>$2</em>$3');
+                // 5. Inline Code: `code`
+                escaped = escaped.replace(/`([^`\n]+?)`/g, '<code>$1</code>');
+                // 6. Links: [text](url)
+                escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                // 7. Line breaks: \n -> <br>
+                escaped = escaped.replace(/\n/g, '<br>');
+                return escaped;
+            }
+
+            function addMessage(role, text) {
+                var div = document.createElement('div');
+                div.className = 'msg ' + role;
+                if (role === 'bot') {
+                    div.innerHTML = formatMarkdown(text);
+                } else {
+                    div.textContent = text;
+                }
+                chatBox.appendChild(div);
+                scrollToBottom();
+            }
+
+            function showError(message) {
+                var div = document.createElement('div');
+                div.className = 'msg error';
+                div.textContent = message;
+                chatBox.appendChild(div);
+                scrollToBottom();
+                setStatus(message, true);
+            }
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                if (busy) return;
+                var text = input.value.trim();
+                if (!text) { setStatus('Tulis pertanyaan terlebih dahulu.', true); input.focus(); return; }
+                var username = usernameInput.value.trim() || 'Tamu';
+
+                addMessage('user', text);
+                input.value = '';
+                autoResize();
+                setBusy(true);
+
+                try {
+                    var response = await fetch('/api/web-chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: sessionId, username: username, text: text })
+                    });
+                    var data = null;
+                    try { data = await response.json(); } catch (err) { data = null; }
+
+                    if (response.ok && data && data.status === 'ok' && typeof data.reply === 'string') {
+                        setStatus('');
+                        addMessage('bot', data.reply);
+                    } else if (response.status === 429) {
+                        showError('Terlalu banyak permintaan. Silakan tunggu sekitar 1 menit sebelum mencoba lagi.');
+                    } else if (response.status === 422) {
+                        showError('Format pesan tidak valid. Pastikan pesan tidak kosong.');
+                    } else if (response.status === 503) {
+                        showError('Layanan chatbot sementara tidak tersedia. Silakan hubungi langsung via email/LinkedIn.');
+                    } else {
+                        showError('Server mengalami kendala (kode ' + response.status + '). Coba beberapa saat lagi.');
+                    }
+                } catch (err) {
+                    showError('Tidak dapat terhubung ke server backend.');
+                } finally {
+                    setBusy(false);
+                    input.focus();
+                }
+            });
+
+            // In-Page PDF Viewer Modal Setup ("liat pdf tidak harus tab baru")
+            var pdfModal = document.getElementById('pdf-modal');
+            var pdfFrame = document.getElementById('pdf-modal-frame');
+            var pdfTitle = document.getElementById('pdf-modal-title');
+            var pdfDownload = document.getElementById('pdf-modal-download');
+            var pdfCloseBtn = document.getElementById('pdf-modal-close');
+            var lastPdfTrigger = null;
+
+            function openPdfModal(url, title, triggerEl) {
+                if (!pdfModal || !pdfFrame || !url) return;
+                lastPdfTrigger = triggerEl || document.activeElement;
+                if (pdfTitle) pdfTitle.textContent = title || 'Pratinjau Dokumen PDF';
+                if (pdfDownload) pdfDownload.setAttribute('href', url);
+                pdfFrame.setAttribute('src', url);
+                pdfModal.hidden = false;
+                if (pdfCloseBtn) pdfCloseBtn.focus();
+            }
+
+            function closePdfModal() {
+                if (!pdfModal || pdfModal.hidden) return;
+                pdfModal.hidden = true;
+                if (pdfFrame) pdfFrame.setAttribute('src', 'about:blank');
+                if (lastPdfTrigger && typeof lastPdfTrigger.focus === 'function') {
+                    lastPdfTrigger.focus();
+                }
+            }
+
+            document.querySelectorAll('[data-pdf-preview]').forEach(function (el) {
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var url = el.getAttribute('data-pdf-preview') || el.getAttribute('href');
+                    var title = el.getAttribute('data-pdf-title') || el.textContent.trim();
+                    openPdfModal(url, title, el);
+                });
+            });
+
+            if (pdfCloseBtn) {
+                pdfCloseBtn.addEventListener('click', closePdfModal);
+            }
+            if (pdfModal) {
+                pdfModal.addEventListener('click', function (e) {
+                    if (e.target === pdfModal) closePdfModal();
+                });
+            }
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && pdfModal && !pdfModal.hidden) {
+                    closePdfModal();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

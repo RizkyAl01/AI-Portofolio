@@ -1,0 +1,2502 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rizky Alviando - Ruang Kerja Isometrik 3D & Portofolio Rekayasa AI</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --bg: #FCFCFB;
+      --kartu: #F4F3F1;
+      --ink: #1F1F1F;
+      --redam: #5A5A5A;
+      --aksen: #0284c7;
+      --aksen-hover: #0369a1;
+      --tint: #f0f9ff;
+      --border: #e2e8f0;
+    }
+    body {
+      background-color: #0f172a;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      user-select: none;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      background: var(--tint);
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #FFFFFF;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-action:hover {
+      background: var(--kartu);
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+    .btn-aksen {
+      background: var(--aksen);
+      color: #FFFFFF;
+      border-color: var(--aksen);
+    }
+    .btn-aksen:hover {
+      background: var(--aksen-hover);
+      border-color: var(--aksen-hover);
+      color: #FFFFFF;
+    }
+
+    /* 3D Downward Pointer Hotspot */
+    .badge-3d {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 20;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .badge-3d:hover {
+      transform: translate(-50%, -108%) scale(1.08);
+    }
+
+    /* Desktop OS Window Styling */
+    .os-window {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: popWindow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes popWindow {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .os-window-header {
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.6rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .os-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    /* CRT Terminal Glow */
+    .crt-screen {
+      background: #030712;
+      color: #38bdf8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      text-shadow: 0 0 4px rgba(56, 189, 248, 0.4);
+    }
+    .crt-screen::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 2;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+    }
+
+    /* Flipbook Styles */
+    .flip-page {
+      background: #fdfbf7;
+      color: #1e293b;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.04);
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .flip-page-hard {
+      background: #0f172a;
+      color: #f8fafc;
+      border: 2px solid #1e293b;
+    }
+
+    /* Chess Board Grid & Styling */
+    .chess-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      border: 2px solid #334155;
+      width: 380px;
+      height: 380px;
+      max-width: 100%;
+      aspect-ratio: 1 / 1;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border-radius: 6px;
+      overflow: hidden;
+      user-select: none;
+    }
+    .chess-square {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.85rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+    @media (max-width: 640px) {
+      .chess-square { font-size: 1.6rem; }
+    }
+    .chess-sq-light { background-color: #f1f5f9; }
+    .chess-sq-dark { background-color: #64748b; }
+    .chess-sq-selected { background-color: #fef08a !important; }
+    .chess-sq-lastmove { background-color: #bae6fd !important; }
+    .chess-sq-valid::after {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(2, 132, 199, 0.65);
+      position: absolute;
+      pointer-events: none;
+    }
+    .chess-sq-capture::after {
+      content: "";
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 3px solid rgba(239, 68, 68, 0.75);
+      position: absolute;
+      pointer-events: none;
+    }
+    .piece-w { color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 1px rgba(0,0,0,0.9); }
+    .piece-b { color: #0f172a; text-shadow: 0 1px 1px rgba(255,255,255,0.4); }
+  </style>
+</head>
+<body class="w-screen h-screen relative bg-slate-900">
+
+  <!-- ========================================== -->
+  <!-- TOP APP BAR                                -->
+  <!-- ========================================== -->
+  <header class="absolute top-3 left-4 right-4 z-30 pointer-events-none flex items-center justify-between">
+    <!-- Brand / Identity -->
+    <div class="pointer-events-auto flex items-center gap-2.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-stone-200/90 shadow-sm">
+      <div class="w-8 h-8 rounded-full overflow-hidden border border-stone-300 flex-shrink-0 bg-stone-100">
+        <img src="assets/images/IMG-20250903-WA0024.jpg" alt="Rizky Alviando" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Rizky+Alviando&background=0284c7&color=fff'">
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="font-bold text-xs tracking-tight text-stone-900">Rizky Alviando</span>
+          <span class="pill">S1 Matematika ITS Cum Laude</span>
+        </div>
+        <div class="text-[10px] text-stone-500 font-medium">AI Engineer &bull; Ruangan Isometrik 3D Realistis</div>
+      </div>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="pointer-events-auto flex items-center gap-2">
+      <button type="button" onclick="promptUserName()" class="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-stone-200 text-xs font-medium text-stone-700 shadow-sm hover:bg-stone-50">
+        <svg class="w-3.5 h-3.5 inline mr-1 text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span id="display-user-name">Tamu</span>
+      </button>
+      <a href="index.html" class="btn-action !bg-white/95 backdrop-blur-md text-xs font-semibold text-stone-800 border border-stone-300 shadow-sm hover:text-sky-700">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+        <span>Mode Resume Standar</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- THREE.JS CANVAS CONTAINER                  -->
+  <!-- ========================================== -->
+  <div id="canvas-container" class="w-full h-full relative cursor-grab active:cursor-grabbing">
+    <canvas id="webgl-canvas" class="w-full h-full block"></canvas>
+
+    <!-- 3D Downward Pointer Hotspots -->
+    
+    <!-- Hotspot 1: PC Desktop -->
+    <div id="hotspot-pc" onclick="focusHotspot('pc')" class="badge-3d hidden group">
+      <div class="flex flex-col items-center">
+        <div class="bg-slate-900/90 text-sky-300 border border-sky-400/80 px-2.5 py-1 rounded-full shadow-xl backdrop-blur-md flex items-center gap-1.5 text-[11px] font-bold group-hover:bg-sky-950 transition">
+          <svg class="w-3.5 h-3.5 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>PC Workstation</span>
+        </div>
+        <div class="text-sky-400 text-sm font-black -mt-0.5 animate-bounce drop-shadow-[0_2px_4px_rgba(56,189,248,0.7)]">
+          ▼
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotspot 2: Buku Dossier -->
+    <div id="hotspot-book" onclick="focusHotspot('book')" class="badge-3d hidden group">
+      <div class="flex flex-col items-center">
+        <div class="bg-slate-900/90 text-amber-300 border border-amber-400/80 px-2.5 py-1 rounded-full shadow-xl backdrop-blur-md flex items-center gap-1.5 text-[11px] font-bold group-hover:bg-amber-950 transition">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Buku Dossier Portofolio</span>
+        </div>
+        <div class="text-amber-400 text-sm font-black -mt-0.5 animate-bounce drop-shadow-[0_2px_4px_rgba(251,191,36,0.7)]">
+          ▼
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotspot 3: Catur AI (1800 ELO) -->
+    <div id="hotspot-chess" onclick="focusHotspot('chess')" class="badge-3d hidden group">
+      <div class="flex flex-col items-center">
+        <div class="bg-slate-900/90 text-emerald-300 border border-emerald-400/80 px-2.5 py-1 rounded-full shadow-xl backdrop-blur-md flex items-center gap-1.5 text-[11px] font-bold group-hover:bg-emerald-950 transition">
+          <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.65 9.77l-1.39-1.39A2.992 2.992 0 0014.14 7.5c-.32 0-.64.05-.94.15L12 6.44l-1.2 1.21c-.3-.1-.62-.15-.94-.15-1.15 0-2.22.65-2.74 1.68l-.89 1.78c-.28.56-.25 1.22.08 1.75l1.69 2.7V18h8v-2.43l1.69-2.7c.33-.53.36-1.19.08-1.75l-.12-.25z"/></svg>
+          <span>Lawan Rizky Main Catur</span>
+        </div>
+        <div class="text-emerald-400 text-sm font-black -mt-0.5 animate-bounce drop-shadow-[0_2px_4px_rgba(52,211,153,0.7)]">
+          ▼
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotspot 4: Piagam Dinding -->
+    <div id="hotspot-frame" onclick="focusHotspot('frame')" class="badge-3d hidden group">
+      <div class="flex flex-col items-center">
+        <div class="bg-slate-900/90 text-purple-300 border border-purple-400/80 px-2.5 py-1 rounded-full shadow-xl backdrop-blur-md flex items-center gap-1.5 text-[11px] font-bold group-hover:bg-purple-950 transition">
+          <svg class="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Piagam Tokyo & Pinboard</span>
+        </div>
+        <div class="text-purple-400 text-sm font-black -mt-0.5 animate-bounce drop-shadow-[0_2px_4px_rgba(192,132,252,0.7)]">
+          ▼
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Help Toast -->
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-center">
+      <div class="inline-flex items-center gap-2 bg-stone-900/85 text-stone-200 text-xs px-4 py-2 rounded-full backdrop-blur-md border border-stone-700/80 shadow-lg">
+        <span class="text-sky-400">●</span>
+        <span>Klik <b>PC Workstation</b>, <b>Buku Dossier</b>, <b>Papan Catur</b>, atau <b>Piagam Dinding</b> &bull; Geser mouse untuk rotasi 360°</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: DESKTOP PC SIMULATION (WORKSTATION OS)         -->
+  <!-- ======================================================== -->
+  <div id="desktop-modal" class="fixed inset-0 z-40 bg-black/75 backdrop-blur-md hidden flex-col items-center justify-center p-2 sm:p-6 transition-all duration-300">
+    
+    <!-- Monitor Bezel & Outer Frame -->
+    <div class="w-full max-w-6xl h-[92vh] bg-stone-900 border-8 border-stone-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden relative">
+      
+      <!-- OS Top Menu Bar -->
+      <div class="h-7 bg-stone-800/95 border-b border-stone-700/80 px-3 flex items-center justify-between text-xs text-stone-300 select-none">
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-sky-400 flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            RizkyOS <span class="text-[10px] text-stone-400">v3.9</span>
+          </span>
+          <span class="hidden sm:inline text-stone-400 text-[11px]">|</span>
+          <button type="button" onclick="openDesktopApp('terminal')" class="hover:text-white transition">Terminal Chatbot</button>
+          <button type="button" onclick="openDesktopApp('explorer')" class="hover:text-white transition">File Explorer</button>
+          <button type="button" onclick="openDesktopApp('chess')" class="hover:text-white transition">Lawan Rizky Main Catur</button>
+          <button type="button" onclick="openPdfModal('assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf', 'Slide Portofolio')" class="hover:text-white transition">Portofolio.pdf</button>
+        </div>
+        <div class="flex items-center gap-3 text-[11px]">
+          <span class="text-emerald-400 flex items-center gap-1 font-mono">● Qwen-27B Online</span>
+          <span id="os-clock" class="font-mono text-stone-300">10:00 AM</span>
+          <button type="button" onclick="closeDesktopModal()" class="btn-action !py-0.5 !px-2.5 text-[11px] !bg-rose-600 !text-white !border-rose-500 hover:!bg-rose-700" title="Keluar ke Ruangan 3D (ESC)">
+            ✕ Keluar ke Ruangan [ESC]
+          </button>
+        </div>
+      </div>
+
+      <!-- Desktop Screen Area -->
+      <div class="flex-1 bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 p-4 sm:p-6 relative overflow-hidden flex flex-col justify-between">
+        
+        <!-- Subtle Wallpaper Branding -->
+        <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
+          <div class="text-center font-mono">
+            <div class="text-8xl font-black">ITS &bull; AI LAB</div>
+            <div class="text-xl tracking-widest mt-2">MATHEMATICAL MODELING & DEEP LEARNING</div>
+          </div>
+        </div>
+
+        <!-- Desktop Shortcuts Grid -->
+        <div class="grid grid-flow-col auto-cols-max grid-rows-5 gap-3 z-10">
+          
+          <!-- Shortcut 1: Terminal Chatbot -->
+          <div ondblclick="openDesktopApp('terminal')" onclick="openDesktopApp('terminal')" class="w-24 flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/10 cursor-pointer text-center group transition">
+            <div class="w-11 h-11 rounded-xl bg-slate-800 border border-sky-400/50 flex items-center justify-center shadow-lg group-hover:scale-105 transition text-sky-400">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="text-[11px] font-medium text-stone-200 group-hover:text-sky-300 leading-tight">chatbot.exe</span>
+          </div>
+
+          <!-- Shortcut 2: File Explorer Portofolio -->
+          <div ondblclick="openDesktopApp('explorer')" onclick="openDesktopApp('explorer')" class="w-24 flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/10 cursor-pointer text-center group transition">
+            <div class="w-11 h-11 rounded-xl bg-amber-950/70 border border-amber-400/50 flex items-center justify-center shadow-lg group-hover:scale-105 transition text-amber-400">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+            </div>
+            <span class="text-[11px] font-medium text-stone-200 group-hover:text-amber-300 leading-tight">Katalog Projek</span>
+          </div>
+
+          <!-- Shortcut 3: Sertifikat Folder -->
+          <div onclick="openDesktopApp('explorer'); filterExplorer('certs')" class="w-24 flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/10 cursor-pointer text-center group transition">
+            <div class="w-11 h-11 rounded-xl bg-indigo-950/70 border border-indigo-400/50 flex items-center justify-center shadow-lg group-hover:scale-105 transition text-indigo-400">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            </div>
+            <span class="text-[11px] font-medium text-stone-200 group-hover:text-indigo-300 leading-tight">Sertifikat_Arsip</span>
+          </div>
+
+          <!-- Shortcut 4: Catur 1800 ELO -->
+          <div onclick="openDesktopApp('chess')" class="w-24 flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/10 cursor-pointer text-center group transition">
+            <div class="w-11 h-11 rounded-xl bg-emerald-950/70 border border-emerald-400/50 flex items-center justify-center shadow-lg group-hover:scale-105 transition text-emerald-400">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.65 9.77l-1.39-1.39A2.992 2.992 0 0014.14 7.5c-.32 0-.64.05-.94.15L12 6.44l-1.2 1.21c-.3-.1-.62-.15-.94-.15-1.15 0-2.22.65-2.74 1.68l-.89 1.78c-.28.56-.25 1.22.08 1.75l1.69 2.7V18h8v-2.43l1.69-2.7c.33-.53.36-1.19.08-1.75l-.12-.25z"/></svg>
+            </div>
+            <span class="text-[11px] font-medium text-stone-200 group-hover:text-emerald-300 leading-tight">Catur_Rizky</span>
+          </div>
+
+          <!-- Shortcut 5: CV PDF -->
+          <div onclick="openPdfModal('assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf', 'CV & Portofolio Slide')" class="w-24 flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/10 cursor-pointer text-center group transition">
+            <div class="w-11 h-11 rounded-xl bg-rose-950/70 border border-rose-400/50 flex items-center justify-center shadow-lg group-hover:scale-105 transition text-rose-400">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="text-[11px] font-medium text-stone-200 group-hover:text-rose-300 leading-tight">Portofolio.pdf</span>
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- APP WINDOW 1: TERMINAL CHATBOT                 -->
+        <!-- ============================================== -->
+        <div id="window-terminal" class="os-window absolute inset-6 sm:inset-10 z-30 crt-screen hidden flex-col">
+          <div class="os-window-header !bg-slate-900 !border-slate-800 text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="os-dot bg-rose-500" onclick="closeDesktopApp('terminal')"></span>
+              <span class="os-dot bg-amber-500"></span>
+              <span class="os-dot bg-emerald-500"></span>
+              <span class="font-mono text-xs text-sky-400 ml-2 font-bold">visitor@ai-lab:~ (Qwen-27B Assistant)</span>
+            </div>
+            <div class="flex items-center gap-1 text-[11px]">
+              <button type="button" onclick="terminalExec('/help')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono">/help</button>
+              <button type="button" onclick="terminalExec('/projects')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono">/projects</button>
+              <button type="button" onclick="terminalExec('/certs')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono">/certs</button>
+              <button type="button" onclick="terminalExec('/about')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono">/about</button>
+              <button type="button" onclick="terminalExec('/clear')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono">/clear</button>
+            </div>
+          </div>
+
+          <!-- Terminal Chat Body -->
+          <div id="terminal-logs" class="flex-1 p-4 overflow-y-auto space-y-3 font-mono text-xs">
+            <div class="text-slate-400">
+              [SYSTEM INITIALIZATION COMPLETED]<br>
+              Host: <span class="text-emerald-400">its-ai-lab-workstation</span> | Model: <span class="text-sky-400">Qwen-2.5-Coder-27B-Instruct</span><br>
+              Ketik pertanyaan untuk mengetahui kompetensi, proyek, sertifikasi Coursera/BNSP, atau latar belakang akademik <span class="text-white font-bold">Rizky Alviando</span>.
+            </div>
+          </div>
+
+          <!-- Terminal Input Prompt -->
+          <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="border-t border-slate-800 p-3 bg-slate-950/80 flex items-center gap-2">
+            <span class="text-emerald-400 font-mono text-xs">visitor@ai-lab:~$</span>
+            <input type="text" id="terminal-input" autocomplete="off" placeholder="Ketik pertanyaan atau perintah CLI..." class="flex-1 bg-transparent text-sky-100 font-mono text-xs outline-none border-none placeholder-slate-600">
+            <button type="submit" class="px-3 py-1 rounded bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs font-bold transition">Kirim</button>
+          </form>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- APP WINDOW 2: FILE EXPLORER PORTOFOLIO         -->
+        <!-- ============================================== -->
+        <div id="window-explorer" class="os-window absolute inset-4 sm:inset-8 z-30 hidden flex-col">
+          <div class="os-window-header">
+            <div class="flex items-center gap-2">
+              <span class="os-dot bg-rose-500" onclick="closeDesktopApp('explorer')"></span>
+              <span class="os-dot bg-amber-500"></span>
+              <span class="os-dot bg-emerald-500"></span>
+              <span class="font-bold text-xs text-stone-800 ml-2">File Explorer &bull; Katalog Proyek & Arsip Kredensial</span>
+            </div>
+            <div class="text-xs text-stone-500 font-mono" id="explorer-path">C:\Users\Rizky\Portofolio\Semua_Proyek</div>
+          </div>
+
+          <div class="flex-1 flex overflow-hidden">
+            <!-- Sidebar Explorer -->
+            <div class="w-52 sm:w-60 bg-stone-50 border-r border-stone-200 p-3 space-y-1 text-xs select-none">
+              <div class="text-[10px] font-bold text-stone-400 uppercase tracking-wider px-2 py-1">Kategori Proyek</div>
+              
+              <button type="button" onclick="filterExplorer('all')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-200 text-stone-800 font-medium flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                <span>Semua Proyek (12)</span>
+              </button>
+              
+              <button type="button" onclick="filterExplorer('ml')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-200 text-stone-700 flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+                <span>ML & Data Science (4)</span>
+              </button>
+              
+              <button type="button" onclick="filterExplorer('llm')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-200 text-stone-700 flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>LLM & Agentic AI (4)</span>
+              </button>
+              
+              <button type="button" onclick="filterExplorer('cv')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-200 text-stone-700 flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                <span>Computer Vision (2)</span>
+              </button>
+              
+              <button type="button" onclick="filterExplorer('math')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-200 text-stone-700 flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                <span>Math & Riset Operasi (2)</span>
+              </button>
+
+              <div class="pt-3 border-t border-stone-200 text-[10px] font-bold text-stone-400 uppercase tracking-wider px-2 py-1">Arsip Kredensial</div>
+              
+              <button type="button" onclick="filterExplorer('certs')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-200 text-stone-800 font-medium flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                <span>Semua Sertifikat (11)</span>
+              </button>
+
+              <button type="button" onclick="filterExplorer('coursera')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-sky-100 text-sky-800 font-semibold flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/></svg>
+                <span>Coursera Specialization (6)</span>
+              </button>
+            </div>
+
+            <!-- Content Pane -->
+            <div id="explorer-files-grid" class="flex-1 p-4 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 bg-white">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Taskbar Bottom Dock -->
+        <div class="h-10 bg-stone-900/90 border border-stone-700/80 rounded-2xl mx-auto px-4 flex items-center gap-3 backdrop-blur-md z-10 shadow-xl">
+          <button type="button" onclick="openDesktopApp('terminal')" class="p-1.5 rounded-lg hover:bg-white/10 text-sky-400" title="Terminal Chatbot">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </button>
+          <button type="button" onclick="openDesktopApp('explorer')" class="p-1.5 rounded-lg hover:bg-white/10 text-amber-400" title="File Explorer">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+          </button>
+          <button type="button" onclick="openDesktopApp('chess')" class="p-1.5 rounded-lg hover:bg-white/10 text-emerald-400" title="Lawan Rizky Main Catur">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.65 9.77l-1.39-1.39A2.992 2.992 0 0014.14 7.5c-.32 0-.64.05-.94.15L12 6.44l-1.2 1.21c-.3-.1-.62-.15-.94-.15-1.15 0-2.22.65-2.74 1.68l-.89 1.78c-.28.56-.25 1.22.08 1.75l1.69 2.7V18h8v-2.43l1.69-2.7c.33-.53.36-1.19.08-1.75l-.12-.25z"/></svg>
+          </button>
+          <span class="text-stone-600 text-xs">|</span>
+          <span class="text-stone-400 text-xs font-mono">Ruangan 3D Viewport Standby</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: 3D ANIMATED FLIPBOOK DOSSIER (STPAGEFLIP)       -->
+  <!-- ======================================================== -->
+  <div id="flipbook-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex-col items-center justify-center p-2 sm:p-4 transition-all duration-300">
+    
+    <!-- Top Bar Controls -->
+    <div class="w-full max-w-4xl flex items-center justify-between text-stone-200 mb-3 px-2">
+      <div class="flex items-center gap-2">
+        <span class="text-amber-400 font-bold">Dossier Resmi &bull; Rizky Alviando, S.Mat.</span>
+        <span class="text-xs text-stone-400">| S1 Matematika ITS Cum Laude (IPK 3.67)</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="flip-page-num" class="text-xs font-mono text-stone-300 bg-white/10 px-2.5 py-1 rounded-lg">Halaman 1 / 10</span>
+        <button type="button" onclick="closeFlipbookModal()" class="btn-action !py-1 !px-3 text-xs !bg-rose-600 !text-white !border-rose-500 hover:!bg-rose-700">
+          ✕ Tutup Buku [ESC]
+        </button>
+      </div>
+    </div>
+
+    <!-- Flipbook Canvas / HTML Container -->
+    <div class="relative flex items-center justify-center">
+      <div id="book-stage" class="shadow-2xl rounded-lg overflow-hidden">
+        
+        <!-- Page 0: Cover Depan -->
+        <div class="flip-page flip-page-hard justify-between text-center !p-8">
+          <div class="border border-amber-400/40 p-6 rounded-lg h-full flex flex-col justify-between">
+            <div>
+              <div class="text-amber-400 text-xs font-mono tracking-widest uppercase">DOSSIER REKAYASA & PORTOFOLIO</div>
+              <h1 class="text-2xl sm:text-3xl font-black text-amber-200 mt-2 tracking-tight">RIZKY ALVIANDO</h1>
+              <div class="h-0.5 w-16 bg-amber-400 mx-auto my-3"></div>
+              <p class="text-xs text-stone-300">Sarjana Matematika ITS &bull; Predikat Cum Laude (IPK 3.67)<br>Global Project-Based Learning &bull; SIT Tokyo</p>
+            </div>
+            
+            <div class="py-4">
+              <div class="w-24 h-24 rounded-full border-2 border-amber-300 mx-auto overflow-hidden shadow-md">
+                <img src="assets/images/IMG-20250903-WA0024.jpg" alt="Rizky Alviando" class="w-full h-full object-cover">
+              </div>
+              <div class="mt-2 text-[11px] text-amber-400 font-semibold">AI Engineer & Data Scientist</div>
+            </div>
+
+            <div class="text-[11px] text-stone-400">
+              Klik atau geser sudut halaman untuk membuka &rarr;
+            </div>
+          </div>
+        </div>
+
+        <!-- Page 1: Profil & Kontak Resmi -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Profil Profesional</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Rizky Alviando, S.Mat.</h2>
+            <div class="text-xs text-sky-700 font-medium">Lulusan S1 Matematika ITS (IPK 3.67, Cum Laude)</div>
+            
+            <p class="text-xs text-stone-600 mt-3 leading-relaxed">
+              AI Engineer & Data Scientist dengan fondasi matematika mendalam dalam rekayasa model bahasa (LLM & Fine-tuning LoRA/QLoRA), sistem Graph-RAG, Computer Vision, dan riset operasi optimasi.
+            </p>
+
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="font-bold text-stone-800 text-[11px] uppercase tracking-wider">Saluran Kontak Resmi:</div>
+              <div class="p-2 bg-stone-100 rounded-lg text-stone-700 font-mono text-[11px]"><b>Email:</b> risky.alviando@gmail.com</div>
+              <div class="p-2 bg-stone-100 rounded-lg text-stone-700 font-mono text-[11px]"><b>LinkedIn:</b> linkedin.com/in/rizky-alviando</div>
+              <div class="p-2 bg-stone-100 rounded-lg text-stone-700 font-mono text-[11px]"><b>GitHub:</b> github.com/RizkyAl01</div>
+              <div class="p-2 bg-stone-100 rounded-lg text-stone-700 font-mono text-[11px]"><b>WhatsApp:</b> +62 851-5654-7200</div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 1</div>
+        </div>
+
+        <!-- Page 2: Pilar Keahlian & Spesialisasi -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Kompetensi Inti</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Empat Pilar Rekayasa AI</h2>
+            
+            <div class="mt-3 space-y-2 text-xs">
+              <div class="p-2 bg-sky-50 border border-sky-200 rounded-lg">
+                <div class="font-bold text-sky-900">1. LLM & Generative AI</div>
+                <div class="text-sky-800 text-[11px]">SFT/CPT LoRA & QLoRA, Agentic RAG, Graph-RAG, LLM-as-a-Judge evaluation.</div>
+              </div>
+
+              <div class="p-2 bg-amber-50 border border-amber-200 rounded-lg">
+                <div class="font-bold text-amber-900">2. Riset Operasi & Optimasi Matematika</div>
+                <div class="text-amber-800 text-[11px]">Linear Programming (Simplex, Big-M), Hungarian Assignment, Model Transportasi VAM, solver Python PuLP & Scipy.</div>
+              </div>
+
+              <div class="p-2 bg-emerald-50 border border-emerald-200 rounded-lg">
+                <div class="font-bold text-emerald-900">3. Computer Vision & Multi-Modal</div>
+                <div class="text-emerald-800 text-[11px]">YOLO, deteksi getaran abnormal sinyal pemesinan (GPBL Tokyo), OCR, klasifikasi gambar.</div>
+              </div>
+
+              <div class="p-2 bg-purple-50 border border-purple-200 rounded-lg">
+                <div class="font-bold text-purple-900">4. Tata Kelola Data Enterprise</div>
+                <div class="text-purple-800 text-[11px]">Medallion architecture sandbox, ETL pipeline, PASAS Certified International Specialist in Data Engineering.</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 2</div>
+        </div>
+
+        <!-- Page 3: Rekam Pendidikan Dasar & Menengah -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Rekam Akademik (Bagian 1)</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Pendidikan Dasar & Menengah</h2>
+            
+            <div class="mt-4 space-y-3 text-xs">
+              <div class="border-l-2 border-stone-300 pl-3">
+                <div class="font-bold text-stone-900">SDN 1 Ngliman</div>
+                <div class="text-[11px] text-stone-500 font-mono">2009 - 2015</div>
+                <div class="text-stone-700 mt-0.5">Nilai Kelulusan Danem: <b>289.5</b></div>
+              </div>
+
+              <div class="border-l-2 border-stone-300 pl-3">
+                <div class="font-bold text-stone-900">SMPN 1 Sawahan</div>
+                <div class="text-[11px] text-stone-500 font-mono">2015 - 2018</div>
+                <div class="text-stone-700 mt-0.5">NEM: <b>360.5</b> &bull; <span class="text-amber-700 font-semibold">Tertinggi 1 angkatan satu sekolah</span></div>
+              </div>
+
+              <div class="border-l-2 border-stone-300 pl-3">
+                <div class="font-bold text-stone-900">SMA Negeri 2 Nganjuk</div>
+                <div class="text-[11px] text-stone-500 font-mono">2018 - 2021 &bull; Jurusan MIPA</div>
+                <div class="text-stone-700 mt-0.5">Rata-rata Nilai: <b>89.40 / 100.00</b></div>
+                <div class="text-[11px] text-stone-600 mt-0.5">&bull; Peringkat 4 Olimpiade Sains Nasional (OSN) Matematika Kab. Nganjuk<br>&bull; Anggota Organisasi Bina IT Smada</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 3</div>
+        </div>
+
+        <!-- Page 4: Pendidikan Tinggi & SIT Tokyo -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Rekam Akademik (Bagian 2)</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Pendidikan Tinggi</h2>
+            
+            <div class="mt-3 space-y-2.5 text-xs">
+              <div class="p-2.5 bg-sky-50 border border-sky-200 rounded-xl">
+                <div class="font-bold text-sky-950 text-xs">Institut Teknologi Sepuluh Nopember (ITS)</div>
+                <div class="text-[10px] text-sky-700 font-mono">2021 - 2025 &bull; Sarjana Matematika (S.Mat.)</div>
+                <div class="mt-0.5 text-sky-900 font-semibold text-xs">IPK: 3.67 / 4.00 &bull; Predikat Cum Laude</div>
+                <div class="text-[10px] text-sky-800 mt-0.5">
+                  &bull; Juara 3 Calculus Cup Tingkat Departemen Matematika ITS<br>
+                  &bull; Skripsi: Pemodelan Matematika & Data Mining T-BUM
+                </div>
+              </div>
+
+              <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <div class="font-bold text-emerald-950 text-xs">Shibaura Institute of Technology (SIT), Tokyo</div>
+                <div class="text-[10px] text-emerald-700 font-mono">Global Project-Based Learning (gPBL) 2024</div>
+                <div class="mt-0.5 text-emerald-900 font-semibold text-xs">Best Presentation Team Award</div>
+                <div class="text-[10px] text-emerald-800 mt-0.5">
+                  Proyek deteksi getaran abnormal (chattering) proses pemesinan mesin bubut berbasis sinyal FFT dan machine learning.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 4</div>
+        </div>
+
+        <!-- Page 5: Pengalaman Kerja & Asisten Dosen -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Karier & Asistensi Dosen</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Pengalaman Profesional</h2>
+            
+            <div class="mt-3 space-y-2 text-xs">
+              <div class="border-l-2 border-sky-500 pl-2.5">
+                <div class="font-bold text-stone-900">AI Engineer &bull; DJED Komdigi</div>
+                <div class="text-[10px] text-stone-500 font-mono">Sep 2026 - Sekarang</div>
+                <div class="text-stone-600 text-[11px]">Rekayasa AI governance, sandbox tata kelola data, Graph-RAG, evaluasi model.</div>
+              </div>
+
+              <div class="border-l-2 border-amber-500 pl-2.5">
+                <div class="font-bold text-stone-900">Asisten Dosen Kalkulus 1 & 2 &bull; SKPB ITS</div>
+                <div class="text-[10px] text-stone-500 font-mono">Semester 3 s.d. Lulus</div>
+                <div class="text-stone-600 text-[11px]">Mengajar turunan, integral lipat, deret tak hingga untuk ratusan mahasiswa teknik.</div>
+              </div>
+
+              <div class="border-l-2 border-emerald-500 pl-2.5">
+                <div class="font-bold text-stone-900">Asdos Algoritma & PBO &bull; Koordinator Lab Visual ITS</div>
+                <div class="text-[10px] text-stone-500 font-mono">Semester 5 s.d. Lulus &bull; Koordinator Sep 2023 - Sep 2024</div>
+                <div class="text-stone-600 text-[11px]">Mengelola standarisasi praktikum Java OOP dan komputasi grafika.</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 5</div>
+        </div>
+
+        <!-- Page 6: Magang & Pelatihan -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Magang & Pelatihan</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Pengalaman Lanjutan</h2>
+            
+            <div class="mt-3 space-y-2 text-xs">
+              <div class="border-l-2 border-purple-500 pl-2.5">
+                <div class="font-bold text-stone-900">AI Engineer Intern &bull; Kemkomdigi RI</div>
+                <div class="text-[10px] text-stone-500 font-mono">Nov 2025 - Mei 2026</div>
+                <div class="text-stone-600 text-[11px]">Fine-tuning Gemma/Qwen via LoRA (Akurasi 72.04%), Klasifikasi DTSEN Desil (99%).</div>
+              </div>
+
+              <div class="border-l-2 border-blue-500 pl-2.5">
+                <div class="font-bold text-stone-900">Machine Learning Cohort &bull; Bangkit Academy</div>
+                <div class="text-[10px] text-stone-500 font-mono">Sep 2024 - Jan 2025 &bull; Distinction (92.79)</div>
+                <div class="text-stone-600 text-[11px]">Lead ML Engineer proyek Capstone Sugaryzer (Akurasi deteksi 89%).</div>
+              </div>
+
+              <div class="border-l-2 border-stone-400 pl-2.5">
+                <div class="font-bold text-stone-900">Statistisi Magang &bull; BPS Jatim & DISPERPUSIP Jatim</div>
+                <div class="text-[10px] text-stone-500 font-mono">Jul 2024 - Okt 2024</div>
+                <div class="text-stone-600 text-[11px]">Konsultasi analisis data regional dan perancangan dashboard interaktif.</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 6</div>
+        </div>
+
+        <!-- Page 7: Sertifikasi Profesional & Nasional -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Kredensial Profesional</span>
+            <h2 class="text-lg font-bold text-stone-900 mt-2">Sertifikasi Nasional & Global</h2>
+            
+            <div class="mt-3 space-y-1.5 text-xs">
+              <div class="p-2 bg-stone-50 border border-stone-200 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[11px]">PASAS CISDE Data Engineering</div>
+                  <div class="text-[10px] text-stone-500">PASAS Singapore &bull; ID: CISDE15620</div>
+                </div>
+                <button type="button" onclick="openPdfModal('assets/certs/PASAS_CISDE_Data_Engineering.pdf', 'PASAS CISDE')" class="btn-action !py-0.5 !px-2 text-[10px]">Lihat PDF</button>
+              </div>
+
+              <div class="p-2 bg-stone-50 border border-stone-200 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[11px]">BNSP Ilmuwan Data Madya</div>
+                  <div class="text-[10px] text-stone-500">Badan Nasional Sertifikasi Profesi</div>
+                </div>
+                <button type="button" onclick="openPdfModal('assets/certs/BNSP_Ilmuwan_Data_Madya.pdf', 'BNSP Data Scientist')" class="btn-action !py-0.5 !px-2 text-[10px]">Lihat PDF</button>
+              </div>
+
+              <div class="p-2 bg-stone-50 border border-stone-200 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[11px]">Bangkit Academy ML Distinction</div>
+                  <div class="text-[10px] text-stone-500">Google, GoTo, Traveloka (Top 10%)</div>
+                </div>
+                <button type="button" onclick="openPdfModal('assets/certs/Bangkit_Academy_2024.pdf', 'Bangkit ML')" class="btn-action !py-0.5 !px-2 text-[10px]">Lihat PDF</button>
+              </div>
+
+              <div class="p-2 bg-stone-50 border border-stone-200 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[11px]">TOEP Bahasa Inggris (Skor 505)</div>
+                  <div class="text-[10px] text-stone-500">PLTI &bull; Setara TOEFL 580</div>
+                </div>
+                <button type="button" onclick="openPdfModal('assets/certs/TOEP_PLTI_Certificate.pdf', 'TOEP PLTI')" class="btn-action !py-0.5 !px-2 text-[10px]">Lihat PDF</button>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 7</div>
+        </div>
+
+        <!-- Page 8: Coursera Specializations (DeepLearning.AI & Stanford) -->
+        <div class="flip-page justify-between">
+          <div>
+            <span class="pill">Coursera Specializations</span>
+            <h2 class="text-base font-bold text-stone-900 mt-1">DeepLearning.AI & Stanford</h2>
+            
+            <div class="mt-2 space-y-1.5 text-xs">
+              <div class="p-1.5 bg-sky-50/70 border border-sky-100 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[10px] leading-tight">Machine Learning Specialization</div>
+                  <div class="text-[9px] text-sky-700">DeepLearning.AI & Stanford Online &bull; Andrew Ng</div>
+                </div>
+                <div class="flex gap-1">
+                  <button type="button" onclick="openPdfModal('assets/certs/Coursera_Certificate_7QM26EI7X8DK.pdf', 'Coursera ML Specialization')" class="btn-action !py-0.5 !px-1.5 text-[9px]">PDF</button>
+                  <a href="https://coursera.org/verify/specialization/7QM26EI7X8DK" target="_blank" class="btn-action !py-0.5 !px-1.5 text-[9px] !text-sky-700">Verify ↗</a>
+                </div>
+              </div>
+
+              <div class="p-1.5 bg-sky-50/70 border border-sky-100 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[10px] leading-tight">Deep Learning Specialization</div>
+                  <div class="text-[9px] text-sky-700">DeepLearning.AI &bull; Andrew Ng</div>
+                </div>
+                <div class="flex gap-1">
+                  <button type="button" onclick="openPdfModal('assets/certs/Coursera_Certificate_DWAXSL54L1K8.pdf', 'Deep Learning Specialization')" class="btn-action !py-0.5 !px-1.5 text-[9px]">PDF</button>
+                  <a href="https://coursera.org/verify/specialization/DWAXSL54L1K8" target="_blank" class="btn-action !py-0.5 !px-1.5 text-[9px] !text-sky-700">Verify ↗</a>
+                </div>
+              </div>
+
+              <div class="p-1.5 bg-sky-50/70 border border-sky-100 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[10px] leading-tight">Mathematics for Machine Learning</div>
+                  <div class="text-[9px] text-sky-700">Imperial College London</div>
+                </div>
+                <div class="flex gap-1">
+                  <button type="button" onclick="openPdfModal('assets/certs/Coursera_Certificate_IGGJJHSJPAYX.pdf', 'Math for ML Specialization')" class="btn-action !py-0.5 !px-1.5 text-[9px]">PDF</button>
+                  <a href="https://coursera.org/verify/specialization/IGGJJHSJPAYX" target="_blank" class="btn-action !py-0.5 !px-1.5 text-[9px] !text-sky-700">Verify ↗</a>
+                </div>
+              </div>
+
+              <div class="p-1.5 bg-sky-50/70 border border-sky-100 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[10px] leading-tight">Natural Language Processing (NLP)</div>
+                  <div class="text-[9px] text-sky-700">DeepLearning.AI</div>
+                </div>
+                <div class="flex gap-1">
+                  <button type="button" onclick="openPdfModal('assets/certs/Coursera_Certificate_QYKA1M4SUDZJ.pdf', 'NLP Specialization')" class="btn-action !py-0.5 !px-1.5 text-[9px]">PDF</button>
+                  <a href="https://coursera.org/verify/specialization/QYKA1M4SUDZJ" target="_blank" class="btn-action !py-0.5 !px-1.5 text-[9px] !text-sky-700">Verify ↗</a>
+                </div>
+              </div>
+
+              <div class="p-1.5 bg-sky-50/70 border border-sky-100 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[10px] leading-tight">TensorFlow Developer Certificate</div>
+                  <div class="text-[9px] text-sky-700">DeepLearning.AI Professional Certificate</div>
+                </div>
+                <div class="flex gap-1">
+                  <button type="button" onclick="openPdfModal('assets/certs/Coursera_Certificate_XQDE9UOUISYB.pdf', 'TensorFlow Developer')" class="btn-action !py-0.5 !px-1.5 text-[9px]">PDF</button>
+                  <a href="https://coursera.org/verify/professional-cert/XQDE9UOUISYB" target="_blank" class="btn-action !py-0.5 !px-1.5 text-[9px] !text-sky-700">Verify ↗</a>
+                </div>
+              </div>
+
+              <div class="p-1.5 bg-sky-50/70 border border-sky-100 rounded-lg flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-stone-900 text-[10px] leading-tight">AI for Medicine Specialization</div>
+                  <div class="text-[9px] text-sky-700">DeepLearning.AI</div>
+                </div>
+                <div class="flex gap-1">
+                  <button type="button" onclick="openPdfModal('assets/certs/Coursera_Certificate_R2QFYZQBKUZ0.pdf', 'AI for Medicine')" class="btn-action !py-0.5 !px-1.5 text-[9px]">PDF</button>
+                  <a href="https://coursera.org/verify/specialization/R2QFYZQBKUZ0" target="_blank" class="btn-action !py-0.5 !px-1.5 text-[9px] !text-sky-700">Verify ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-[10px] text-stone-400 text-right">Hal. 8</div>
+        </div>
+
+        <!-- Page 9: Cover Belakang & Rekrutmen -->
+        <div class="flip-page flip-page-hard justify-between text-center !p-8">
+          <div class="border border-amber-400/40 p-6 rounded-lg h-full flex flex-col justify-between">
+            <div class="text-amber-400 text-xs font-mono uppercase">KOLABORASI & REKRUTMEN</div>
+            
+            <div class="my-auto space-y-3">
+              <h3 class="text-xl font-bold text-white">Siap Berkontribusi sebagai AI Engineer</h3>
+              <p class="text-xs text-stone-300 leading-relaxed max-w-xs mx-auto">
+                Tertarik mendiskusikan implementasi model bahasa, arsitektur data governance, atau pemodelan matematika optimasi untuk tim Anda?
+              </p>
+              <div class="pt-2">
+                <a href="mailto:risky.alviando@gmail.com" class="btn-action !bg-amber-400 !text-stone-900 font-bold !px-5 !py-2 text-xs">
+                  Hubungi via Email Resmi
+                </a>
+              </div>
+            </div>
+
+            <div class="text-[10px] text-stone-400">
+              &copy; 2026 Rizky Alviando &bull; S1 Matematika ITS Cum Laude
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Buttons -->
+    <div class="flex items-center gap-3 mt-4">
+      <button type="button" onclick="flipPrev()" class="btn-action !bg-white/10 !text-white !border-white/20 hover:!bg-white/20 text-xs">
+        ◀ Halaman Sebelumnya
+      </button>
+      <button type="button" onclick="flipNext()" class="btn-action !bg-white/10 !text-white !border-white/20 hover:!bg-white/20 text-xs">
+        Halaman Berikutnya ▶
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: CHESS ARENA (AI CHESS AGENT RATING 1800 ELO)    -->
+  <!-- ======================================================== -->
+  <div id="chess-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex-col items-center justify-center p-3 sm:p-6 transition-all duration-300">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl flex flex-col overflow-hidden max-h-[92vh]">
+      
+      <!-- Chess Header -->
+      <div class="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center justify-between select-none">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-emerald-950 border border-emerald-500/50 flex items-center justify-center text-emerald-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.65 9.77l-1.39-1.39A2.992 2.992 0 0014.14 7.5c-.32 0-.64.05-.94.15L12 6.44l-1.2 1.21c-.3-.1-.62-.15-.94-.15-1.15 0-2.22.65-2.74 1.68l-.89 1.78c-.28.56-.25 1.22.08 1.75l1.69 2.7V18h8v-2.43l1.69-2.7c.33-.53.36-1.19.08-1.75l-.12-.25z"/></svg>
+          </div>
+          <div>
+            <div class="font-bold text-sm text-white flex items-center gap-2">
+              <span>Arena Catur &bull; Lawan Rizky Main Catur</span>
+            </div>
+            <div class="text-[11px] text-slate-400">Pertandingan persahabatan catur melawan Rizky Alviando. Selamat bertanding!</div>
+          </div>
+        </div>
+        <button type="button" onclick="closeChessModal()" class="btn-action !py-1 !px-3 text-xs !bg-rose-600 !text-white !border-rose-500 hover:!bg-rose-700">
+          ✕ Tutup [ESC]
+        </button>
+      </div>
+
+      <!-- Chess Body -->
+      <div class="flex-1 p-4 sm:p-6 overflow-y-auto flex flex-col md:flex-row items-center justify-center gap-6">
+        
+        <!-- Left: Chessboard -->
+        <div class="flex flex-col items-center">
+          <!-- Opponent Card (Top) -->
+          <div class="w-full max-w-[440px] flex items-center justify-between pb-2 text-xs text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              <span class="font-bold text-white">Rizky Alviando</span>
+              <span class="text-[10px] text-slate-400">(Hitam)</span>
+            </div>
+            <div id="chess-black-captures" class="font-mono text-sm tracking-widest text-slate-400"></div>
+          </div>
+
+          <!-- Board Grid -->
+          <div id="chess-board-grid" class="chess-grid">
+            <!-- 64 squares rendered via JS -->
+          </div>
+
+          <!-- Player Card (Bottom) -->
+          <div class="w-full max-w-[440px] flex items-center justify-between pt-2 text-xs text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+              <span id="chess-player-name" class="font-bold text-white">Tamu</span>
+              <span class="text-[10px] text-slate-400">(Putih)</span>
+            </div>
+            <div id="chess-white-captures" class="font-mono text-sm tracking-widest text-slate-400"></div>
+          </div>
+        </div>
+
+        <!-- Right: Status, History & Controls -->
+        <div class="w-full md:w-64 flex flex-col gap-3">
+          <!-- Game Status Box -->
+          <div class="bg-slate-800/80 border border-slate-700 p-3.5 rounded-2xl">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Status Pertandingan</div>
+            <div id="chess-status" class="text-xs font-semibold text-emerald-400 font-mono">
+              Giliran Anda (Putih). Silakan jalankan pion/kuda.
+            </div>
+            <div id="chess-eval-score" class="text-[11px] text-slate-400 font-mono mt-1">
+              Evaluasi Posisi: 0.0 (Seimbang)
+            </div>
+          </div>
+
+          <!-- Move History Box -->
+          <div class="bg-slate-800/80 border border-slate-700 p-3 rounded-2xl flex-1 flex flex-col">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1.5">Riwayat Notasi Langkah</div>
+            <div id="chess-history-list" class="h-32 sm:h-40 overflow-y-auto font-mono text-xs text-slate-300 space-y-1">
+              <div class="text-slate-500 italic">Belum ada langkah</div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col gap-2">
+            <button type="button" onclick="startNewChessGame()" class="w-full btn-action !justify-center !bg-emerald-600 !text-white !border-emerald-500 hover:!bg-emerald-700 text-xs font-bold">
+              Pertandingan Baru
+            </button>
+            <button type="button" onclick="resignChessGame()" class="w-full btn-action !justify-center !bg-slate-800 !text-slate-300 !border-slate-700 hover:!bg-slate-700 text-xs">
+              Menyerah (Resign)
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 4: INSPEKSI PIAGAM & FOTO TOKYO                   -->
+  <!-- ======================================================== -->
+  <div id="inspect-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex-col items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-stone-200 flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+        <div class="font-bold text-sm text-stone-900 flex items-center gap-2">
+          <span>🏆</span>
+          <span id="inspect-title">Piagam Penghargaan Resmi</span>
+        </div>
+        <button type="button" onclick="closeInspectModal()" class="text-stone-400 hover:text-stone-700 text-lg font-bold">✕</button>
+      </div>
+
+      <div class="flex-1 flex flex-col items-center justify-center">
+        <img id="inspect-image" src="" alt="Piagam" class="max-h-[60vh] object-contain rounded-xl border border-stone-200 shadow-md">
+        <p id="inspect-desc" class="text-xs text-stone-600 text-center mt-3 max-w-lg"></p>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-stone-200">
+        <button type="button" onclick="closeInspectModal()" class="btn-action">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 5: IN-PAGE PDF PREVIEW MODAL                       -->
+  <!-- ======================================================== -->
+  <div id="pdf-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex-col items-center justify-center p-2 sm:p-6">
+    <div class="w-full max-w-4xl h-[90vh] bg-white rounded-2xl shadow-2xl border border-stone-200 flex flex-col overflow-hidden">
+      <div class="p-3 bg-stone-100 border-b border-stone-200 flex items-center justify-between">
+        <div class="font-bold text-xs text-stone-800 flex items-center gap-2">
+          <svg class="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          <span id="pdf-modal-title">Dokumen Resmi</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a id="pdf-modal-download" href="" target="_blank" class="btn-action !py-0.5 !px-2.5 text-xs text-stone-700">Buka Tab Baru ↗</a>
+          <button type="button" onclick="closePdfModal()" class="btn-action !py-0.5 !px-2 text-xs !bg-stone-200 hover:!bg-stone-300">✕ Tutup</button>
+        </div>
+      </div>
+      <iframe id="pdf-modal-frame" src="" class="flex-1 w-full border-none"></iframe>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCRIPTS & THREE.JS ENGINE                  -->
+  <!-- ========================================== -->
+  <script src="assets/three.min.js"></script>
+  <script src="assets/js/DRACOLoader.js"></script>
+  <script src="assets/js/GLTFLoader.js"></script>
+  <script src="assets/js/OrbitControls.js"></script>
+  <script src="assets/js/page-flip.browser.min.js"></script>
+  <script src="assets/js/room_assets_data.js"></script>
+
+  <script>
+    // 1. STATE & GLOBAL VARIABLES
+    let scene, camera, renderer, controls;
+    let roomModel = null;
+    let cameraTarget = new THREE.Vector3(0, 0, 0);
+    let cameraTargetPos = new THREE.Vector3(12, 9, -12);
+    let isTransitioning = false;
+    let currentHotspot = 'room';
+    let currentUser = "Tamu";
+    let sessionId = "session-" + Math.random().toString(36).substring(2, 9);
+    let pageFlipInstance = null;
+
+    // 3D Hotspot Coordinates (Directly above the 3D assets)
+    const HOTSPOTS_3D = {
+      pc: new THREE.Vector3(2.1, 2.7, 3.5),
+      book: new THREE.Vector3(0.5, 1.8, 2.0),
+      chess: new THREE.Vector3(-0.8, 1.4, -2.2),
+      frame: new THREE.Vector3(-4.5, 3.4, -0.5)
+    };
+
+    // Camera viewpoints for smooth zoom
+    const VIEWPOINTS = {
+      room: { pos: new THREE.Vector3(12, 9, -12), target: new THREE.Vector3(0, 0, 0) },
+      pc: { pos: new THREE.Vector3(2.1, 2.4, 2.2), target: new THREE.Vector3(2.1, 2.3, 4.5) },
+      book: { pos: new THREE.Vector3(1.0, 3.0, 1.2), target: new THREE.Vector3(0.5, 1.3, 2.0) },
+      chess: { pos: new THREE.Vector3(1.2, 3.8, -1.0), target: new THREE.Vector3(-0.8, 1.0, -2.2) },
+      frame: { pos: new THREE.Vector3(-2.0, 3.2, -0.5), target: new THREE.Vector3(-5.0, 3.2, -0.5) }
+    };
+
+    // Catalog 12 Verified Projects (NO AI SLOP / EMOJIS, SLEEK TECH BADGES)
+    const PROJECTS = [
+      {
+        id: "sugaryzer",
+        cat: "ml",
+        techBadge: "ML",
+        title: "Sugaryzer: AI Multi-Modal Health Assistant",
+        domain: "Bangkit Academy 2024 Capstone &bull; MVP Distinction",
+        desc: "Aplikasi deteksi kadar gula minuman multi-modal berbasis Computer Vision (OCR) dan ML classification dengan akurasi 89% untuk pencegahan diabetes.",
+        stack: ["TensorFlow", "FastAPI", "Android", "Cloud Run"],
+        metrics: "Akurasi 89% &bull; Nilai Akhir Bangkit 92.79",
+        link: "assets/certs/Bangkit_Academy_2024.pdf"
+      },
+      {
+        id: "rag",
+        cat: "llm",
+        techBadge: "LLM",
+        title: "Smart Agentic RAG: AI Document Assistant",
+        domain: "Portofolio Mandiri Rekayasa AI",
+        desc: "Sistem Retrieval-Augmented Generation agen otonom cerdas dengan hybrid retrieval, semantic reranking FlashRank, dan model LLM terverifikasi.",
+        stack: ["Qwen-27B", "Groq", "FastAPI", "VectorDB"],
+        metrics: "Sub-second latency &bull; Zero Hallucination Guardrail",
+        link: "https://project-rag-zeta.vercel.app/"
+      },
+      {
+        id: "djed",
+        cat: "llm",
+        techBadge: "LLM",
+        title: "Model Bahasa Khusus & Governance Sandbox",
+        domain: "DJED Komdigi &bull; Rekayasa AI Nasional",
+        desc: "Fine-tuning model bahasa Gemma/Qwen via LoRA/QLoRA untuk tata kelola pemerintahan, evaluasi LLM-as-a-Judge, dan klasifikasi desil DTSEN.",
+        stack: ["PyTorch", "LoRA", "HuggingFace", "FastAPI"],
+        metrics: "Akurasi Fine-tuning 72.04% &bull; Klasifikasi Desil 99%",
+        link: "assets/certs/BNSP_Ilmuwan_Data_Madya.pdf"
+      },
+      {
+        id: "chattering",
+        cat: "cv",
+        techBadge: "CV",
+        title: "Deteksi Dini Fenomena Chattering Pemesinan",
+        domain: "Shibaura Institute of Technology Tokyo &bull; Global PBL",
+        desc: "Pendeteksian getaran abnormal (chattering) pada proses bubut logam menggunakan akselerometer dan klasifikasi sinyal gelombang.",
+        stack: ["Python", "Signal Processing", "FFT", "Random Forest"],
+        metrics: "Best Presentation Team Award (12 Tim 6 Negara)",
+        link: "assets/images/IMG-20250903-WA0024.jpg"
+      },
+      {
+        id: "tbum",
+        cat: "ml",
+        techBadge: "ML",
+        title: "Analisis Kecelakaan Pesawat Metode T-BUM",
+        domain: "Departemen Matematika ITS &bull; Data Mining",
+        desc: "Penemuan pola dan relasi asosiasi faktor penyebab kecelakaan penerbangan komersial menggunakan metode Tree-Based Utility Mining.",
+        stack: ["Data Mining", "Association Rule", "Python", "Matematika"],
+        metrics: "High Utility Association Rules Extraction",
+        link: "assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf"
+      },
+      {
+        id: "simplex",
+        cat: "math",
+        techBadge: "MATH",
+        title: "Model Optimasi Riset Operasi & Solver Simplex",
+        domain: "Matematika Terapan ITS &bull; Operations Research",
+        desc: "Pemodelan program linier Simplex, Big-M, Hungarian Assignment, dan model Transportasi VAM untuk optimalisasi biaya logistik dan alokasi tugas.",
+        stack: ["Python", "PuLP", "Scipy", "Matematika Optimasi"],
+        metrics: "Solusi Optimal Terverifikasi &bull; Juara 3 Calculus Cup",
+        link: "assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf"
+      },
+      {
+        id: "lexgraph",
+        cat: "llm",
+        techBadge: "LLM",
+        title: "LexGraph: Legal Knowledge Graph Assistant",
+        domain: "Proyek Rekayasa Mandiri &bull; Graph-RAG",
+        desc: "Knowledge Graph dan Graph-RAG untuk penelusuran hierarki peraturan perundang-undangan dan rujukan pasal otomatis.",
+        stack: ["Neo4j", "Graph-RAG", "LangChain", "FastAPI"],
+        metrics: "Multi-hop Graph Traversal &bull; 100% Citation Grounding",
+        link: "https://github.com/RizkyAl01"
+      },
+      {
+        id: "sentineleval",
+        cat: "llm",
+        techBadge: "LLM",
+        title: "SentinelEval: AI Red-Teaming Benchmark",
+        domain: "AI Safety & Evaluasi Model",
+        desc: "Sandbox evaluasi otomatis kerentanan jailbreak, prompt injection, dan kepatuhan etis model AI enterprise.",
+        stack: ["Python", "Automated Red-Teaming", "HuggingFace"],
+        metrics: "Standar Keamanan Model Enterprise Terverifikasi",
+        link: "https://github.com/RizkyAl01"
+      },
+      {
+        id: "bdc",
+        cat: "ml",
+        techBadge: "ML",
+        title: "Analisis Sentimen Multi-Kelas Transformer",
+        domain: "Big Data Challenge 2024",
+        desc: "Arsitektur Transformer fine-tuning untuk klasifikasi sentimen opini publik bahasa Indonesia multi-aspek.",
+        stack: ["IndoBERT", "PyTorch", "HuggingFace"],
+        metrics: "F1-Score 0.86 pada dataset evaluasi",
+        link: "assets/certs/FGA_Intermediate_Data_Science.pdf"
+      },
+      {
+        id: "aegislake",
+        cat: "math",
+        techBadge: "DATA",
+        title: "AegisLake: Medallion Architecture Sandbox",
+        domain: "Data Engineering Enterprise",
+        desc: "Implementasi sandbox data lakehouse Bronze-Silver-Gold dengan pipeline validasi skema otomatis dan audit keandalan data.",
+        stack: ["PySpark", "DuckDB", "Data Governance"],
+        metrics: "PASAS Certified International Specialist in Data Engineering",
+        link: "assets/certs/PASAS_CISDE_Data_Engineering.pdf"
+      },
+      {
+        id: "asr",
+        cat: "cv",
+        techBadge: "SPEECH",
+        title: "Nusantara ASR Post-Corrector",
+        domain: "Speech & Audio Processing",
+        desc: "Sistem post-koreksi transkripsi audio bahasa Indonesia dan istilah teknis menggunakan penyelarasan fonetik.",
+        stack: ["Whisper", "Phonetic Alignment", "Python"],
+        metrics: "Word Error Rate (WER) berkurang 24%",
+        link: "https://github.com/RizkyAl01"
+      },
+      {
+        id: "cyberpulse",
+        cat: "llm",
+        techBadge: "SEC",
+        title: "CyberPulse: Threat Intelligence Pipeline",
+        domain: "Web Intelligence & Cyber Security",
+        desc: "Pipeline otomasi pemantauan ancaman keamanan siber dan ekstraksi indikator kompromi (IoC) berbasis LLM.",
+        stack: ["FastAPI", "VectorDB", "Scrapy", "Qwen"],
+        metrics: "Real-time feeds ingestion & classification",
+        link: "https://github.com/RizkyAl01"
+      }
+    ];
+
+    // Verified Certificates List (Including All 6 Coursera Specializations)
+    const CERTS = [
+      {
+        id: "coursera_ml",
+        type: "coursera",
+        title: "Machine Learning Specialization",
+        issuer: "DeepLearning.AI & Stanford Online",
+        instructor: "Andrew Ng",
+        code: "7QM26EI7X8DK",
+        pdf: "assets/certs/Coursera_Certificate_7QM26EI7X8DK.pdf",
+        verify: "https://coursera.org/verify/specialization/7QM26EI7X8DK"
+      },
+      {
+        id: "coursera_dl",
+        type: "coursera",
+        title: "Deep Learning Specialization",
+        issuer: "DeepLearning.AI",
+        instructor: "Andrew Ng",
+        code: "DWAXSL54L1K8",
+        pdf: "assets/certs/Coursera_Certificate_DWAXSL54L1K8.pdf",
+        verify: "https://coursera.org/verify/specialization/DWAXSL54L1K8"
+      },
+      {
+        id: "coursera_math",
+        type: "coursera",
+        title: "Mathematics for Machine Learning",
+        issuer: "Imperial College London",
+        instructor: "Dr. Marc Peter Deisenroth et al.",
+        code: "IGGJJHSJPAYX",
+        pdf: "assets/certs/Coursera_Certificate_IGGJJHSJPAYX.pdf",
+        verify: "https://coursera.org/verify/specialization/IGGJJHSJPAYX"
+      },
+      {
+        id: "coursera_nlp",
+        type: "coursera",
+        title: "Natural Language Processing (NLP)",
+        issuer: "DeepLearning.AI",
+        instructor: "Younes Bensouda Mourri et al.",
+        code: "QYKA1M4SUDZJ",
+        pdf: "assets/certs/Coursera_Certificate_QYKA1M4SUDZJ.pdf",
+        verify: "https://coursera.org/verify/specialization/QYKA1M4SUDZJ"
+      },
+      {
+        id: "coursera_tf",
+        type: "coursera",
+        title: "TensorFlow Developer Professional Certificate",
+        issuer: "DeepLearning.AI",
+        instructor: "Laurence Moroney",
+        code: "XQDE9UOUISYB",
+        pdf: "assets/certs/Coursera_Certificate_XQDE9UOUISYB.pdf",
+        verify: "https://coursera.org/verify/professional-cert/XQDE9UOUISYB"
+      },
+      {
+        id: "coursera_med",
+        type: "coursera",
+        title: "AI for Medicine Specialization",
+        issuer: "DeepLearning.AI",
+        instructor: "Pranav Rajpurkar",
+        code: "R2QFYZQBKUZ0",
+        pdf: "assets/certs/Coursera_Certificate_R2QFYZQBKUZ0.pdf",
+        verify: "https://coursera.org/verify/specialization/R2QFYZQBKUZ0"
+      },
+      {
+        id: "pasas",
+        type: "global",
+        title: "PASAS CISDE Data Engineering",
+        issuer: "PASAS Singapore & AAPM",
+        instructor: "Certified International Specialist",
+        code: "CISDE15620",
+        pdf: "assets/certs/PASAS_CISDE_Data_Engineering.pdf",
+        verify: "https://pasas.org"
+      },
+      {
+        id: "bnsp",
+        type: "nasional",
+        title: "BNSP Sertifikasi Ahli Madya Data Science",
+        issuer: "Badan Nasional Sertifikasi Profesi",
+        instructor: "Ilmuwan Data Madya",
+        code: "M.74100.001.02",
+        pdf: "assets/certs/BNSP_Ilmuwan_Data_Madya.pdf",
+        verify: "assets/certs/BNSP_Ilmuwan_Data_Madya.pdf"
+      },
+      {
+        id: "bangkit",
+        type: "nasional",
+        title: "Bangkit Machine Learning Distinction",
+        issuer: "Google, GoTo, Traveloka",
+        instructor: "Top 10% Distinction Graduate",
+        code: "Distinction-2024",
+        pdf: "assets/certs/Bangkit_Academy_2024.pdf",
+        verify: "assets/certs/Bangkit_Academy_2024.pdf"
+      },
+      {
+        id: "toep",
+        type: "nasional",
+        title: "TOEP PLTI Bahasa Inggris (Skor 505)",
+        issuer: "Pusat Layanan Tes Indonesia (PLTI)",
+        instructor: "Setara TOEFL 580",
+        code: "PLTI-TOEP-505",
+        pdf: "assets/certs/TOEP_PLTI_Certificate.pdf",
+        verify: "assets/certs/TOEP_PLTI_Certificate.pdf"
+      },
+      {
+        id: "fga",
+        type: "nasional",
+        title: "FGA Intermediate Data Science",
+        issuer: "Kementerian Komunikasi dan Digital RI",
+        instructor: "Digital Talent Scholarship",
+        code: "DTS-FGA-2024",
+        pdf: "assets/certs/FGA_Intermediate_Data_Science.pdf",
+        verify: "assets/certs/FGA_Intermediate_Data_Science.pdf"
+      }
+    ];
+
+    // Helper SVG icon generator for categories
+    function getCategorySvg(cat) {
+      if (cat === 'ml') {
+        return `<svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>`;
+      } else if (cat === 'llm') {
+        return `<svg class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`;
+      } else if (cat === 'cv') {
+        return `<svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
+      } else if (cat === 'math') {
+        return `<svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>`;
+      }
+      return `<svg class="w-4 h-4 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`;
+    }
+
+    // 2. THREE.JS INITIALIZATION
+    function initThreeScene() {
+      const container = document.getElementById('canvas-container');
+      const canvas = document.getElementById('webgl-canvas');
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0f172a); // Slate-900 aesthetic backdrop
+
+      camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
+      camera.position.copy(VIEWPOINTS.room.pos);
+
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.shadowMap.enabled = false; // SwiftShader & Headless stability
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxPolarAngle = Math.PI / 2 - 0.05;
+      controls.minDistance = 2;
+      controls.maxDistance = 26;
+      controls.target.copy(cameraTarget);
+
+      // Studio Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
+      scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0xfff8ee, 1.5);
+      dirLight.position.set(5, 10, 7);
+      scene.add(dirLight);
+
+      const fillLight = new THREE.DirectionalLight(0xe0f2fe, 0.8);
+      fillLight.position.set(-6, 8, -5);
+      scene.add(fillLight);
+
+      // Load 3D Assets (Base64 URIs or Fallback paths)
+      const textureLoader = new THREE.TextureLoader();
+      const bakedSrc = (typeof BAKED_DAY_DATA !== 'undefined' && BAKED_DAY_DATA) ? BAKED_DAY_DATA : 'assets/textures/bakedTextureDaycmp.webp';
+      const boardSrc = (typeof BOARD_DATA !== 'undefined' && BOARD_DATA) ? BOARD_DATA : 'assets/textures/boardBakedDcmp.webp';
+      const frameSrc = (typeof FRAME_DATA !== 'undefined' && FRAME_DATA) ? FRAME_DATA : 'assets/textures/bakeFrameDaycmp.webp';
+      const modelSrc = (typeof ROOM_MODEL_DATA !== 'undefined' && ROOM_MODEL_DATA) ? ROOM_MODEL_DATA : 'assets/models/RoomModel.glb';
+
+      const bakedTexture = textureLoader.load(bakedSrc, function(tex) {
+        tex.flipY = false;
+        tex.encoding = THREE.sRGBEncoding;
+      });
+
+      const boardTexture = textureLoader.load(boardSrc, function(tex) {
+        tex.flipY = false;
+        tex.encoding = THREE.sRGBEncoding;
+      });
+
+      const frameTexture = textureLoader.load(frameSrc, function(tex) {
+        tex.flipY = false;
+        tex.encoding = THREE.sRGBEncoding;
+      });
+
+      const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
+      const boardMaterial = new THREE.MeshBasicMaterial({ map: boardTexture });
+      const frameMaterial = new THREE.MeshBasicMaterial({ map: frameTexture });
+
+      // GLTF Loader with DRACO
+      const loader = new THREE.GLTFLoader();
+      if (typeof THREE.DRACOLoader !== 'undefined') {
+        const dracoLoader = new THREE.DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
+        loader.setDRACOLoader(dracoLoader);
+      }
+
+      loader.load(modelSrc, function(gltf) {
+        roomModel = gltf.scene;
+        roomModel.position.set(0, 0, 0);
+
+        roomModel.traverse(function(child) {
+          if (child.isMesh) {
+            child.castShadow = false;
+            child.receiveShadow = false;
+            if (child.name.toLowerCase().includes('board')) {
+              child.material = boardMaterial;
+            } else if (child.name.toLowerCase().includes('frame')) {
+              child.material = frameMaterial;
+            } else {
+              child.material = bakedMaterial;
+            }
+          }
+        });
+
+        scene.add(roomModel);
+      }, undefined, function(err) {
+        console.warn("Model fallback:", err);
+        createFallbackIsometricRoom();
+      });
+
+      window.addEventListener('resize', onWindowResize);
+      animate();
+    }
+
+    function createFallbackIsometricRoom() {
+      const roomGroup = new THREE.Group();
+      const floorMat = new THREE.MeshLambertMaterial({ color: 0x334155 });
+      const floor = new THREE.Mesh(new THREE.BoxGeometry(10, 0.3, 10), floorMat);
+      floor.position.set(0, -0.15, 0);
+      roomGroup.add(floor);
+
+      const deskMat = new THREE.MeshLambertMaterial({ color: 0x64748b });
+      const desk = new THREE.Mesh(new THREE.BoxGeometry(3.5, 1.4, 2), deskMat);
+      desk.position.set(2, 0.7, 3);
+      roomGroup.add(desk);
+
+      const monMat = new THREE.MeshLambertMaterial({ color: 0x0284c7 });
+      const mon = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.9, 0.1), monMat);
+      mon.position.set(2.1, 1.9, 3.5);
+      roomGroup.add(mon);
+
+      scene.add(roomGroup);
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('canvas-container');
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+
+    // 3. ANIMATION & HOTSPOT PROJECTION LOOP
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (isTransitioning) {
+        camera.position.lerp(cameraTargetPos, 0.08);
+        controls.target.lerp(cameraTarget, 0.08);
+        if (camera.position.distanceTo(cameraTargetPos) < 0.05) {
+          isTransitioning = false;
+          onCameraZoomComplete();
+        }
+      }
+
+      controls.update();
+      updateHotspotPositions();
+      renderer.render(scene, camera);
+    }
+
+    function updateHotspotPositions() {
+      if (currentHotspot !== 'room') {
+        document.getElementById('hotspot-pc').classList.add('hidden');
+        document.getElementById('hotspot-book').classList.add('hidden');
+        document.getElementById('hotspot-chess').classList.add('hidden');
+        document.getElementById('hotspot-frame').classList.add('hidden');
+        return;
+      }
+
+      for (let key in HOTSPOTS_3D) {
+        const el = document.getElementById(`hotspot-${key}`);
+        if (!el) continue;
+
+        const pos = HOTSPOTS_3D[key].clone();
+        pos.project(camera);
+
+        // Check if behind camera
+        if (pos.z > 1) {
+          el.classList.add('hidden');
+          continue;
+        }
+
+        const x = (pos.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-(pos.y * 0.5) + 0.5) * window.innerHeight;
+
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        el.classList.remove('hidden');
+      }
+    }
+
+    // 4. CAMERA ZOOM & INTERACTION
+    function focusHotspot(targetName) {
+      if (!VIEWPOINTS[targetName]) return;
+      currentHotspot = targetName;
+      isTransitioning = true;
+      cameraTargetPos.copy(VIEWPOINTS[targetName].pos);
+      cameraTarget.copy(VIEWPOINTS[targetName].target);
+    }
+
+    function onCameraZoomComplete() {
+      if (currentHotspot === 'pc') {
+        openDesktopModal();
+      } else if (currentHotspot === 'book') {
+        openFlipbookModal();
+      } else if (currentHotspot === 'chess') {
+        openChessModal();
+      } else if (currentHotspot === 'frame') {
+        openInspectModal('assets/images/IMG-20250903-WA0024.jpg', 'Piagam Penghargaan Tokyo gPBL 2024', 'Tim Best Presentation Award pada Global Project-Based Learning di Shibaura Institute of Technology (SIT), Tokyo, Jepang.');
+      }
+    }
+
+    function resetCameraToRoom() {
+      currentHotspot = 'room';
+      isTransitioning = true;
+      cameraTargetPos.copy(VIEWPOINTS.room.pos);
+      cameraTarget.copy(VIEWPOINTS.room.target);
+    }
+
+    // 5. DESKTOP MODAL & APPS
+    function openDesktopModal() {
+      document.getElementById('desktop-modal').classList.remove('hidden');
+      document.getElementById('desktop-modal').classList.add('flex');
+      updateOSClock();
+    }
+
+    function closeDesktopModal() {
+      document.getElementById('desktop-modal').classList.add('hidden');
+      document.getElementById('desktop-modal').classList.remove('flex');
+      closeDesktopApp('terminal');
+      closeDesktopApp('explorer');
+      resetCameraToRoom();
+    }
+
+    function updateOSClock() {
+      const now = new Date();
+      const clockEl = document.getElementById('os-clock');
+      if (clockEl) {
+        clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+    setInterval(updateOSClock, 1000);
+
+    function openDesktopApp(appId) {
+      if (appId === 'terminal') {
+        document.getElementById('window-terminal').classList.remove('hidden');
+        document.getElementById('window-terminal').classList.add('flex');
+        document.getElementById('terminal-input').focus();
+      } else if (appId === 'explorer') {
+        document.getElementById('window-explorer').classList.remove('hidden');
+        document.getElementById('window-explorer').classList.add('flex');
+        renderExplorerFiles('all');
+      } else if (appId === 'chess') {
+        openChessModal();
+      }
+    }
+
+    function closeDesktopApp(appId) {
+      const win = document.getElementById(`window-${appId}`);
+      if (win) {
+        win.classList.add('hidden');
+        win.classList.remove('flex');
+      }
+    }
+
+    // File Explorer Rendering (Clean SVGs, No Emojis, Supports Coursera & All Certs)
+    function filterExplorer(category) {
+      renderExplorerFiles(category);
+    }
+
+    function renderExplorerFiles(category) {
+      const grid = document.getElementById('explorer-files-grid');
+      const pathEl = document.getElementById('explorer-path');
+      grid.innerHTML = '';
+
+      if (category === 'certs' || category === 'coursera') {
+        pathEl.textContent = category === 'coursera' 
+          ? "C:\\Users\\Rizky\\Portofolio\\Arsip_Sertifikat\\Coursera_Specializations"
+          : "C:\\Users\\Rizky\\Portofolio\\Arsip_Sertifikat\\Semua_Kredensial";
+
+        const filteredCerts = category === 'coursera'
+          ? CERTS.filter(c => c.type === 'coursera')
+          : CERTS;
+
+        filteredCerts.forEach(c => {
+          const card = document.createElement('div');
+          card.className = "p-3 rounded-xl border border-stone-200 hover:border-sky-400 hover:shadow-md bg-stone-50/70 hover:bg-white transition flex flex-col justify-between group";
+          
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="w-8 h-8 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                </div>
+                <span class="pill !text-[9px] !py-0.5">${c.type.toUpperCase()}</span>
+              </div>
+              <div class="font-bold text-xs text-stone-900 group-hover:text-sky-700 leading-snug line-clamp-1">${c.title}</div>
+              <div class="text-[10px] text-stone-500 font-medium line-clamp-1 mt-0.5">${c.issuer}</div>
+              <div class="text-[10px] text-stone-400 font-mono mt-1">ID: ${c.code}</div>
+            </div>
+            
+            <div class="pt-3 border-t border-stone-100 flex items-center justify-between gap-2 mt-2">
+              <button type="button" onclick="openPdfModal('${c.pdf}', '${c.title}')" class="btn-action !py-0.5 !px-2 text-[10px] !bg-stone-100 hover:!bg-sky-50 text-sky-800">
+                Buka PDF
+              </button>
+              ${c.verify.startsWith('http') ? `
+                <a href="${c.verify}" target="_blank" class="text-[10px] font-semibold text-sky-600 hover:underline flex items-center gap-0.5">
+                  Verifikasi ↗
+                </a>
+              ` : `
+                <span class="text-[10px] text-emerald-600 font-semibold">Terverifikasi</span>
+              `}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+        return;
+      }
+
+      // Proyek View
+      pathEl.textContent = category === 'all' 
+        ? "C:\\Users\\Rizky\\Portofolio\\Semua_Proyek"
+        : `C:\\Users\\Rizky\\Portofolio\\${category.toUpperCase()}_Category`;
+
+      const filtered = category === 'all' 
+        ? PROJECTS 
+        : PROJECTS.filter(p => p.cat === category);
+
+      filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "p-3 rounded-xl border border-stone-200 hover:border-sky-400 hover:shadow-md bg-stone-50/70 hover:bg-white transition flex flex-col justify-between cursor-pointer group";
+        card.onclick = () => {
+          if (p.link.endsWith('.pdf')) {
+            openPdfModal(p.link, p.title);
+          } else if (p.link.startsWith('http')) {
+            window.open(p.link, '_blank');
+          } else {
+            openInspectModal(p.link, p.title, p.desc);
+          }
+        };
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <div class="w-8 h-8 rounded-lg bg-sky-50 border border-sky-200/80 flex items-center justify-center text-sky-700">
+                ${getCategorySvg(p.cat)}
+              </div>
+              <span class="pill !text-[9px] !py-0.5">${p.techBadge}</span>
+            </div>
+            <div class="font-bold text-xs text-stone-900 group-hover:text-sky-700 leading-snug line-clamp-1">${p.title}</div>
+            <div class="text-[10px] text-stone-500 font-medium line-clamp-1 mt-0.5">${p.domain}</div>
+            <p class="text-[11px] text-stone-600 mt-2 line-clamp-2 leading-relaxed">${p.desc}</p>
+          </div>
+
+          <div class="pt-2.5 border-t border-stone-100 mt-3 flex items-center justify-between text-[10px]">
+            <span class="font-semibold text-emerald-700 font-mono line-clamp-1">${p.metrics}</span>
+            <span class="text-sky-600 font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Terminal Qwen Chat Engine
+    async function handleTerminalSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('terminal-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendTerminalMsg('user', query);
+      input.value = '';
+
+      if (query.startsWith('/')) {
+        handleTerminalCommand(query);
+        return;
+      }
+
+      const botMsgId = appendTerminalMsg('bot', 'Memproses query via Qwen-2.5-Coder-27B-Instruct...');
+
+      try {
+        const resp = await fetch('/api/web-chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: query,
+            user_name: currentUser,
+            session_id: sessionId
+          })
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          updateTerminalMsg(botMsgId, data.reply || "Respon diterima dari model.");
+        } else {
+          updateTerminalMsg(botMsgId, "Gagal menghubungi API server (/api/web-chat). Pastikan server backend berjalan.");
+        }
+      } catch (err) {
+        updateTerminalMsg(botMsgId, `[MODE LOKAL OFFLINE]\nRizky Alviando adalah AI Engineer & Lulusan S1 Matematika ITS (Cum Laude, IPK 3.67). Memiliki kredensial 6 Spesialisasi Coursera (DeepLearning.AI & Stanford Online), BNSP Ilmuwan Data Madya, dan PASAS CISDE Singapore.`);
+      }
+    }
+
+    function appendTerminalMsg(sender, text) {
+      const logs = document.getElementById('terminal-logs');
+      const id = 'msg-' + Math.random().toString(36).substring(2, 9);
+      const div = document.createElement('div');
+      div.id = id;
+
+      if (sender === 'user') {
+        div.className = 'text-sky-300';
+        div.innerHTML = `<span class="text-emerald-400">visitor@ai-lab:~$</span> ${escapeHtml(text)}`;
+      } else {
+        div.className = 'text-slate-300 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 leading-relaxed';
+        div.innerHTML = `<span class="text-sky-400 font-bold">[Qwen-27B]:</span> ${escapeHtml(text).replace(/\n/g, '<br>')}`;
+      }
+
+      logs.appendChild(div);
+      logs.scrollTop = logs.scrollHeight;
+      return id;
+    }
+
+    function updateTerminalMsg(id, text) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.innerHTML = `<span class="text-sky-400 font-bold">[Qwen-27B]:</span> ${escapeHtml(text).replace(/\n/g, '<br>')}`;
+        const logs = document.getElementById('terminal-logs');
+        logs.scrollTop = logs.scrollHeight;
+      }
+    }
+
+    function terminalExec(cmd) {
+      document.getElementById('terminal-input').value = cmd;
+      document.getElementById('terminal-form').dispatchEvent(new Event('submit'));
+    }
+
+    function handleTerminalCommand(cmd) {
+      if (cmd === '/clear') {
+        document.getElementById('terminal-logs').innerHTML = '';
+      } else if (cmd === '/help') {
+        appendTerminalMsg('bot', "Daftar Perintah CLI:\n/projects - Lihat daftar 12 proyek unggulan\n/certs - Lihat arsip sertifikat lengkap (Coursera, PASAS, BNSP)\n/about - Ringkasan profil & rekam akademik ITS Cum Laude\n/clear - Bersihkan log layar terminal");
+      } else if (cmd === '/projects') {
+        appendTerminalMsg('bot', "12 Proyek Rekayasa Terverifikasi:\n1. Sugaryzer: Multi-Modal Health Assistant (Bangkit MVP)\n2. Smart Agentic RAG: Qwen + Hybrid Retrieval\n3. Model Bahasa & Governance Sandbox (DJED Komdigi)\n4. Deteksi Chattering Bubut (Tokyo SIT gPBL)\n5. Analisis Kecelakaan Pesawat T-BUM (ITS)\n6. Model Optimasi Simplex & Riset Operasi (ITS)\nKetik nama proyek untuk membaca dossier teknis lengkap.");
+      } else if (cmd === '/certs') {
+        appendTerminalMsg('bot', "Arsip Sertifikasi Resmi:\n- 6x Coursera Specializations (DeepLearning.AI & Stanford Online, Imperial College)\n- PASAS CISDE Certified International Specialist in Data Engineering (Singapore)\n- BNSP Sertifikasi Kompetensi Ahli Madya Data Science\n- Bangkit Academy Machine Learning Distinction (Top 10%)\n- Skor TOEP 505 (Setara TOEFL 580)");
+      } else if (cmd === '/about') {
+        appendTerminalMsg('bot', "Rizky Alviando, S.Mat.\nLulusan S1 Matematika ITS dengan predikat Cum Laude (IPK 3.67). Berpengalaman sebagai AI Engineer di DJED Komdigi, Asdos Kalkulus & PBO Lab Visual ITS, serta peraih Best Presentation Team di Shibaura Institute of Technology Tokyo.");
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // 6. FLIPBOOK DOSSIER (STPAGEFLIP)
+    function openFlipbookModal() {
+      const modal = document.getElementById('flipbook-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      if (!pageFlipInstance) {
+        initPageFlip();
+      }
+    }
+
+    function closeFlipbookModal() {
+      const modal = document.getElementById('flipbook-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      resetCameraToRoom();
+    }
+
+    function initPageFlip() {
+      const bookElem = document.getElementById('book-stage');
+      if (typeof St === 'undefined' || !St.PageFlip) {
+        console.warn("StPageFlip library not loaded, using fallback scroll");
+        return;
+      }
+
+      pageFlipInstance = new St.PageFlip(bookElem, {
+        width: 420,
+        height: 560,
+        size: "stretch",
+        minWidth: 320,
+        maxWidth: 500,
+        minHeight: 460,
+        maxHeight: 680,
+        maxShadowOpacity: 0.35,
+        showCover: true,
+        mobileScrollSupport: false
+      });
+
+      const pages = bookElem.querySelectorAll('.flip-page');
+      pageFlipInstance.loadFromHTML(pages);
+
+      pageFlipInstance.on('flip', (e) => {
+        const numEl = document.getElementById('flip-page-num');
+        if (numEl) {
+          numEl.textContent = `Halaman ${e.data + 1} / 10`;
+        }
+      });
+    }
+
+    function flipNext() {
+      if (pageFlipInstance) pageFlipInstance.flipNext();
+    }
+
+    function flipPrev() {
+      if (pageFlipInstance) pageFlipInstance.flipPrev();
+    }
+
+    // 7. CHESS ARENA ENGINE (Lawan Rizky Main Catur - dengan Rokade O-O & O-O-O)
+    let chessBoardState = null;
+    let chessSelectedSq = null;
+    let chessLegalMoves = [];
+    let chessLastMove = null;
+    let chessTurn = 'w';
+    let chessMoveHistory = [];
+    let chessWhiteCaptures = [];
+    let chessBlackCaptures = [];
+    let isAiThinking = false;
+    let chessHasMoved = {
+      'K': false, 'R_k': false, 'R_q': false,
+      'k': false, 'r_k': false, 'r_q': false
+    };
+
+    const PIECE_GLYPHS = {
+      'P': '♙', 'N': '♘', 'B': '♗', 'R': '♖', 'Q': '♕', 'K': '♔',
+      'p': '♟', 'n': '♞', 'b': '♝', 'r': '♜', 'q': '♛', 'k': '♚'
+    };
+
+    const PIECE_VALS = { 'p': 100, 'n': 320, 'b': 330, 'r': 500, 'q': 900, 'k': 20000 };
+
+    const PST_PAWN = [
+      [0,  0,  0,  0,  0,  0,  0,  0],
+      [50, 50, 50, 50, 50, 50, 50, 50],
+      [10, 10, 20, 30, 30, 20, 10, 10],
+      [5,  5, 10, 25, 25, 10,  5,  5],
+      [0,  0,  0, 20, 20,  0,  0,  0],
+      [5, -5,-10,  0,  0,-10, -5,  5],
+      [5, 10, 10,-20,-20, 10, 10,  5],
+      [0,  0,  0,  0,  0,  0,  0,  0]
+    ];
+
+    const PST_KNIGHT = [
+      [-50,-40,-30,-30,-30,-30,-40,-50],
+      [-40,-20,  0,  0,  0,  0,-20,-40],
+      [-30,  0, 10, 15, 15, 10,  0,-30],
+      [-30,  5, 15, 20, 20, 15,  5,-30],
+      [-30,  0, 15, 20, 20, 15,  0,-30],
+      [-30,  5, 10, 15, 15, 10,  5,-30],
+      [-40,-20,  0,  5,  5,  0,-20,-40],
+      [-50,-40,-30,-30,-30,-30,-40,-50]
+    ];
+
+    const PST_BISHOP = [
+      [-20,-10,-10,-10,-10,-10,-10,-20],
+      [-10,  0,  0,  0,  0,  0,  0,-10],
+      [-10,  0,  5, 10, 10,  5,  0,-10],
+      [-10,  5,  5, 10, 10,  5,  5,-10],
+      [-10,  0, 10, 10, 10, 10,  0,-10],
+      [-10, 10, 10, 10, 10, 10, 10,-10],
+      [-10,  5,  0,  0,  0,  0,  5,-10],
+      [-20,-10,-10,-10,-10,-10,-10,-20]
+    ];
+
+    const PST_ROOK = [
+      [0,  0,  0,  0,  0,  0,  0,  0],
+      [5, 10, 10, 10, 10, 10, 10,  5],
+      [-5,  0,  0,  0,  0,  0,  0, -5],
+      [-5,  0,  0,  0,  0,  0,  0, -5],
+      [-5,  0,  0,  0,  0,  0,  0, -5],
+      [-5,  0,  0,  0,  0,  0,  0, -5],
+      [-5,  0,  0,  0,  0,  0,  0, -5],
+      [0,  0,  0,  5,  5,  0,  0,  0]
+    ];
+
+    const PST_QUEEN = [
+      [-20,-10,-10, -5, -5,-10,-10,-20],
+      [-10,  0,  0,  0,  0,  0,  0,-10],
+      [-10,  0,  5,  5,  5,  5,  0,-10],
+      [-5,  0,  5,  5,  5,  5,  0, -5],
+      [0,  0,  5,  5,  5,  5,  0, -5],
+      [-10,  5,  5,  5,  5,  5,  0,-10],
+      [-10,  0,  5,  0,  0,  0,  0,-10],
+      [-20,-10,-10, -5, -5,-10,-10,-20]
+    ];
+
+    const PST_KING = [
+      [-30,-40,-40,-50,-50,-40,-40,-30],
+      [-30,-40,-40,-50,-50,-40,-40,-30],
+      [-30,-40,-40,-50,-50,-40,-40,-30],
+      [-30,-40,-40,-50,-50,-40,-40,-30],
+      [-20,-30,-30,-40,-40,-30,-30,-20],
+      [-10,-20,-20,-20,-20,-20,-20,-10],
+      [20, 20,  0,  0,  0,  0, 20, 20],
+      [20, 30, 10,  0,  0, 10, 30, 20]
+    ];
+
+    function openChessModal() {
+      document.getElementById('chess-modal').classList.remove('hidden');
+      document.getElementById('chess-modal').classList.add('flex');
+      updatePlayerDisplayName();
+      if (!chessBoardState) {
+        startNewChessGame();
+      }
+    }
+
+    function closeChessModal() {
+      document.getElementById('chess-modal').classList.add('hidden');
+      document.getElementById('chess-modal').classList.remove('flex');
+      resetCameraToRoom();
+    }
+
+    function updatePlayerDisplayName() {
+      const el = document.getElementById('chess-player-name');
+      if (el) el.textContent = currentUser || "Tamu";
+    }
+
+    function startNewChessGame() {
+      chessBoardState = [
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+      ];
+      chessTurn = 'w';
+      chessSelectedSq = null;
+      chessLegalMoves = [];
+      chessLastMove = null;
+      chessMoveHistory = [];
+      chessWhiteCaptures = [];
+      chessBlackCaptures = [];
+      isAiThinking = false;
+      chessHasMoved = {
+        'K': false, 'R_k': false, 'R_q': false,
+        'k': false, 'r_k': false, 'r_q': false
+      };
+
+      updatePlayerDisplayName();
+      renderChessBoard();
+      updateChessUI();
+    }
+
+    function renderChessBoard() {
+      const grid = document.getElementById('chess-board-grid');
+      grid.innerHTML = '';
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const sq = document.createElement('div');
+          const isLight = (r + c) % 2 === 0;
+          sq.className = `chess-square ${isLight ? 'chess-sq-light' : 'chess-sq-dark'}`;
+          sq.dataset.row = r;
+          sq.dataset.col = c;
+
+          if (chessLastMove && ((chessLastMove.from[0] === r && chessLastMove.from[1] === c) || (chessLastMove.to[0] === r && chessLastMove.to[1] === c))) {
+            sq.classList.add('chess-sq-lastmove');
+          }
+
+          if (chessSelectedSq && chessSelectedSq[0] === r && chessSelectedSq[1] === c) {
+            sq.classList.add('chess-sq-selected');
+          }
+
+          // Check valid move target
+          const validMove = chessLegalMoves.find(m => m.to[0] === r && m.to[1] === c);
+          if (validMove) {
+            if (chessBoardState[r][c] || validMove.isCastle) {
+              sq.classList.add(validMove.isCastle ? 'chess-sq-valid' : 'chess-sq-capture');
+            } else {
+              sq.classList.add('chess-sq-valid');
+            }
+          }
+
+          const piece = chessBoardState[r][c];
+          if (piece) {
+            const isWhitePiece = piece === piece.toUpperCase();
+            sq.innerHTML = `<span class="${isWhitePiece ? 'piece-w' : 'piece-b'}">${PIECE_GLYPHS[piece]}</span>`;
+          }
+
+          sq.onclick = () => onSquareClick(r, c);
+          grid.appendChild(sq);
+        }
+      }
+    }
+
+    function onSquareClick(r, c) {
+      if (isAiThinking || chessTurn !== 'w') return;
+
+      const piece = chessBoardState[r][c];
+
+      // If a square is already selected and clicked a legal move destination
+      if (chessSelectedSq) {
+        const move = chessLegalMoves.find(m => m.to[0] === r && m.to[1] === c);
+        if (move) {
+          executeMove(move);
+          chessSelectedSq = null;
+          chessLegalMoves = [];
+          renderChessBoard();
+
+          // Trigger Rizky's move
+          setTimeout(playAiMove, 300);
+          return;
+        }
+      }
+
+      // If clicking own piece
+      if (piece && piece === piece.toUpperCase()) {
+        chessSelectedSq = [r, c];
+        const allLegal = getLegalMoves(chessBoardState, 'w', chessHasMoved);
+        chessLegalMoves = allLegal.filter(m => m.from[0] === r && m.from[1] === c);
+        renderChessBoard();
+      } else {
+        chessSelectedSq = null;
+        chessLegalMoves = [];
+        renderChessBoard();
+      }
+    }
+
+    function executeMove(move) {
+      const [fr, fc] = move.from;
+      const [tr, tc] = move.to;
+      const piece = chessBoardState[fr][fc];
+      const captured = chessBoardState[tr][tc];
+
+      if (captured) {
+        if (captured === captured.toUpperCase()) {
+          chessBlackCaptures.push(captured);
+        } else {
+          chessWhiteCaptures.push(captured);
+        }
+      }
+
+      // Check Castling Execution
+      if (move.isCastle === 'O-O') {
+        // Kingside castle
+        if (piece === 'K') {
+          chessBoardState[7][6] = 'K';
+          chessBoardState[7][4] = null;
+          chessBoardState[7][5] = 'R';
+          chessBoardState[7][7] = null;
+        } else if (piece === 'k') {
+          chessBoardState[0][6] = 'k';
+          chessBoardState[0][4] = null;
+          chessBoardState[0][5] = 'r';
+          chessBoardState[0][7] = null;
+        }
+      } else if (move.isCastle === 'O-O-O') {
+        // Queenside castle
+        if (piece === 'K') {
+          chessBoardState[7][2] = 'K';
+          chessBoardState[7][4] = null;
+          chessBoardState[7][3] = 'R';
+          chessBoardState[7][0] = null;
+        } else if (piece === 'k') {
+          chessBoardState[0][2] = 'k';
+          chessBoardState[0][4] = null;
+          chessBoardState[0][3] = 'r';
+          chessBoardState[0][0] = null;
+        }
+      } else {
+        // Normal move
+        chessBoardState[tr][tc] = move.promo ? move.promo : piece;
+        chessBoardState[fr][fc] = null;
+      }
+
+      // Track movement for castling eligibility
+      if (piece === 'K') chessHasMoved['K'] = true;
+      if (piece === 'k') chessHasMoved['k'] = true;
+      if (fr === 7 && fc === 7) chessHasMoved['R_k'] = true;
+      if (fr === 7 && fc === 0) chessHasMoved['R_q'] = true;
+      if (fr === 0 && fc === 7) chessHasMoved['r_k'] = true;
+      if (fr === 0 && fc === 0) chessHasMoved['r_q'] = true;
+
+      chessLastMove = move;
+
+      // Notation
+      let notation = '';
+      if (move.isCastle) {
+        notation = move.isCastle;
+      } else {
+        const files = ['a','b','c','d','e','f','g','h'];
+        const fromStr = `${files[fc]}${8-fr}`;
+        const toStr = `${files[tc]}${8-tr}`;
+        notation = `${piece.toUpperCase() !== 'P' ? piece.toUpperCase() : ''}${fromStr}-${toStr}${captured ? ' (x)' : ''}`;
+      }
+      chessMoveHistory.push(notation);
+
+      chessTurn = chessTurn === 'w' ? 'b' : 'w';
+      updateChessUI();
+    }
+
+    function playAiMove() {
+      if (chessTurn !== 'b') return;
+      isAiThinking = true;
+      document.getElementById('chess-status').textContent = "Rizky sedang menganalisis posisi...";
+
+      setTimeout(() => {
+        const aiRes = minimax(chessBoardState, 3, -Infinity, Infinity, false, chessHasMoved);
+        isAiThinking = false;
+
+        if (aiRes.move) {
+          executeMove(aiRes.move);
+          renderChessBoard();
+
+          const whiteLegal = getLegalMoves(chessBoardState, 'w', chessHasMoved);
+          if (whiteLegal.length === 0) {
+            if (isKingInCheck(chessBoardState, 'w')) {
+              document.getElementById('chess-status').textContent = "Skakmat! Rizky memenangkan pertandingan.";
+            } else {
+              document.getElementById('chess-status').textContent = "Remis (Stalemate)! Pertandingan berakhir imbang.";
+            }
+          }
+        } else {
+          if (isKingInCheck(chessBoardState, 'b')) {
+            document.getElementById('chess-status').textContent = `Skakmat! Selamat, ${currentUser || "Tamu"} memenangkan pertandingan!`;
+          } else {
+            document.getElementById('chess-status').textContent = "Remis (Stalemate)!";
+          }
+        }
+      }, 350);
+    }
+
+    function resignChessGame() {
+      if (confirm("Apakah Anda ingin menyerah pada game ini?")) {
+        document.getElementById('chess-status').textContent = `Anda menyerah. Rizky memenangkan ronde ini.`;
+        chessTurn = null;
+      }
+    }
+
+    function updateChessUI() {
+      const statusEl = document.getElementById('chess-status');
+      const evalEl = document.getElementById('chess-eval-score');
+      const historyEl = document.getElementById('chess-history-list');
+      const playerName = currentUser || "Tamu";
+
+      if (chessTurn === 'w') {
+        const inCheck = isKingInCheck(chessBoardState, 'w');
+        statusEl.textContent = inCheck ? `Skak! Giliran ${playerName} (Putih) untuk bertahan.` : `Giliran ${playerName} (Putih). Silakan melangkah.`;
+      }
+
+      // Eval score
+      const score = evaluateBoard(chessBoardState);
+      const evalNum = (score / 100).toFixed(1);
+      evalEl.textContent = `Evaluasi Posisi: ${evalNum > 0 ? '+' : ''}${evalNum} (${score > 50 ? 'Putih Unggul' : (score < -50 ? 'Hitam Unggul' : 'Seimbang')})`;
+
+      // Captures
+      document.getElementById('chess-white-captures').textContent = chessWhiteCaptures.map(p => PIECE_GLYPHS[p]).join(' ');
+      document.getElementById('chess-black-captures').textContent = chessBlackCaptures.map(p => PIECE_GLYPHS[p]).join(' ');
+
+      // History
+      historyEl.innerHTML = '';
+      if (chessMoveHistory.length === 0) {
+        historyEl.innerHTML = '<div class="text-slate-500 italic">Belum ada langkah</div>';
+      } else {
+        for (let i = 0; i < chessMoveHistory.length; i += 2) {
+          const moveNum = Math.floor(i / 2) + 1;
+          const wMove = chessMoveHistory[i] || '';
+          const bMove = chessMoveHistory[i + 1] || '';
+          const row = document.createElement('div');
+          row.className = 'flex justify-between py-0.5 border-b border-slate-700/50';
+          row.innerHTML = `<span class="text-slate-400">${moveNum}.</span> <span class="text-sky-300">${wMove}</span> <span class="text-emerald-400">${bMove}</span>`;
+          historyEl.appendChild(row);
+        }
+        historyEl.scrollTop = historyEl.scrollHeight;
+      }
+    }
+
+    // Minimax & Positional AI Logic with Castling
+    function cloneBoard(b) { return b.map(row => [...row]); }
+    function isWhite(p) { return p && p === p.toUpperCase(); }
+    function isBlack(p) { return p && p === p.toLowerCase(); }
+
+    function isSquareAttacked(board, r, c, byTurn) {
+      const oppMoves = getPseudoLegalMoves(board, byTurn, false);
+      return oppMoves.some(m => m.to[0] === r && m.to[1] === c);
+    }
+
+    function getPseudoLegalMoves(board, turn, includeCastling = true, movedState = chessHasMoved) {
+      const moves = [];
+      const white = turn === 'w';
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const p = board[r][c];
+          if (!p) continue;
+          if (white && !isWhite(p)) continue;
+          if (!white && !isBlack(p)) continue;
+
+          const type = p.toLowerCase();
+
+          // Pawn
+          if (type === 'p') {
+            const dir = white ? -1 : 1;
+            const startRow = white ? 6 : 1;
+            const promoRow = white ? 0 : 7;
+
+            if (r + dir >= 0 && r + dir < 8 && !board[r + dir][c]) {
+              moves.push({ from: [r, c], to: [r + dir, c], promo: (r + dir === promoRow) ? (white ? 'Q' : 'q') : null });
+              if (r === startRow && !board[r + 2 * dir][c]) {
+                moves.push({ from: [r, c], to: [r + 2 * dir, c], promo: null });
+              }
+            }
+            for (let dc of [-1, 1]) {
+              const tc = c + dc;
+              const tr = r + dir;
+              if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                const dest = board[tr][tc];
+                if (dest && (white ? isBlack(dest) : isWhite(dest))) {
+                  moves.push({ from: [r, c], to: [tr, tc], promo: (tr === promoRow) ? (white ? 'Q' : 'q') : null });
+                }
+              }
+            }
+          }
+          // Knight
+          else if (type === 'n') {
+            const deltas = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
+            for (let [dr, dc] of deltas) {
+              const tr = r + dr, tc = c + dc;
+              if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                const dest = board[tr][tc];
+                if (!dest || (white ? isBlack(dest) : isWhite(dest))) {
+                  moves.push({ from: [r, c], to: [tr, tc] });
+                }
+              }
+            }
+          }
+          // Bishop, Rook, Queen
+          else if (type === 'b' || type === 'r' || type === 'q') {
+            const dirs = [];
+            if (type === 'b' || type === 'q') dirs.push([-1,-1],[-1,1],[1,-1],[1,1]);
+            if (type === 'r' || type === 'q') dirs.push([-1,0],[1,0],[0,-1],[0,1]);
+
+            for (let [dr, dc] of dirs) {
+              let tr = r + dr, tc = c + dc;
+              while (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                const dest = board[tr][tc];
+                if (!dest) {
+                  moves.push({ from: [r, c], to: [tr, tc] });
+                } else {
+                  if (white ? isBlack(dest) : isWhite(dest)) {
+                    moves.push({ from: [r, c], to: [tr, tc] });
+                  }
+                  break;
+                }
+                tr += dr;
+                tc += dc;
+              }
+            }
+          }
+          // King
+          else if (type === 'k') {
+            const dirs = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+            for (let [dr, dc] of dirs) {
+              const tr = r + dr, tc = c + dc;
+              if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                const dest = board[tr][tc];
+                if (!dest || (white ? isBlack(dest) : isWhite(dest))) {
+                  moves.push({ from: [r, c], to: [tr, tc] });
+                }
+              }
+            }
+
+            // Castling (Rokade)
+            if (includeCastling && movedState) {
+              const opp = white ? 'b' : 'w';
+              if (white && r === 7 && c === 4 && !movedState['K']) {
+                // Rokade Pendek (Kingside e1 -> g1)
+                if (!movedState['R_k'] && board[7][7] === 'R' && !board[7][5] && !board[7][6]) {
+                  if (!isSquareAttacked(board, 7, 4, opp) && !isSquareAttacked(board, 7, 5, opp) && !isSquareAttacked(board, 7, 6, opp)) {
+                    moves.push({ from: [7, 4], to: [7, 6], isCastle: 'O-O' });
+                  }
+                }
+                // Rokade Panjang (Queenside e1 -> c1)
+                if (!movedState['R_q'] && board[7][0] === 'R' && !board[7][1] && !board[7][2] && !board[7][3]) {
+                  if (!isSquareAttacked(board, 7, 4, opp) && !isSquareAttacked(board, 7, 4, opp) && !isSquareAttacked(board, 7, 3, opp) && !isSquareAttacked(board, 7, 2, opp)) {
+                    moves.push({ from: [7, 4], to: [7, 2], isCastle: 'O-O-O' });
+                  }
+                }
+              } else if (!white && r === 0 && c === 4 && !movedState['k']) {
+                // Rokade Pendek (Kingside e8 -> g8)
+                if (!movedState['r_k'] && board[0][7] === 'r' && !board[0][5] && !board[0][6]) {
+                  if (!isSquareAttacked(board, 0, 4, opp) && !isSquareAttacked(board, 0, 5, opp) && !isSquareAttacked(board, 0, 6, opp)) {
+                    moves.push({ from: [0, 4], to: [0, 6], isCastle: 'O-O' });
+                  }
+                }
+                // Rokade Panjang (Queenside e8 -> c8)
+                if (!movedState['r_q'] && board[0][0] === 'r' && !board[0][1] && !board[0][2] && !board[0][3]) {
+                  if (!isSquareAttacked(board, 0, 4, opp) && !isSquareAttacked(board, 0, 3, opp) && !isSquareAttacked(board, 0, 2, opp)) {
+                    moves.push({ from: [0, 4], to: [0, 2], isCastle: 'O-O-O' });
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return moves;
+    }
+
+    function applyMove(board, move) {
+      const next = cloneBoard(board);
+      const [fr, fc] = move.from;
+      const [tr, tc] = move.to;
+      let piece = next[fr][fc];
+
+      if (move.isCastle === 'O-O') {
+        if (piece === 'K') {
+          next[7][6] = 'K'; next[7][4] = null;
+          next[7][5] = 'R'; next[7][7] = null;
+        } else if (piece === 'k') {
+          next[0][6] = 'k'; next[0][4] = null;
+          next[0][5] = 'r'; next[0][7] = null;
+        }
+      } else if (move.isCastle === 'O-O-O') {
+        if (piece === 'K') {
+          next[7][2] = 'K'; next[7][4] = null;
+          next[7][3] = 'R'; next[7][0] = null;
+        } else if (piece === 'k') {
+          next[0][2] = 'k'; next[0][4] = null;
+          next[0][3] = 'r'; next[0][0] = null;
+        }
+      } else {
+        if (move.promo) piece = move.promo;
+        next[tr][tc] = piece;
+        next[fr][fc] = null;
+      }
+      return next;
+    }
+
+    function findKing(board, turn) {
+      const target = turn === 'w' ? 'K' : 'k';
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          if (board[r][c] === target) return [r, c];
+        }
+      }
+      return null;
+    }
+
+    function isKingInCheck(board, turn) {
+      const kp = findKing(board, turn);
+      if (!kp) return true;
+      const [kr, kc] = kp;
+      const oppTurn = turn === 'w' ? 'b' : 'w';
+      const oppMoves = getPseudoLegalMoves(board, oppTurn, false);
+      return oppMoves.some(m => m.to[0] === kr && m.to[1] === kc);
+    }
+
+    function getLegalMoves(board, turn, movedState = chessHasMoved) {
+      const pseudo = getPseudoLegalMoves(board, turn, true, movedState);
+      return pseudo.filter(m => {
+        const next = applyMove(board, m);
+        return !isKingInCheck(next, turn);
+      });
+    }
+
+    function evaluateBoard(board) {
+      let score = 0;
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const p = board[r][c];
+          if (!p) continue;
+          const type = p.toLowerCase();
+          const val = PIECE_VALS[type] || 0;
+          let pst = 0;
+          if (type === 'p') pst = isWhite(p) ? PST_PAWN[r][c] : PST_PAWN[7-r][c];
+          else if (type === 'n') pst = isWhite(p) ? PST_KNIGHT[r][c] : PST_KNIGHT[7-r][c];
+          else if (type === 'b') pst = isWhite(p) ? PST_BISHOP[r][c] : PST_BISHOP[7-r][c];
+          else if (type === 'r') pst = isWhite(p) ? PST_ROOK[r][c] : PST_ROOK[7-r][c];
+          else if (type === 'q') pst = isWhite(p) ? PST_QUEEN[r][c] : PST_QUEEN[7-r][c];
+          else if (type === 'k') pst = isWhite(p) ? PST_KING[r][c] : PST_KING[7-r][c];
+
+          const total = val + pst;
+          if (isWhite(p)) score += total;
+          else score -= total;
+        }
+      }
+      return score;
+    }
+
+    function minimax(board, depth, alpha, beta, isWhiteTurn, movedState = null) {
+      const turn = isWhiteTurn ? 'w' : 'b';
+      const moves = getLegalMoves(board, turn, movedState);
+
+      if (moves.length === 0) {
+        if (isKingInCheck(board, turn)) {
+          return { score: isWhiteTurn ? -99999 + (4 - depth) : 99999 - (4 - depth), move: null };
+        }
+        return { score: 0, move: null };
+      }
+
+      if (depth === 0) {
+        return { score: evaluateBoard(board), move: null };
+      }
+
+      // Move ordering: captures and castling first
+      moves.sort((a, b) => {
+        if (a.isCastle) return -100;
+        if (b.isCastle) return 100;
+        const destA = board[a.to[0]][a.to[1]];
+        const destB = board[b.to[0]][b.to[1]];
+        const valA = destA ? PIECE_VALS[destA.toLowerCase()] : 0;
+        const valB = destB ? PIECE_VALS[destB.toLowerCase()] : 0;
+        return valB - valA;
+      });
+
+      let bestMove = moves[0];
+
+      if (isWhiteTurn) {
+        let maxEval = -Infinity;
+        for (let m of moves) {
+          const nextBoard = applyMove(board, m);
+          const evalRes = minimax(nextBoard, depth - 1, alpha, beta, false, null);
+          if (evalRes.score > maxEval) {
+            maxEval = evalRes.score;
+            bestMove = m;
+          }
+          alpha = Math.max(alpha, evalRes.score);
+          if (beta <= alpha) break;
+        }
+        return { score: maxEval, move: bestMove };
+      } else {
+        let minEval = Infinity;
+        for (let m of moves) {
+          const nextBoard = applyMove(board, m);
+          const evalRes = minimax(nextBoard, depth - 1, alpha, beta, true, null);
+          if (evalRes.score < minEval) {
+            minEval = evalRes.score;
+            bestMove = m;
+          }
+          beta = Math.min(beta, evalRes.score);
+          if (beta <= alpha) break;
+        }
+        return { score: minEval, move: bestMove };
+      }
+    }
+
+    // 8. INSPECT & PDF MODALS
+    function openInspectModal(imgSrc, title, desc) {
+      document.getElementById('inspect-image').src = imgSrc;
+      document.getElementById('inspect-title').textContent = title;
+      document.getElementById('inspect-desc').textContent = desc;
+      document.getElementById('inspect-modal').classList.remove('hidden');
+      document.getElementById('inspect-modal').classList.add('flex');
+    }
+
+    function closeInspectModal() {
+      document.getElementById('inspect-modal').classList.add('hidden');
+      document.getElementById('inspect-modal').classList.remove('flex');
+      resetCameraToRoom();
+    }
+
+    function openPdfModal(pdfSrc, title) {
+      document.getElementById('pdf-modal-title').textContent = title;
+      document.getElementById('pdf-modal-download').href = pdfSrc;
+      document.getElementById('pdf-modal-frame').src = pdfSrc;
+      document.getElementById('pdf-modal').classList.remove('hidden');
+      document.getElementById('pdf-modal').classList.add('flex');
+    }
+
+    function closePdfModal() {
+      document.getElementById('pdf-modal-frame').src = '';
+      document.getElementById('pdf-modal').classList.add('hidden');
+      document.getElementById('pdf-modal').classList.remove('flex');
+    }
+
+    function promptUserName() {
+      const name = prompt("Masukkan nama Anda:", currentUser);
+      if (name && name.trim()) {
+        currentUser = name.trim();
+        document.getElementById('display-user-name').textContent = currentUser;
+        updatePlayerDisplayName();
+      }
+    }
+
+    // Keyboard ESC listener
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closePdfModal();
+        closeInspectModal();
+        closeFlipbookModal();
+        closeChessModal();
+        closeDesktopModal();
+      }
+    });
+
+    // Run on window load
+    window.addEventListener('DOMContentLoaded', () => {
+      initThreeScene();
+    });
+  </script>
+</body>
+</html>
