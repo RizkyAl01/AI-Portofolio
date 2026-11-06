@@ -325,7 +325,7 @@
           <button type="button" onclick="openPdfModal('assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf', 'Slide Portofolio')" class="hover:text-white transition">Portofolio.pdf</button>
         </div>
         <div class="flex items-center gap-3 text-[11px]">
-          <span class="text-emerald-400 flex items-center gap-1 font-mono">● Qwen-27B Online</span>
+          <span class="text-emerald-400 flex items-center gap-1 font-mono">● qwen/qwen3.8-27b Online</span>
           <span id="os-clock" class="font-mono text-stone-300">10:00 AM</span>
           <button type="button" onclick="closeDesktopModal()" class="btn-action !py-0.5 !px-2.5 text-[11px] !bg-rose-600 !text-white !border-rose-500 hover:!bg-rose-700" title="Keluar ke Ruangan 3D (ESC)">
             ✕ Keluar ke Ruangan [ESC]
@@ -398,7 +398,7 @@
               <span class="os-dot bg-rose-500" onclick="closeDesktopApp('terminal')"></span>
               <span class="os-dot bg-amber-500"></span>
               <span class="os-dot bg-emerald-500"></span>
-              <span class="font-mono text-xs text-sky-400 ml-2 font-bold">visitor@ai-lab:~ (Qwen-27B Assistant)</span>
+              <span class="font-mono text-xs text-sky-400 ml-2 font-bold">visitor@ai-lab:~ (qwen/qwen3.8-27b)</span>
             </div>
             <div class="flex items-center gap-1 text-[11px]">
               <button type="button" onclick="terminalExec('/help')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono">/help</button>
@@ -413,7 +413,7 @@
           <div id="terminal-logs" class="flex-1 p-4 overflow-y-auto space-y-3 font-mono text-xs">
             <div class="text-slate-400">
               [SYSTEM INITIALIZATION COMPLETED]<br>
-              Host: <span class="text-emerald-400">its-ai-lab-workstation</span> | Model: <span class="text-sky-400">Qwen-2.5-Coder-27B-Instruct</span><br>
+              Host: <span class="text-emerald-400">its-ai-lab-workstation</span> | Model: <span class="text-sky-400">qwen/qwen3.8-27b</span><br>
               Ketik pertanyaan untuk mengetahui kompetensi, proyek, sertifikasi Coursera/BNSP, atau latar belakang akademik <span class="text-white font-bold">Rizky Alviando</span>.
             </div>
           </div>
@@ -1681,16 +1681,19 @@
         return;
       }
 
-      const botMsgId = appendTerminalMsg('bot', 'Memproses query via Qwen-2.5-Coder-27B-Instruct...');
+      const botMsgId = appendTerminalMsg('bot', 'Memproses query via qwen/qwen3.8-27b...');
 
       try {
         const resp = await fetch('/api/web-chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            chat_id: sessionId || ('guest_' + Date.now()),
+            username: currentUser || 'Tamu',
+            text: query,
             message: query,
-            user_name: currentUser,
-            session_id: sessionId
+            user_name: currentUser || 'Tamu',
+            session_id: sessionId || ('guest_' + Date.now())
           })
         });
 
@@ -1716,7 +1719,7 @@
         div.innerHTML = `<span class="text-emerald-400">visitor@ai-lab:~$</span> ${escapeHtml(text)}`;
       } else {
         div.className = 'text-slate-300 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 leading-relaxed';
-        div.innerHTML = `<span class="text-sky-400 font-bold">[Qwen-27B]:</span> ${escapeHtml(text).replace(/\n/g, '<br>')}`;
+        div.innerHTML = `<span class="text-sky-400 font-bold">[qwen/qwen3.8-27b]:</span> ${escapeHtml(text).replace(/\n/g, '<br>')}`;
       }
 
       logs.appendChild(div);
@@ -1727,7 +1730,7 @@
     function updateTerminalMsg(id, text) {
       const el = document.getElementById(id);
       if (el) {
-        el.innerHTML = `<span class="text-sky-400 font-bold">[Qwen-27B]:</span> ${escapeHtml(text).replace(/\n/g, '<br>')}`;
+        el.innerHTML = `<span class="text-sky-400 font-bold">[qwen/qwen3.8-27b]:</span> ${escapeHtml(text).replace(/\n/g, '<br>')}`;
         const logs = document.getElementById('terminal-logs');
         logs.scrollTop = logs.scrollHeight;
       }

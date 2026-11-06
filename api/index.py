@@ -82,17 +82,20 @@ UPSTASH_REDIS_REST_TOKEN = _env("UPSTASH_REDIS_REST_TOKEN")
 # Extract and Load CV Context
 CV_CONTEXT = ""
 try:
-    # On Vercel, we only rely on the pre-extracted markdown file to save space and avoid heavy dependencies
-    output_dir = os.path.join(os.path.dirname(__file__), "..")
-    cv_md_path = os.path.join(output_dir, "Rizky Alviando-CV-ID_raw.md")
-    
-    if os.path.exists(cv_md_path):
-        with open(cv_md_path, 'r', encoding='utf-8') as f:
-            CV_CONTEXT = f.read()
-    else:
-        print("CV Markdown file not found at:", cv_md_path)
-except Exception:
-    pass
+    # Try api directory first (for Vercel serverless bundling), then parent repo root
+    possible_paths = [
+        os.path.join(os.path.dirname(__file__), "Rizky Alviando-CV-ID_raw.md"),
+        os.path.join(os.path.dirname(__file__), "..", "Rizky Alviando-CV-ID_raw.md")
+    ]
+    for cv_md_path in possible_paths:
+        if os.path.exists(cv_md_path):
+            with open(cv_md_path, 'r', encoding='utf-8') as f:
+                CV_CONTEXT = f.read()
+            break
+    if not CV_CONTEXT:
+        print("Warning: CV Markdown file not found in possible paths")
+except Exception as e:
+    print("Error loading CV context:", e)
 # Groq System Prompt
 SYSTEM_PROMPT = f"""You're chatbot who is made by Rizky Alviando. Act as an explainer about me (Rizky Alviando).
 <CV_CONTEXT>
@@ -274,17 +277,20 @@ def read_root():
         return "<h1>Web UI is not available</h1>"
 
 class WebChatRequest(BaseModel):
-    chat_id: str = Field(..., min_length=1, max_length=100)
-    username: str = Field(..., min_length=1, max_length=80)
-    text: str = Field(..., min_length=1, max_length=4000)
+    chat_id: str | None = None
+    session_id: str | None = None
+    username: str | None = None
+    user_name: str | None = None
+    text: str | None = None
+    message: str | None = None
 
 @app.post("/api/web-chat")
 async def web_chat(req: WebChatRequest, request: Request):
-    chat_id = req.chat_id.strip()
-    username = req.username.strip()
-    text = req.text.strip()
-    if not chat_id or not username or not text:
-        raise HTTPException(status_code=422, detail="Fields must not be blank.")
+    chat_id = (req.chat_id or req.session_id or f"guest_{int(time.time())}").strip()
+    username = (req.username or req.user_name or "Tamu").strip()
+    text = (req.text or req.message or "").strip()
+    if not text:
+        raise HTTPException(status_code=422, detail="Pesan / teks tidak boleh kosong.")
 
     client_ip = request.client.host if request.client else "unknown"
     try:
