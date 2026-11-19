@@ -6,10 +6,12 @@ import asyncio
 import threading
 import time
 import logging
+import mimetypes
 from datetime import datetime
 from urllib.parse import urlparse
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 from pydantic import BaseModel, Field
@@ -430,3 +432,30 @@ async def telegram_webhook(request: Request):
     log_to_sheets(log_data)
     
     return {"status": "ok"}
+
+
+# Safe local static file serving (mirrors vercel.json rewrites for local uvicorn;
+# guarded with os.path.isdir so Vercel serverless bundles without frontend/ never fail).
+mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("model/gltf-binary", ".glb")
+
+_FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend"))
+
+
+@app.get("/open-world.html")
+def read_open_world():
+    open_world_path = os.path.join(_FRONTEND_DIR, "open-world.html")
+    if os.path.isfile(open_world_path):
+        return FileResponse(open_world_path, media_type="text/html; charset=utf-8")
+    raise HTTPException(status_code=404, detail="open-world.html not found")
+
+
+_OS_STATIC_DIR = os.path.join(_FRONTEND_DIR, "os")
+if os.path.isdir(_OS_STATIC_DIR):
+    app.mount("/os", StaticFiles(directory=_OS_STATIC_DIR), name="os_static")
+
+_ASSETS_STATIC_DIR = os.path.join(_FRONTEND_DIR, "assets")
+if os.path.isdir(_ASSETS_STATIC_DIR):
+    app.mount("/assets", StaticFiles(directory=_ASSETS_STATIC_DIR), name="assets_static")
+
