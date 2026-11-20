@@ -1,8 +1,5 @@
 import {
   PROFILE,
-  EXPERIENCES,
-  PROJECTS,
-  SKILLS,
   CERTIFICATES,
   VIRTUAL_FS,
   RECYCLE_ITEMS
@@ -57,7 +54,7 @@ function resolveNodeIcon(node, isOpenFolder = false) {
       return 'ie';
     case 'doc':
     case 'txt':
-      return node.docKey === 'cv' ? 'wordpad' : 'notepad';
+      return 'notepad';
     case 'link':
       return 'link';
     case 'app':
@@ -73,11 +70,10 @@ function describeNodeType(node) {
     case 'folder':
       return 'File Folder';
     case 'pdf':
-      return 'PDF Certificate';
+      return 'PDF Document';
     case 'ie':
       return 'Internet Shortcut';
     case 'doc':
-      return node.docKey === 'cv' ? 'WordPad Document' : 'Text Document';
     case 'txt':
       return 'Text Document';
     case 'app':
@@ -497,6 +493,14 @@ export const explorerApp = {
         return;
       }
       if (node.type === 'doc' || node.type === 'txt') {
+        if (node.docKey === 'cv') {
+          winApi?.os?.openApp?.('pdf-viewer', {
+            certId: 'cv-rizky-alviando',
+            file: PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf',
+            title: 'Curriculum Vitae (CV) — Rizky Alviando'
+          });
+          return;
+        }
         winApi?.os?.openApp?.('notepad', {
           doc: node.docKey || (node.content ? 'custom' : 'readme'),
           title: node.name,
@@ -666,7 +670,7 @@ export const explorerApp = {
 };
 
 /* ============================================================================
- * 2. NOTEPAD / WORDPAD CV VIEWER (notepadApp)
+ * 2. NOTEPAD TEXT VIEWER (notepadApp)
  * ========================================================================== */
 
 function getReadmeText() {
@@ -691,226 +695,12 @@ function getReadmeText() {
   ].join('\n');
 }
 
-function buildPlainCvText() {
-  const rootFs = normalizeRootFs();
-  const fsCv = findFsDocByKey(rootFs, 'cv');
-  if (fsCv && fsCv.content) return fsCv.content;
-
-  const name = PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando';
-  const lines = [
-    name.toUpperCase(),
-    `${PROFILE?.role || 'AI Engineer'} | ${PROFILE?.location || 'Indonesia'}`,
-    `Email: ${PROFILE?.email || ''} | Phone: ${PROFILE?.phone || ''}`,
-    `LinkedIn: ${PROFILE?.linkedin || ''}`,
-    `GitHub: ${PROFILE?.github || ''}`,
-    '',
-    'RINGKASAN PROFESIONAL',
-    '--------------------------------------------------------------------',
-    PROFILE?.summary || '',
-    '',
-    'PENDIDIKAN',
-    '--------------------------------------------------------------------'
-  ];
-
-  for (const ed of PROFILE?.education || []) {
-    lines.push(`${ed.institution} (${ed.period})`);
-    lines.push(`  ${ed.degree} — ${ed.score}`);
-    if (ed.details) lines.push(`  ${ed.details}`);
-  }
-
-  lines.push('', 'PENGALAMAN KERJA & KEPEMIMPINAN', '--------------------------------------------------------------------');
-  for (const exp of EXPERIENCES || []) {
-    lines.push(`${exp.role} — ${exp.org} (${exp.period})`);
-    for (const h of exp.highlights || []) {
-      lines.push(`  - ${h}`);
-    }
-    lines.push('');
-  }
-
-  lines.push('PROYEK UNGGULAN', '--------------------------------------------------------------------');
-  for (const proj of PROJECTS || []) {
-    lines.push(`${proj.title} (${proj.date || ''})`);
-    lines.push(`  ${proj.summary || proj.subtitle || ''}`);
-    if (proj.techStack?.length) lines.push(`  Stack: ${proj.techStack.join(', ')}`);
-    lines.push('');
-  }
-
-  lines.push('KEAHLIAN TEKNIS', '--------------------------------------------------------------------');
-  for (const grp of SKILLS || []) {
-    lines.push(`${grp.category}: ${(grp.items || []).map((i) => i.name).join(', ')}`);
-  }
-
-  lines.push('', 'SERTIFIKASI', '--------------------------------------------------------------------');
-  for (const cert of CERTIFICATES || []) {
-    lines.push(`- ${cert.title} — ${cert.issuer} (${cert.year})`);
-  }
-
-  return lines.join('\n');
-}
-
-function renderCvPaperHtml() {
-  const name = PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando';
-  const email = PROFILE?.email || '';
-  const phone = PROFILE?.phone || '';
-  const linkedin = safeHref(PROFILE?.linkedin);
-  const github = safeHref(PROFILE?.github);
-  const education = Array.isArray(PROFILE?.education) ? PROFILE.education : [];
-  const organizations = Array.isArray(PROFILE?.organizations) ? PROFILE.organizations : [];
-
-  return `
-    <article class="np-cv-paper win95-selectable">
-      <header class="np-cv-header">
-        <div>
-          <h1 class="np-cv-name">${escapeHtml(name)}</h1>
-          <div class="np-cv-role">${escapeHtml(PROFILE?.role || 'AI Engineer & Data Specialist')}</div>
-        </div>
-        <div class="np-cv-contact">
-          ${PROFILE?.location ? `<div>${escapeHtml(PROFILE.location)}</div>` : ''}
-          ${email ? `<div><a href="${escapeHtml(safeHref(`mailto:${email}`))}">${escapeHtml(email)}</a></div>` : ''}
-          ${phone ? `<div>${escapeHtml(phone)}</div>` : ''}
-          <div class="np-cv-links">
-            ${linkedin !== '#' ? `<a href="${escapeHtml(linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>` : ''}
-            ${github !== '#' ? `<a href="${escapeHtml(github)}" target="_blank" rel="noopener noreferrer">GitHub</a>` : ''}
-          </div>
-        </div>
-      </header>
-
-      <section class="np-cv-sec">
-        <h2>Ringkasan Profesional</h2>
-        <p>${escapeHtml(PROFILE?.summary || '')}</p>
-      </section>
-
-      ${
-        education.length
-          ? `<section class="np-cv-sec">
-              <h2>Pendidikan</h2>
-              ${education
-                .map(
-                  (ed) => `
-                  <div class="np-cv-entry">
-                    <div class="np-cv-entry-head">
-                      <strong>${escapeHtml(ed.institution)} — ${escapeHtml(ed.location || '')}</strong>
-                      <span>${escapeHtml(ed.period || '')}</span>
-                    </div>
-                    <div class="np-cv-entry-sub">${escapeHtml(ed.degree)} · ${escapeHtml(ed.score)}</div>
-                    ${ed.details ? `<p>${escapeHtml(ed.details)}</p>` : ''}
-                  </div>
-                `
-                )
-                .join('')}
-            </section>`
-          : ''
-      }
-
-      <section class="np-cv-sec">
-        <h2>Pengalaman Kerja &amp; Proyek</h2>
-        ${(EXPERIENCES || [])
-          .filter((exp) => exp.type !== 'Organization')
-          .map(
-            (exp) => `
-            <div class="np-cv-entry">
-              <div class="np-cv-entry-head">
-                <strong>${escapeHtml(exp.role)} — ${escapeHtml(exp.org)}</strong>
-                <span>${escapeHtml(exp.period)}</span>
-              </div>
-              ${exp.location ? `<div class="np-cv-entry-sub">${escapeHtml(exp.location)}</div>` : ''}
-              ${
-                Array.isArray(exp.highlights) && exp.highlights.length
-                  ? `<ul class="np-cv-list">${exp.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join('')}</ul>`
-                  : exp.summary
-                  ? `<p>${escapeHtml(exp.summary)}</p>`
-                  : ''
-              }
-            </div>
-          `
-          )
-          .join('')}
-      </section>
-
-      ${
-        organizations.length
-          ? `<section class="np-cv-sec">
-              <h2>Pengalaman Organisasi &amp; Kepemimpinan</h2>
-              ${organizations
-                .map(
-                  (org) => `
-                  <div class="np-cv-entry">
-                    <div class="np-cv-entry-head">
-                      <strong>${escapeHtml(org.role)}</strong>
-                      <span>${escapeHtml(org.period)}</span>
-                    </div>
-                    <div class="np-cv-entry-sub">${escapeHtml(org.org)}</div>
-                    <p>${escapeHtml(org.summary)}</p>
-                  </div>
-                `
-                )
-                .join('')}
-            </section>`
-          : ''
-      }
-
-      <section class="np-cv-sec">
-        <h2>Proyek Unggulan AI &amp; Data (${(PROJECTS || []).length} Proyek)</h2>
-        ${(PROJECTS || [])
-          .slice(0, 8)
-          .map(
-            (p) => `
-            <div class="np-cv-entry">
-              <div class="np-cv-entry-head">
-                <strong>${escapeHtml(p.title)}</strong>
-                <span>${escapeHtml(p.date || '')}</span>
-              </div>
-              <p>${escapeHtml(p.summary || p.subtitle || '')}</p>
-              ${p.techStack?.length ? `<div class="np-cv-tech">Stack: ${escapeHtml(p.techStack.join(' · '))}</div>` : ''}
-            </div>
-          `
-          )
-          .join('')}
-      </section>
-
-      <section class="np-cv-sec">
-        <h2>Keahlian Teknis</h2>
-        <div class="np-cv-skills">
-          ${(SKILLS || [])
-            .map(
-              (grp) => `
-              <div class="np-cv-skill-row">
-                <strong>${escapeHtml(grp.category)}:</strong>
-                <span>${escapeHtml((grp.items || []).map((i) => i.name).join(', '))}</span>
-              </div>
-            `
-            )
-            .join('')}
-        </div>
-      </section>
-
-      <section class="np-cv-sec">
-        <h2>Sertifikasi (${(CERTIFICATES || []).length} Dokumen PDF)</h2>
-        <ul class="np-cv-list np-cv-cert-list">
-          ${(CERTIFICATES || [])
-            .map(
-              (c) => `
-              <li>
-                <button type="button" class="np-cv-cert-btn" data-cert-file="${escapeHtml(c.file)}" data-cert-title="${escapeHtml(c.title)}">
-                  ${escapeHtml(c.title)}
-                </button>
-                <span class="np-cv-cert-meta"> — ${escapeHtml(c.issuer)} (${escapeHtml(c.year)})</span>
-              </li>
-            `
-            )
-            .join('')}
-        </ul>
-      </section>
-    </article>
-  `;
-}
-
 export const notepadApp = {
   id: 'notepad',
   title: 'README.txt — Notepad',
   icon: 'notepad',
-  width: 680,
-  height: 540,
+  width: 660,
+  height: 500,
   minWidth: 340,
   minHeight: 280,
   singleton: false,
@@ -922,8 +712,16 @@ export const notepadApp = {
     let customTitle = args?.title || 'Untitled.txt';
     let customContent = typeof args?.content === 'string' ? args.content : '';
 
+    function openRealCvPdf() {
+      winApi?.os?.openApp?.('pdf-viewer', {
+        certId: 'cv-rizky-alviando',
+        file: PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf',
+        title: 'Curriculum Vitae (CV) — Rizky Alviando'
+      });
+    }
+
     if (args?.doc === 'cv') {
-      mode = 'cv';
+      openRealCvPdf();
     } else if (typeof args?.content === 'string' && args.content.length > 0) {
       mode = args?.doc === 'readme' ? 'readme' : 'custom';
       if (mode === 'custom' && !args?.title) customTitle = `${args?.doc || 'Document'}.txt`;
@@ -945,8 +743,8 @@ export const notepadApp = {
           <div class="np-menu-group">
             <button type="button" class="win95-menubar-item np-menu-btn" data-menu="file"><u>F</u>ile</button>
             <div class="win95-menu-dropdown np-menu-dropdown" data-dropdown="file" hidden>
-              <button type="button" class="win95-menu-item np-menu-item" data-action="mode-cv">Open CV_Rizky_Alviando.doc</button>
               <button type="button" class="win95-menu-item np-menu-item" data-action="mode-readme">Open README.txt</button>
+              <button type="button" class="win95-menu-item np-menu-item" data-action="open-cv-pdf">Open CV (PDF)...</button>
               <div class="win95-menu-sep"></div>
               <button type="button" class="win95-menu-item np-menu-item" data-action="download">Save / Download (.txt)...</button>
               <button type="button" class="win95-menu-item np-menu-item" data-action="print">Print...</button>
@@ -970,7 +768,7 @@ export const notepadApp = {
           <div class="np-menu-group">
             <button type="button" class="win95-menubar-item np-menu-btn" data-menu="help"><u>H</u>elp</button>
             <div class="win95-menu-dropdown np-menu-dropdown" data-dropdown="help" hidden>
-              <button type="button" class="win95-menu-item np-menu-item" data-action="about">About Notepad / WordPad...</button>
+              <button type="button" class="win95-menu-item np-menu-item" data-action="about">About Notepad...</button>
             </div>
           </div>
         </div>
@@ -1008,7 +806,6 @@ export const notepadApp = {
     }
 
     function getCurrentPlainText() {
-      if (mode === 'cv') return buildPlainCvText();
       const ta = bodyEl.querySelector('.np-textarea');
       if (ta) return ta.value;
       return mode === 'custom' ? customContent : getReadmeText();
@@ -1021,61 +818,37 @@ export const notepadApp = {
     }
 
     function renderMode() {
-      if (mode === 'cv') {
-        winApi?.setTitle?.('CV_Rizky_Alviando.doc — WordPad');
-        toolbarEl.innerHTML = `
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="print">
-            <span>Print / Save PDF</span>
-          </button>
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="copy-contact">
-            <span>Copy Contact</span>
-          </button>
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="download">
-            <span>Export .txt</span>
-          </button>
-          <span class="win95-toolbar-sep" aria-hidden="true"></span>
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="mode-readme">
-            <span class="np-tb-ico">${getIconSVG('notepad', 14)}</span>
-            <span>README.txt</span>
-          </button>
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="open-certs">
-            <span class="np-tb-ico">${getIconSVG('pdf', 14)}</span>
-            <span>Certificates</span>
-          </button>
-        `;
-        bodyEl.classList.add('is-cv');
-        bodyEl.innerHTML = renderCvPaperHtml();
-        winApi?.setStatus?.('WordPad Resume View — Klik Print untuk simpan sebagai PDF');
-      } else {
-        const text = mode === 'custom' ? customContent : getReadmeText();
-        const title = mode === 'custom' ? `${customTitle} — Notepad` : 'README.txt — Notepad';
-        winApi?.setTitle?.(title);
-        toolbarEl.innerHTML = `
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="copy-all">Copy All</button>
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="download">Save .txt</button>
-          <button type="button" class="win95-toolbar-btn np-tb-btn ${wordWrap ? 'is-active' : ''}" data-action="toggle-wrap">Wrap: ${wordWrap ? 'ON' : 'OFF'}</button>
-          <span class="win95-toolbar-sep" aria-hidden="true"></span>
-          <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="mode-cv">
-            <span class="np-tb-ico">${getIconSVG('wordpad', 14)}</span>
-            <span>Open CV</span>
-          </button>
-        `;
-        bodyEl.classList.remove('is-cv');
-        bodyEl.innerHTML = `<textarea class="np-textarea win95-scrollbar win95-selectable ${wordWrap ? '' : 'no-wrap'}" spellcheck="false" aria-label="${escapeHtml(title)}"></textarea>`;
-        const ta = bodyEl.querySelector('.np-textarea');
-        ta.value = text;
-        ta.addEventListener('input', () => {
-          if (mode === 'custom') customContent = ta.value;
-          updateTextStats(ta.value);
-        });
-        updateTextStats(text);
-      }
+      const text = mode === 'custom' ? customContent : getReadmeText();
+      const title = mode === 'custom' ? `${customTitle} — Notepad` : 'README.txt — Notepad';
+      winApi?.setTitle?.(title);
+      toolbarEl.innerHTML = `
+        <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="copy-all">Copy All</button>
+        <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="download">Save .txt</button>
+        <button type="button" class="win95-toolbar-btn np-tb-btn ${wordWrap ? 'is-active' : ''}" data-action="toggle-wrap">Wrap: ${wordWrap ? 'ON' : 'OFF'}</button>
+        ${
+          mode === 'custom'
+            ? `<span class="win95-toolbar-sep" aria-hidden="true"></span>
+               <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="mode-readme">
+                 <span class="np-tb-ico">${getIconSVG('notepad', 14)}</span>
+                 <span>README.txt</span>
+               </button>`
+            : ''
+        }
+      `;
+      bodyEl.classList.remove('is-cv');
+      bodyEl.innerHTML = `<textarea class="np-textarea win95-scrollbar win95-selectable ${wordWrap ? '' : 'no-wrap'}" spellcheck="false" aria-label="${escapeHtml(title)}"></textarea>`;
+      const ta = bodyEl.querySelector('.np-textarea');
+      ta.value = text;
+      ta.addEventListener('input', () => {
+        if (mode === 'custom') customContent = ta.value;
+        updateTextStats(ta.value);
+      });
+      updateTextStats(text);
     }
 
     async function handleAction(act) {
-      if (act === 'mode-cv') {
-        mode = 'cv';
-        renderMode();
+      if (act === 'open-cv-pdf') {
+        openRealCvPdf();
       } else if (act === 'mode-readme') {
         mode = 'readme';
         renderMode();
@@ -1083,9 +856,7 @@ export const notepadApp = {
         window.print();
       } else if (act === 'download') {
         const fname =
-          mode === 'cv'
-            ? 'CV_Rizky_Alviando.txt'
-            : mode === 'custom'
+          mode === 'custom'
             ? customTitle.includes('.')
               ? customTitle
               : `${customTitle}.txt`
@@ -1111,17 +882,15 @@ export const notepadApp = {
         );
       } else if (act === 'toggle-wrap') {
         wordWrap = !wordWrap;
-        if (mode !== 'cv') renderMode();
-      } else if (act === 'open-certs') {
-        winApi?.os?.openApp?.('explorer', { path: 'C:\\Rizky\\Certificates' });
+        renderMode();
       } else if (act === 'close') {
         winApi?.close?.();
       } else if (act === 'about') {
         winApi?.os?.showDialog?.({
-          title: 'About Notepad & WordPad 95',
+          title: 'About Notepad 95',
           icon: 'notepad',
           message:
-            'Notepad / WordPad — RizkyOS 95\n\nMenampilkan README.txt monospace klasik, inspeksi file teks, dan WordPad Printable CV untuk Rizky Alviando.',
+            'Notepad — RizkyOS 95\n\nMenampilkan README.txt monospace klasik serta inspeksi file teks dan log di RizkyOS 95.',
           buttons: ['OK']
         });
       }
@@ -1133,16 +902,6 @@ export const notepadApp = {
         e.stopPropagation();
         sound.playClick();
         toggleMenu(menuBtn.dataset.menu);
-        return;
-      }
-
-      const certBtn = e.target.closest('.np-cv-cert-btn');
-      if (certBtn) {
-        sound.playOpen();
-        winApi?.os?.openApp?.('pdf-viewer', {
-          file: certBtn.dataset.certFile,
-          title: certBtn.dataset.certTitle
-        });
         return;
       }
 

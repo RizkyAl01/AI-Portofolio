@@ -684,6 +684,48 @@ const ICONS = {
     <rect x="11" y="24" width="10" height="3" fill="#808080"/>
     <rect x="8" y="26" width="16" height="2" fill="#000"/>
   `,
+
+  // System Tray Fullscreen Toggle Icon (4-corner outward pixel expansion arrows)
+  fullscreen: `
+    <rect x="3" y="4" width="26" height="24" fill="#000"/>
+    <rect x="4" y="5" width="24" height="22" fill="#c3c3c3"/>
+    <rect x="6" y="7" width="20" height="18" fill="#018281"/>
+    <!-- Top-Left corner arrow -->
+    <rect x="8" y="9" width="6" height="2" fill="#ffffff"/>
+    <rect x="8" y="9" width="2" height="6" fill="#ffffff"/>
+    <rect x="10" y="11" width="2" height="2" fill="#ffffff"/>
+    <!-- Top-Right corner arrow -->
+    <rect x="18" y="9" width="6" height="2" fill="#ffffff"/>
+    <rect x="22" y="9" width="2" height="6" fill="#ffffff"/>
+    <rect x="20" y="11" width="2" height="2" fill="#ffffff"/>
+    <!-- Bottom-Left corner arrow -->
+    <rect x="8" y="21" width="6" height="2" fill="#ffffff"/>
+    <rect x="8" y="17" width="2" height="6" fill="#ffffff"/>
+    <rect x="10" y="19" width="2" height="2" fill="#ffffff"/>
+    <!-- Bottom-Right corner arrow -->
+    <rect x="18" y="21" width="6" height="2" fill="#ffffff"/>
+    <rect x="22" y="17" width="2" height="6" fill="#ffffff"/>
+    <rect x="20" y="19" width="2" height="2" fill="#ffffff"/>
+  `,
+
+  // System Tray Exit Fullscreen Icon (4-corner inward pixel brackets)
+  'fullscreen-exit': `
+    <rect x="3" y="4" width="26" height="24" fill="#000"/>
+    <rect x="4" y="5" width="24" height="22" fill="#c3c3c3"/>
+    <rect x="6" y="7" width="20" height="18" fill="#00007c"/>
+    <!-- Top-Left inward bracket -->
+    <rect x="9" y="12" width="5" height="2" fill="#ffff94"/>
+    <rect x="12" y="9" width="2" height="5" fill="#ffff94"/>
+    <!-- Top-Right inward bracket -->
+    <rect x="18" y="12" width="5" height="2" fill="#ffff94"/>
+    <rect x="18" y="9" width="2" height="5" fill="#ffff94"/>
+    <!-- Bottom-Left inward bracket -->
+    <rect x="9" y="18" width="5" height="2" fill="#ffff94"/>
+    <rect x="12" y="18" width="2" height="5" fill="#ffff94"/>
+    <!-- Bottom-Right inward bracket -->
+    <rect x="18" y="18" width="5" height="2" fill="#ffff94"/>
+    <rect x="18" y="18" width="2" height="5" fill="#ffff94"/>
+  `,
 };
 
 const ALIASES = {

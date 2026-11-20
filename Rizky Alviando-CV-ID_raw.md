@@ -159,4 +159,83 @@ Portofolio AI dan ML ( https://canva.link/Rizky-Alviando-PortoAIML26) #belum ada
 
 - **Hobi** : Futsal, Catur, Riset 
 
+## **Katalog Lengkap 13 Proyek Portofolio & Arsitektur Teknis (`frontend/os/data.js`)**
+
+Daftar ringkas 13 proyek utama Rizky Alviando: (1) **AegisLake** (`aegislake`), (2) **LexGraph** (`lexgraph`), (3) **SentinelEval** (`sentineleval`), (4) **NusantaraASR** (`nusantara-asr`), (5) **Smart Agentic RAG** (`smart-agentic-rag`), (6) **Otomasi Dataset Audio, Fine-Tuning LLM & Klasifikasi DTSEN (Komdigi)** (`komdigi-audio-pipeline`), (7) **CyberPulse** (`cyberpulse`), (8) **Deteksi Dini Chattering pada Proses Pemesinan (GPBL Tokyo)** (`chattering-detection-tokyo`), (9) **Penemuan Pola Penyebab Kecelakaan Pesawat dengan Metode T-BUM** (`t-bum-aviation`), (10) **Portofolio Web Interaktif & Asisten AI Pribadi (RizkyOS 95)** (`rizkyos-portfolio-ai`), (11) **Sugaryzer** (`sugaryzer-bangkit`), (12) **GarudaSentimen** (`garuda-sentimen`), (13) **Analisis Sentimen Multi-Kelas Transformer (Big Data Challenge 2024)** (`transformer-sentiment-bdc`).
+
+### **1. AegisLake: Pipeline Data Medallion & Sandbox Pelatihan AI (`aegislake`)**
+- **Kategori:** Data & AI Pipeline (2026) | **Tech Stack:** Python, FastAPI, DuckDB, Polars / Pandas, Apache Airflow, `IndonesianPIIGuard` (UU PDP).
+- **Metrik:** Arsitektur `Bronze -> Silver -> Gold`, integritas batch `SHA-256 Fingerprint`, proteksi privasi `Auto-Masking UU PDP`.
+- **Arsitektur & Hasil:** Mengelola alur data bertahap dengan pencatatan sidik jari SHA-256 di lapisan Bronze untuk mencegah duplikasi dan menjaga *data lineage*, modul `IndonesianPIIGuard` di lapisan Silver untuk menyamarkan NIK 16-digit, nomor telepon, nomor rekening bank, serta nama orang secara otomatis sesuai UU Pelindungan Data Pribadi (UU PDP), dan menyajikan dataset bersih di lapisan Gold melalui sandbox analitik kolumnar **DuckDB** serta API **FastAPI** agar tim data scientist dapat melatih model AI tanpa menyentuh data pribadi mentah.
+
+### **2. LexGraph: Pencarian Regulasi & Dokumen Hukum dengan Graph-RAG (`lexgraph`)**
+- **Kategori:** LLM, RAG & Governance (2026) | **Tech Stack:** FastAPI, PostgreSQL `pgvector`, Neo4j, FlashRank ONNX, Groq LLM, BM25 + Reciprocal Rank Fusion (RRF).
+- **Metrik:** Hybrid Retrieval `BM25 + pgvector (RRF)`, Graph Traversal `Neo4j Relasi Pasal & Ayat`, Reranker `FlashRank ONNX`.
+- **Arsitektur & Hasil:** Mengatasi kelemahan *fixed-size chunking* pada dokumen perundang-undangan dengan memotong teks tepat pada batas struktur hierarki BAB, Bagian, Pasal, dan Ayat. Menggabungkan skor kata kunci eksak **BM25** dan kemiripan vektor semantik **PostgreSQL `pgvector`** melalui **Reciprocal Rank Fusion (RRF)**, menelusuri keterkaitan pasal yang saling merujuk/mengubah di basis data graf **Neo4j**, mengurutkan ulang konteks terbaik menggunakan **FlashRank ONNX**, lalu menyintesis jawaban melalui **Groq LLM** lengkap dengan sitasi Pasal dan Ayat yang terverifikasi.
+
+### **3. SentinelEval: Uji Keamanan & Evaluasi Risiko Model Bahasa (LLM) (`sentineleval`)**
+- **Kategori:** LLM, RAG & Governance (2026) | **Tech Stack:** Python, Next.js, TypeScript, Red-Teaming LLM, Evaluasi Risiko AI.
+- **Metrik:** `5 Modul Skenario Red-Team Otomatis`, cakupan `Homoglyph & Bahasa Lokal Nusantara`, dasbor audit `Next.js + TypeScript`.
+- **Arsitektur & Hasil:** Menguji ketahanan aplikasi chatbot/LLM terhadap prompt berbahaya (*jailbreak*), kebocoran instruksi sistem/data sensitif (PII), dan jawaban bias sebelum rilis produksi. Mencakup 5 modul pengujian otomatis berbasis Python (serangan variasi karakter mirip / *Unicode homoglyph*, prompt bahasa percakapan non-formal & bahasa daerah Nusantara, penyamaran instruksi bertahap, uji kebocoran data sensitif, dan evaluasi bias) yang terhubung ke katalog & dasbor pencatatan skor kesiapan risiko setiap *use-case* AI di Next.js dan TypeScript.
+
+### **4. NusantaraASR: Transkripsi YouTube & Koreksi Bahasa Daerah (`nusantara-asr`)**
+- **Kategori:** NLP & Speech (2025 - 2026) | **Tech Stack:** WhisperX `large-v3`, Wav2Vec2, Pyannote, Koreksi Teks LLM (Levenshtein), Evaluasi WER/CER, Bot Telegram `@crawlyt_bot` (`https://t.me/crawlyt_bot`).
+- **Metrik:** Backbone ASR `WhisperX large-v3`, Alignment & Speaker Diarization `Wav2Vec2 + Pyannote`, Bot Aktif `@crawlyt_bot`.
+- **Arsitektur & Hasil:** Pipeline otomatis untuk mengunduh dan mentranskripsi ribuan video YouTube berbahasa Indonesia maupun bahasa daerah. Menggunakan **WhisperX (`large-v3`)** untuk transkripsi inti beserta skor *confidence* per kata, **Wav2Vec2** untuk perataan stempel waktu tingkat kata (*forced alignment*), dan **Pyannote** untuk pemisahan suara antar-pembicara (*speaker diarization*). Kata dengan *confidence* rendah dikoreksi secara selektif menggunakan LLM dengan penjagaan jarak Levenshtein agar tidak mengubah makna tuturan asli, dievaluasi menggunakan metrik **Word Error Rate (WER)** dan **Character Error Rate (CER)**.
+
+### **5. Smart Agentic RAG: AI Document Assistant (`smart-agentic-rag`)**
+- **Kategori:** LLM, RAG & Governance (2026) | **Live Demo:** `https://project-rag-zeta.vercel.app/` | **Tech Stack:** LangGraph, FastAPI, Supabase `pgvector`, Groq LLM, PyMuPDF.
+- **Metrik:** Orkestrasi Agen `LangGraph State Machine`, Vector Store `Supabase pgvector`, status `Live Demo Aktif di Vercel & Telegram`.
+- **Arsitektur & Hasil:** Aplikasi tanya-jawab dokumen PDF pintar yang memodelkan alur penalaran sebagai graf status (*state graph*) di **LangGraph**. Mengekstrak teks PDF dengan **PyMuPDF** ke indeks vektor **Supabase `pgvector`**, lalu agen LangGraph secara otomatis melakukan pemilihan alat (*tool routing*), menulis ulang kueri (*query rewriting*) bila hasil pencarian awal kurang spesifik, dan memeriksa relevansi kutipan (*relevance grading / self-reflection*) sebelum menyusun jawaban akurat lewat **Groq LLM** dan **FastAPI**.
+
+### **6. Otomasi Dataset Audio, Fine-Tuning LLM & Klasifikasi DTSEN (Komdigi) (`komdigi-audio-pipeline`)**
+- **Kategori:** Data & AI Pipeline (Nov 2025 - Mei 2026) | **Tech Stack:** LoRA / QLoRA, SFT & CPT, Qwen & Gemma 2B, HuggingFace Transformers, Otomasi Pipeline Audio/Video, Vision-Language Models (VLM).
+- **Metrik:** `Workflow Success Rate 95%`, `Fine-Tuning Domain Accuracy 72,04%`, `DTSEN ±1 Desil Accuracy 99%`, `Anti-Bot Scraping >90%`.
+- **Arsitektur & Hasil:** Merestrukturisasi antrean pengambilan dan transkripsi otomatis puluhan ribu jam audio YouTube di Kementerian Komunikasi dan Digital (Komdigi) hingga mencapai *workflow success rate* **95%** dan scraping situs anti-bot **>90%**. Melakukan **Supervised Fine-Tuning (SFT)** dan **Continued Pre-Training (CPT)** pada model open-source **Qwen** dan **Gemma** menggunakan **LoRA/QLoRA** (akurasi domain **72,04%**), serta melakukan fine-tuning **Gemma 2B** untuk klasifikasi tingkat kesejahteraan rumah tangga (**DTSEN Desil 1–10**) beserta pembangkitan narasi penalaran otomatis dari metadata kondisi rumah (**akurasi toleransi ±1 desil mencapai 99%**). Lulus pemagangan dengan predikat **Sangat Baik** (`assets/certs/sertifikat_dff5d104-76a7-4fe8-924b-a61df52a3010.pdf`).
+
+### **7. CyberPulse: Crawler Web Paralel & Pemantauan Konten (`cyberpulse`)**
+- **Kategori:** Data & AI Pipeline (2026) | **Tech Stack:** FastAPI, Selenium, SQLAlchemy, OCR, Klasifikasi Teks Paralel.
+- **Metrik:** Keberhasilan Scraping Anti-Bot `>90%`, Inspeksi Multi-Modal `Teks DOM + OCR Screenshot`, Backend `FastAPI + SQLAlchemy`.
+- **Arsitektur & Hasil:** Sistem perayap web paralel dari berbagai mesin pencari menggunakan browser otomatis **Selenium** untuk memuat halaman ber-JavaScript dinamis, mengambil teks DOM sekaligus menyimpan tangkapan layar (*screenshot*). Menjalankan penyaringan aturan teks cepat, ekstraksi teks dari gambar spanduk menggunakan **OCR**, serta klasifikasi topik konten berbasis AI secara paralel di backend **FastAPI** dengan penyimpanan terstruktur **SQLAlchemy**.
+
+### **8. Deteksi Dini Chattering pada Proses Pemesinan (GPBL Tokyo) (`chattering-detection-tokyo`)**
+- **Kategori:** Research & ML (Sep 2025) | **Tech Stack:** Signal Processing (Fast Fourier Transform / FFT), XGBoost, Scikit-Learn, Python, Analisis Sensor Getaran.
+- **Metrik:** `Akurasi Model 92,83%`, Penghargaan `Presentasi Hasil Terbaik (1 dari 12 Tim Lintas 6 Negara)`, Program `JASSO Scholarship GPBL · Shibaura Institute of Technology (SIT), Tokyo`.
+- **Arsitektur & Hasil:** Mengolah sinyal sensor akselerometer pemesinan logam presisi untuk mendeteksi gejala awal getaran regeneratif (*chattering*) sebelum merusak permukaan benda kerja. Mengekstraksi fitur statistik domain waktu dan mentransformasikan sinyal ke spektrum frekuensi menggunakan **Fast Fourier Transform (FFT)** guna memisahkan harmonik putaran spindle normal dari pita resonansi *chattering*, lalu melatih model klasifikasi **XGBoost** hingga mencapai **akurasi 92,83%** dan meraih predikat **Best Presentation** di Tokyo.
+
+### **9. Penemuan Pola Penyebab Kecelakaan Pesawat dengan Metode T-BUM (`t-bum-aviation`)**
+- **Kategori:** Research & ML (2025) | **Tech Stack:** Targeted Balanced Utility Pattern Mining (T-BUM), Utility-List Optimization, Data Mining, Python, NumPy.
+- **Metrik:** Algoritma `T-BUM Data Mining`, Fokus Optimasi `Candidate Generation & Join pada Utility-List`, Institusi `S1 Matematika ITS`.
+- **Arsitektur & Hasil:** Riset algoritma data mining di Departemen Matematika ITS untuk menemukan kombinasi faktor penyebab kecelakaan penerbangan komersial yang memiliki bobot dampak (*utility*) tinggi dan seimbang. Merancang strategi *targeted query pruning* serta optimasi pembentukan dan penggabungan kandidat pola (*candidate generation & join*) pada struktur **Utility-List** sehingga memangkas ruang pencarian eksponensial serta jauh lebih hemat waktu komputasi dan memori.
+
+### **10. Portofolio Web Interaktif & Asisten AI Pribadi (RizkyOS 95) (`rizkyos-portfolio-ai`)**
+- **Kategori:** LLM, RAG & Governance (2026) | **Tech Stack:** FastAPI, Groq LLM, RAG Context Chunking (BM25), Supabase Memory, Upstash Redis, Google Sheets, Vanilla ES Modules, Three.js (`RoomModel.glb`).
+- **Metrik:** Shell Desktop `Windows 95 (14 Aplikasi Native + Auto-Fullscreen)`, Backend `FastAPI + Groq Multi-Model + BM25 Chunking`, Memori & Guard `Supabase + Upstash Redis`.
+- **Arsitektur & 14 Aplikasi Native di dalam RizkyOS 95:**
+  - **Shell OS (`win95.css`, `wm.js`, `icons.js`, `sound.js`):** Boot 2-fase (**BIOS POST** `RizkyOS 95 Award Modular BIOS` -> **Teal `#018281` Splash Screen**), efek **CRT scanlines**, synthesizer suara **Web Audio API**, fitur **Auto-Fullscreen** saat web dibuka (beserta tombol toggle Fullscreen di System Tray), window manager lengkap (drag, 8-arah resize, Start Menu, BSOD & Konami Code Matrix Easter Egg), dan responsif penuh di mobile (`<= 768px`).
+  - **RizkyBot Messenger (`messenger.js`):** Klien chat bergaya **MSN Messenger 1999** (transkrip plain-text, tombol **Nudge** dengan efek getar jendela, chip prompt cepat) yang terhubung ke `POST /api/web-chat`.
+  - **Internet Explorer 4.0 (`browser.js`):** Pembaca artikel editorial bergaya **Medium** (`Georgia, serif`) untuk profil, pengalaman, matriks skill, dan **13 studi kasus proyek** lengkap dengan tombol *"Tanya RizkyBot soal proyek ini"*.
+  - **My Computer Explorer, WordPad CV, PDF Viewer & Recycle Bin (`explorer.js`):** File manager `C:\Rizky\`, pembaca CV yang siap dicetak (`Print CV`), penampil **14 PDF sertifikasi asli** (termasuk `PASAS_CISDE_Data_Engineering.pdf`, `BNSP_Ilmuwan_Data_Madya.pdf`, `Bangkit_Academy_2024.pdf`, `Bangkit Academy_merged.pdf`, `Portofolio_ML_AI_Rizky_Alviando.pdf`), serta Recycle Bin berisi 6 berkas Easter egg.
+  - **MS-DOS Prompt (`terminal.js`):** Terminal CRT klasik (`C:\RIZKY>`) dengan perintah `help`, `whoami`, `neofetch`, `dir`, `cd`, `tree`, `type`, `skills`, `projects`, `read <slug>`, `exp`, `certs`, `open <app>`, `color`, `matrix`, `bsod`, dan **`ask <pertanyaan>`** untuk bertanya langsung ke AI dari DOS.
+  - **Catur 95 — Lawan Rizky AI (`chess.js`):** Aplikasi catur dengan **engine legal terverifikasi Perft** (castling O-O/O-O-O, en passant, promosi, SAN, deteksi skakmat/stalemate/draw 50-langkah/repetisi 3x) melawan **RizkyBot Chess AI** berbasis **Alpha-Beta Minimax + Quiescence Search + MVV-LVA + Piece-Square Tables**.
+  - **Rubik Solver 95 (`rubik.js`):** Simulator dan pemecah **Rubik's Cube 3x3x3** interaktif dengan proyeksi 3D, **2D Net Paint Mode** untuk mewarnai stiker kubus kustom, **validator paritas matematika** (orientasi sudut mod 3, orientasi tepi mod 2, paritas permutasi) yang menolak konfigurasi mustahil, serta **algoritma solver 7-tahap** dengan pemutar solusi (*Play/Pause/Step/Scramble*).
+  - **Ojek Rush 95: Surabaya Edition & Minesweeper 95 (`game.js`):** Gim balap arkade skuter ojol 60fps HTML5 Canvas melewati lalu lintas Surabaya (Angkot, Bus Suroboyo, Bajaj, Gerobak Bakso) dan Minesweeper klasik Windows 95.
+  - **Ruang Kerja 3D Interaktif (`room3d` / `open-world.html`):** Ruang kerja isometrik 3D berbasis **Three.js + `RoomModel.glb`** dengan penambatan pin hotspot dinamis berbasis geometri mesh asli (`computeTightWorldBox` / `Box3`) yang mengarah presisi ke **Buku Dossier** (membuka **Flipbook 10 halaman StPageFlip**), **Papan Catur**, **Monitor PC Workstation**, dan **Papan Sertifikasi**, plus **RizkyBook Guestbook** dan **Display Properties**.
+
+### **11. Sugaryzer: Aplikasi Analisis & Rekomendasi Konsumsi Gula Harian (`sugaryzer-bangkit`)**
+- **Kategori:** Research & ML (2024 - 2025) | **GitHub:** `https://github.com/orgs/Sugaryzer/repositories` | **Tech Stack:** TensorFlow, OCR & Computer Vision, Classification ML, Unsupervised Clustering, Bangkit Capstone.
+- **Metrik:** `Akurasi Model 89%`, Tim Lintas Fungsi `6 Orang (ML · Cloud · Mobile)`, Nilai Akhir Bangkit `92,79 / 100`.
+- **Arsitektur & Hasil:** Proyek capstone Bangkit Academy 2024 untuk memantau asupan gula harian dari produk kemasan. Merancang model **OCR** pembaca kode barcode dan informasi gizi produk serta model klasifikasi dan *unsupervised clustering* berbasis **TensorFlow** dengan **akurasi 89%** untuk mengelompokkan profil konsumsi gula harian dan memberikan rekomendasi kesehatan pada MVP aplikasi mobile.
+
+### **12. GarudaSentimen: Analisis Opini Publik Sepak Bola Indonesia (`garuda-sentimen`)**
+- **Kategori:** NLP & Speech (2025) | **Tech Stack:** Python, Scikit-Learn, TF-IDF N-Gram, Kamus Normalisasi Slang Indonesia, Aspect-Based NLP.
+- **Metrik:** Aspek Terpetakan `4 Dimensi (Pelatih · Pemain · Federasi · Taktik)`, Preprocessing `Kamus Slang Media Sosial Indonesia`, Fitur `TF-IDF N-Gram`.
+- **Arsitektur & Hasil:** Memetakan ribuan komentar suporter sepak bola Indonesia di media sosial yang penuh singkatan dan bahasa gaul ke dalam analisis sentimen berbasis aspek. Menyusun kamus pembakuan slang/singkatan bahasa Indonesia, mengekstrak fitur frasa **TF-IDF N-Gram** agar konteks negasi tetap terjaga, dan mengklasifikasikan sentimen komentar ke aspek pelatih, pemain, federasi, dan taktik pertandingan.
+
+### **13. Analisis Sentimen Multi-Kelas Transformer (Big Data Challenge 2024) (`transformer-sentiment-bdc`)**
+- **Kategori:** NLP & Speech (2024) | **Tech Stack:** IndoBERT, RoBERTa, PyTorch, HuggingFace Transformers, Klasifikasi Multi-Kelas.
+- **Metrik:** Skor Evaluasi `F1-Score 70%`, Target `8 Kelas Sentimen`, Backbone `IndoBERT & RoBERTa`.
+- **Arsitektur & Hasil:** Membangun pipeline pembersihan teks media sosial bahasa Indonesia (penanganan URL, mention, noise, dan normalisasi ejaan tanpa menghapus penanda emosi) serta melakukan *fine-tuning* dan komparasi model pretrained **IndoBERT** dan **RoBERTa** menggunakan PyTorch & HuggingFace Transformers hingga mencapai **F1-score 70% pada 8 kelas sentimen** di ajang Big Data Challenge 2024.
+
+
 

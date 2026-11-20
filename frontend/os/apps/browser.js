@@ -194,12 +194,16 @@ function renderHomePage() {
             <span class="ie-btn-ico">${getIconSVG('messenger', 15)}</span>
             <span>Tanya RizkyBot AI</span>
           </button>
-          <button type="button" class="ie-action-btn" data-open-app="notepad" data-doc="cv">
-            <span class="ie-btn-ico">${getIconSVG('wordpad', 15)}</span>
-            <span>Buka CV</span>
+          <button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf')}" data-cert-id="cv-rizky-alviando" data-pdf-title="Curriculum Vitae (CV) — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka CV (PDF Asli)</span>
+          </button>
+          <button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE?.portfolioPdf || 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf')}" data-cert-id="portfolio-deck" data-pdf-title="Portofolio AI &amp; ML — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka Portofolio (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-open-app="explorer" data-path="C:\\Rizky\\Certificates">
-            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span class="ie-btn-ico">${getIconSVG('folder-open', 15)}</span>
             <span>Sertifikat (${certCount})</span>
           </button>
           <button type="button" class="ie-action-btn" data-nav="projects">
@@ -376,19 +380,17 @@ function renderAboutPage() {
       <div class="ie-cta-box">
         <div>
           <h3>Dokumen Resmi &amp; Diskusi Langsung</h3>
-          <p>Buka versi CV siap cetak di WordPad, lihat slide portofolio PDF, atau ajukan pertanyaan spesifik ke RizkyBot AI.</p>
+          <p>Buka dokumen CV resmi (PDF asli), lihat slide portofolio AI &amp; ML (PDF), atau ajukan pertanyaan spesifik ke RizkyBot AI.</p>
         </div>
         <div class="ie-cta-buttons">
-          <button type="button" class="ie-action-btn ie-action-primary" data-open-app="notepad" data-doc="cv">
-            Buka CV di WordPad
+          <button type="button" class="ie-action-btn ie-action-primary" data-open-pdf="${escapeHtml(PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf')}" data-cert-id="cv-rizky-alviando" data-pdf-title="Curriculum Vitae (CV) — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka CV (PDF Asli)</span>
           </button>
-          ${
-            PROFILE?.portfolioPdf
-              ? `<button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE.portfolioPdf)}" data-pdf-title="Slide Deck Portofolio AI & ML — Rizky Alviando">
-                  Lihat Slide Portofolio (PDF)
-                </button>`
-              : ''
-          }
+          <button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE?.portfolioPdf || 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf')}" data-cert-id="portfolio-deck" data-pdf-title="Portofolio AI &amp; ML — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka Portofolio (PDF)</span>
+          </button>
           <button type="button" class="ie-action-btn" data-open-app="messenger">
             Tanya RizkyBot AI
           </button>
@@ -457,12 +459,17 @@ function renderExperiencePage() {
 
       <div class="ie-cta-box">
         <div>
-          <h3>Ingin versi ringkas CV atau detail pengalaman tertentu?</h3>
-          <p>Buka WordPad CV untuk tampilan siap cetak atau tanyakan detail proyek Komdigi langsung ke RizkyBot AI.</p>
+          <h3>Ingin melihat dokumen CV resmi atau detail pengalaman tertentu?</h3>
+          <p>Buka dokumen CV asli (PDF) &amp; slide Portofolio (PDF), atau tanyakan detail proyek Komdigi langsung ke RizkyBot AI.</p>
         </div>
         <div class="ie-cta-buttons">
-          <button type="button" class="ie-action-btn ie-action-primary" data-open-app="notepad" data-doc="cv">
-            Buka Printable CV
+          <button type="button" class="ie-action-btn ie-action-primary" data-open-pdf="${escapeHtml(PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf')}" data-cert-id="cv-rizky-alviando" data-pdf-title="Curriculum Vitae (CV) — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka CV (PDF Asli)</span>
+          </button>
+          <button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE?.portfolioPdf || 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf')}" data-cert-id="portfolio-deck" data-pdf-title="Portofolio AI &amp; ML — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka Portofolio (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-open-app="messenger" data-prefill="Ceritakan pengalaman kerja Rizky Alviando sebagai AI Engineer di Komdigi dan hasil yang dicapai.">
             Tanya RizkyBot AI
@@ -840,8 +847,13 @@ function renderContactPage() {
           <button type="button" class="ie-action-btn" data-open-app="guestbook">
             Isi RizkyBook Guestbook
           </button>
-          <button type="button" class="ie-action-btn" data-open-app="notepad" data-doc="cv">
-            Buka Printable CV
+          <button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf')}" data-cert-id="cv-rizky-alviando" data-pdf-title="Curriculum Vitae (CV) — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka CV (PDF Asli)</span>
+          </button>
+          <button type="button" class="ie-action-btn" data-open-pdf="${escapeHtml(PROFILE?.portfolioPdf || 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf')}" data-cert-id="portfolio-deck" data-pdf-title="Portofolio AI &amp; ML — Rizky Alviando">
+            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
+            <span>Buka Portofolio (PDF)</span>
           </button>
         </div>
       </div>
@@ -900,7 +912,8 @@ export const browserApp = {
           <div class="ie-menu-group">
             <button type="button" class="win95-menubar-item ie-menu-btn" data-menu="file"><u>F</u>ile</button>
             <div class="win95-menu-dropdown ie-menu-dropdown" data-dropdown="file" hidden>
-              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-cv">Open CV in WordPad</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-cv">Open CV (PDF)...</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-portfolio">Open Portofolio (PDF)...</button>
               <button type="button" class="win95-menu-item ie-menu-item" data-action="print">Print Page...</button>
               <div class="win95-menu-sep"></div>
               <button type="button" class="win95-menu-item ie-menu-item" data-action="close">Close</button>
@@ -1116,6 +1129,7 @@ export const browserApp = {
         sound.playOpen();
         closeMenus();
         winApi?.os?.openApp?.('pdf-viewer', {
+          certId: pdfBtn.dataset.certId || undefined,
           file: pdfBtn.dataset.openPdf,
           title: pdfBtn.dataset.pdfTitle || 'PDF Document'
         });
@@ -1155,8 +1169,19 @@ export const browserApp = {
         else if (act === 'forward') goForward();
         else if (act === 'refresh') renderPage(historyStack[historyIndex] || 'home');
         else if (act === 'home') navigate('home', true);
-        else if (act === 'open-cv') winApi?.os?.openApp?.('notepad', { doc: 'cv' });
-        else if (act === 'print') window.print();
+        else if (act === 'open-cv') {
+          winApi?.os?.openApp?.('pdf-viewer', {
+            certId: 'cv-rizky-alviando',
+            file: PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf',
+            title: 'Curriculum Vitae (CV) — Rizky Alviando'
+          });
+        } else if (act === 'open-portfolio') {
+          winApi?.os?.openApp?.('pdf-viewer', {
+            certId: 'portfolio-deck',
+            file: PROFILE?.portfolioPdf || 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
+            title: 'Portofolio AI & ML — Rizky Alviando'
+          });
+        } else if (act === 'print') window.print();
         else if (act === 'close') winApi?.close?.();
         else if (act === 'about-ie') {
           winApi?.os?.showDialog?.({

@@ -45,9 +45,21 @@ const START_MENU = [
     children: [
       { label: 'RizkyBot AI', icon: 'messenger', appId: 'messenger' },
       { label: 'Internet Explorer', icon: 'ie', appId: 'browser', args: { page: 'home' } },
+      { label: 'About Me', icon: 'info', appId: 'browser', args: { page: 'about' } },
+      {
+        label: 'CV Rizky (PDF)',
+        icon: 'pdf',
+        appId: 'pdf-viewer',
+        args: { certId: 'cv-rizky-alviando', file: 'assets/certs/Rizky_Alviando_CV_ID.pdf' },
+      },
+      {
+        label: 'Portofolio (PDF)',
+        icon: 'pdf',
+        appId: 'pdf-viewer',
+        args: { certId: 'portfolio-deck', file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf' },
+      },
       { label: 'My Computer', icon: 'computer', appId: 'explorer' },
       { label: 'MS-DOS Prompt', icon: 'dos', appId: 'terminal' },
-      { label: 'WordPad CV', icon: 'wordpad', appId: 'notepad', args: { doc: 'cv' } },
       { label: '3D Room', icon: 'room3d', appId: 'room3d' },
     ],
   },
@@ -66,7 +78,18 @@ const START_MENU = [
     icon: 'documents',
     children: [
       { label: 'README.txt', icon: 'notepad', appId: 'notepad', args: { doc: 'readme' } },
-      { label: 'CV Rizky Alviando', icon: 'wordpad', appId: 'notepad', args: { doc: 'cv' } },
+      {
+        label: 'CV Rizky Alviando.pdf',
+        icon: 'pdf',
+        appId: 'pdf-viewer',
+        args: { certId: 'cv-rizky-alviando', file: 'assets/certs/Rizky_Alviando_CV_ID.pdf' },
+      },
+      {
+        label: 'Portofolio ML & AI.pdf',
+        icon: 'pdf',
+        appId: 'pdf-viewer',
+        args: { certId: 'portfolio-deck', file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf' },
+      },
       {
         label: 'Certificates Folder',
         icon: 'folder',
@@ -144,8 +167,18 @@ function resolveHashRoute(rawHash) {
     rubiks: { appId: 'rubik' },
     cube: { appId: 'rubik' },
 
-    cv: { appId: 'notepad', args: { doc: 'cv' } },
-    resume: { appId: 'notepad', args: { doc: 'cv' } },
+    cv: {
+      appId: 'pdf-viewer',
+      args: { certId: 'cv-rizky-alviando', file: 'assets/certs/Rizky_Alviando_CV_ID.pdf' },
+    },
+    resume: {
+      appId: 'pdf-viewer',
+      args: { certId: 'cv-rizky-alviando', file: 'assets/certs/Rizky_Alviando_CV_ID.pdf' },
+    },
+    portofolio: {
+      appId: 'pdf-viewer',
+      args: { certId: 'portfolio-deck', file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf' },
+    },
     readme: { appId: 'notepad', args: { doc: 'readme' } },
     notepad: { appId: 'notepad', args: { doc: 'readme' } },
 

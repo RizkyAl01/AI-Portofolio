@@ -15,6 +15,7 @@ export const PROFILE = {
   linkedin: 'https://www.linkedin.com/in/rizky-alviando-31b47021b/',
   instagram: '',
   canvaPortfolio: 'https://canva.link/Rizky-Alviando-PortoAIML26',
+  cvPdf: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
   portfolioPdf: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
   photo: 'assets/images/IMG-20250903-WA0024.jpg',
   photoCaption:
@@ -1025,8 +1026,19 @@ export const SKILLS = [
   },
 ];
 
-// Every single PDF verified on disk under frontend/assets/certs/ (14 files total)
+// Every single PDF verified on disk under frontend/assets/certs/ (15 files total)
 export const CERTIFICATES = [
+  {
+    id: 'cv-rizky-alviando',
+    title: 'Curriculum Vitae (CV) — Rizky Alviando',
+    issuer: 'Rizky Alviando, S.Mat. (Dokumen CV Resmi)',
+    year: '2026',
+    date: '2026',
+    credentialId: 'CV-RIZKY-ID',
+    category: 'CV & Resume',
+    size: '656 KB',
+    file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
+  },
   {
     id: 'pasas-cisde',
     title: 'Certified International Specialist in Data Engineering (CISDE)',
@@ -1283,13 +1295,22 @@ export const VIRTUAL_FS = {
       content: README_TXT,
     },
     {
-      name: 'CV_Rizky_Alviando.doc',
-      type: 'doc',
-      icon: 'wordpad',
-      size: '48 KB',
-      date: '19/11/2026',
-      docKey: 'cv',
-      content: CV_PLAIN_TXT,
+      name: 'CV_Rizky_Alviando.pdf',
+      type: 'pdf',
+      icon: 'pdf',
+      size: '656 KB',
+      date: '2026-11-19',
+      title: 'Curriculum Vitae (CV) — Rizky Alviando',
+      file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
+    },
+    {
+      name: 'Portofolio_ML_AI_Rizky_Alviando.pdf',
+      type: 'pdf',
+      icon: 'pdf',
+      size: '3.33 MB',
+      date: '2026-11-19',
+      title: 'Portofolio AI & ML — Rizky Alviando',
+      file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
     },
     {
       name: 'About',
@@ -1305,6 +1326,15 @@ export const VIRTUAL_FS = {
           date: '19/11/2026',
           docKey: 'bio',
           content: BIO_TXT,
+        },
+        {
+          name: 'CV_Rizky_Alviando.pdf',
+          type: 'pdf',
+          icon: 'pdf',
+          size: '656 KB',
+          date: '2026-11-19',
+          title: 'Curriculum Vitae (CV) — Rizky Alviando',
+          file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
         },
         {
           name: 'Tentang_Rizky.ie',
@@ -1717,6 +1747,13 @@ export const DESKTOP_ICONS = [
     args: { page: 'home' },
   },
   {
+    id: 'icon-about',
+    appId: 'browser',
+    label: 'About Me',
+    iconKey: 'info',
+    args: { page: 'about' },
+  },
+  {
     id: 'icon-messenger',
     appId: 'messenger',
     label: 'RizkyBot AI',
@@ -1724,10 +1761,25 @@ export const DESKTOP_ICONS = [
   },
   {
     id: 'icon-cv',
-    appId: 'notepad',
-    label: 'CV & Readme',
-    iconKey: 'wordpad',
-    args: { doc: 'cv' },
+    appId: 'pdf-viewer',
+    label: 'CV Rizky',
+    iconKey: 'pdf',
+    args: {
+      certId: 'cv-rizky-alviando',
+      file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
+      title: 'Curriculum Vitae (CV) — Rizky Alviando',
+    },
+  },
+  {
+    id: 'icon-portfolio',
+    appId: 'pdf-viewer',
+    label: 'Portofolio',
+    iconKey: 'pdf',
+    args: {
+      certId: 'portfolio-deck',
+      file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
+      title: 'Portofolio AI & ML — Rizky Alviando',
+    },
   },
   {
     id: 'icon-terminal',

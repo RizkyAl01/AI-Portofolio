@@ -173,10 +173,16 @@ const state = {
   clockEl: null,
   traySoundBtnEl: null,
   trayCrtBtnEl: null,
+  trayFullscreenBtnEl: null,
   tooltipEl: null,
   matrixCanvasEl: null,
   bsodEl: null,
   bootOverlayEl: null,
+
+  // Fullscreen auto-open & gesture state
+  userExitedFullscreen: false,
+  hadEnteredFullscreen: false,
+  fullscreenGestureCleanup: null,
 
   // Config & callbacks
   desktopIcons: [],
@@ -904,6 +910,93 @@ function updateTrayClock() {
   state.clockEl.setAttribute('aria-label', dateLabel);
 }
 
+function isDocumentFullscreen() {
+  if (typeof document === 'undefined') return false;
+  return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+}
+
+function requestDocFullscreen() {
+  if (typeof document === 'undefined' || isDocumentFullscreen()) return Promise.resolve();
+  const el = document.documentElement;
+  if (!el) return Promise.resolve();
+  const fn = el.requestFullscreen || el.webkitRequestFullscreen;
+  if (typeof fn !== 'function') return Promise.resolve();
+  try {
+    const res = fn.call(el);
+    if (res && typeof res.catch === 'function') {
+      return res.catch(() => {});
+    }
+    return Promise.resolve(res);
+  } catch {
+    return Promise.resolve();
+  }
+}
+
+function exitDocFullscreen() {
+  if (typeof document === 'undefined' || !isDocumentFullscreen()) return Promise.resolve();
+  const fn = document.exitFullscreen || document.webkitExitFullscreen;
+  if (typeof fn !== 'function') return Promise.resolve();
+  try {
+    const res = fn.call(document);
+    if (res && typeof res.catch === 'function') {
+      return res.catch(() => {});
+    }
+    return Promise.resolve(res);
+  } catch {
+    return Promise.resolve();
+  }
+}
+
+function removeAutoFullscreenGesture() {
+  if (typeof state.fullscreenGestureCleanup === 'function') {
+    state.fullscreenGestureCleanup();
+    state.fullscreenGestureCleanup = null;
+  }
+}
+
+function setupAutoFullscreen() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  removeAutoFullscreenGesture();
+
+  // Attempt immediate fullscreen on init (succeeds if browser has prior activation)
+  if (!state.userExitedFullscreen && !isDocumentFullscreen()) {
+    requestDocFullscreen();
+  }
+
+  // Fallback: trigger fullscreen on the very first user gesture (click, tap, or keypress)
+  const onFirstGesture = (e) => {
+    if (state.userExitedFullscreen || isDocumentFullscreen()) {
+      removeAutoFullscreenGesture();
+      return;
+    }
+    // If clicking the tray fullscreen button directly, let its click handler manage toggle
+    if (e && e.target && e.target.closest && e.target.closest('.os-tray-fullscreen-btn')) {
+      removeAutoFullscreenGesture();
+      return;
+    }
+    if (e && e.type === 'keydown') {
+      if (e.key === 'Escape' || e.key === 'F11' || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') {
+        return;
+      }
+    }
+    removeAutoFullscreenGesture();
+    requestDocFullscreen();
+  };
+
+  const opts = { capture: true, passive: true };
+  window.addEventListener('pointerdown', onFirstGesture, opts);
+  window.addEventListener('mousedown', onFirstGesture, opts);
+  window.addEventListener('touchstart', onFirstGesture, opts);
+  window.addEventListener('keydown', onFirstGesture, opts);
+
+  state.fullscreenGestureCleanup = () => {
+    window.removeEventListener('pointerdown', onFirstGesture, opts);
+    window.removeEventListener('mousedown', onFirstGesture, opts);
+    window.removeEventListener('touchstart', onFirstGesture, opts);
+    window.removeEventListener('keydown', onFirstGesture, opts);
+  };
+}
+
 function syncTrayButtons() {
   if (state.traySoundBtnEl) {
     const isMuted = sound.isMuted();
@@ -919,6 +1012,14 @@ function syncTrayButtons() {
     state.trayCrtBtnEl.classList.toggle('is-on', state.crtEnabled);
     state.trayCrtBtnEl.dataset.tooltip = label;
     state.trayCrtBtnEl.setAttribute('aria-label', label);
+  }
+  if (state.trayFullscreenBtnEl) {
+    const isFs = isDocumentFullscreen();
+    const label = isFs ? 'Exit Fullscreen' : 'Fullscreen';
+    state.trayFullscreenBtnEl.innerHTML = getIconSVG(isFs ? 'fullscreen-exit' : 'fullscreen', 15);
+    state.trayFullscreenBtnEl.classList.toggle('is-on', isFs);
+    state.trayFullscreenBtnEl.dataset.tooltip = label;
+    state.trayFullscreenBtnEl.setAttribute('aria-label', label);
   }
 }
 
@@ -1265,8 +1366,21 @@ function attachGlobalListeners() {
     }
   });
 
-  // Sync tray icons when sound changes from Display Properties or anywhere else
+  // Sync tray icons when sound or fullscreen state changes
   window.addEventListener('rizkyos:soundchange', syncTrayButtons);
+  const onFullscreenChange = () => {
+    const active = isDocumentFullscreen();
+    if (active) {
+      state.hadEnteredFullscreen = true;
+      removeAutoFullscreenGesture();
+    } else if (state.hadEnteredFullscreen) {
+      state.userExitedFullscreen = true;
+      removeAutoFullscreenGesture();
+    }
+    syncTrayButtons();
+  };
+  document.addEventListener('fullscreenchange', onFullscreenChange);
+  document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
   // Global keyboard shortcuts & Konami code
   window.addEventListener('keydown', (e) => {
@@ -1532,6 +1646,15 @@ function buildShellDOM(rootEl) {
     RizkyOS.openApp('messenger');
   });
 
+  const fullscreenBtn = document.createElement('button');
+  fullscreenBtn.type = 'button';
+  fullscreenBtn.className = 'os-tray-btn os-tray-fullscreen-btn';
+  fullscreenBtn.innerHTML = getIconSVG('fullscreen', 15);
+  fullscreenBtn.addEventListener('click', () => {
+    sound.playClick();
+    RizkyOS.toggleFullscreen();
+  });
+
   const crtBtn = document.createElement('button');
   crtBtn.type = 'button';
   crtBtn.className = 'os-tray-btn';
@@ -1552,6 +1675,7 @@ function buildShellDOM(rootEl) {
   clockEl.className = 'os-tray-clock';
 
   tray.appendChild(aiBtn);
+  tray.appendChild(fullscreenBtn);
   tray.appendChild(crtBtn);
   tray.appendChild(soundBtn);
   tray.appendChild(clockEl);
@@ -1615,6 +1739,7 @@ function buildShellDOM(rootEl) {
   state.taskbarWindowsEl = taskbarWindows;
   state.traySoundBtnEl = soundBtn;
   state.trayCrtBtnEl = crtBtn;
+  state.trayFullscreenBtnEl = fullscreenBtn;
   state.clockEl = clockEl;
   state.tooltipEl = tooltipEl;
   state.bsodEl = bsod;
@@ -1656,6 +1781,7 @@ export const RizkyOS = {
     renderStartMenuItems(state.startMenuConfig);
     attachDesktopInteractions();
     attachGlobalListeners();
+    setupAutoFullscreen();
     syncTrayButtons();
     updateTrayClock();
     resetIdleTitleTimer();
@@ -2279,6 +2405,28 @@ export const RizkyOS = {
    */
   isCRTEnabled() {
     return state.crtEnabled;
+  },
+
+  /**
+   * Toggle browser fullscreen mode cleanly (and track manual exit so auto-fullscreen doesn't re-fire).
+   */
+  toggleFullscreen() {
+    removeAutoFullscreenGesture();
+    if (isDocumentFullscreen()) {
+      state.userExitedFullscreen = true;
+      exitDocFullscreen();
+      return false;
+    }
+    state.userExitedFullscreen = false;
+    requestDocFullscreen();
+    return true;
+  },
+
+  /**
+   * @returns {boolean} true if document is currently in fullscreen mode
+   */
+  isFullscreen() {
+    return isDocumentFullscreen();
   },
 
   /**
