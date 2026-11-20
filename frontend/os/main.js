@@ -1,6 +1,6 @@
 /**
  * RizkyOS 95 — Main Bootstrap & Application Registry
- * Wires the Window Manager, portfolio data, all 12 desktop applications,
+ * Wires the Window Manager, portfolio data, all 14 desktop applications,
  * multi-level Start Menu, initial workspace layout, and URL hash deep-linking.
  */
 
@@ -17,6 +17,8 @@ import {
 } from './apps/explorer.js';
 import { terminalApp } from './apps/terminal.js';
 import { ojekRushApp, minesweeperApp } from './apps/game.js';
+import { chessApp } from './apps/chess.js';
+import { rubikApp } from './apps/rubik.js';
 import { guestbookApp, displayApp, room3dApp } from './apps/extras.js';
 
 const ALL_APPS = [
@@ -29,6 +31,8 @@ const ALL_APPS = [
   terminalApp,
   ojekRushApp,
   minesweeperApp,
+  chessApp,
+  rubikApp,
   guestbookApp,
   displayApp,
   room3dApp,
@@ -53,6 +57,8 @@ const START_MENU = [
     children: [
       { label: 'Ojek Rush 95', icon: 'game', appId: 'ojek-rush' },
       { label: 'Minesweeper 95', icon: 'minesweeper', appId: 'minesweeper' },
+      { label: 'Catur 95', icon: 'chess', appId: 'chess' },
+      { label: 'Rubik Solver 95', icon: 'rubik', appId: 'rubik' },
     ],
   },
   {
@@ -132,6 +138,11 @@ function resolveHashRoute(rawHash) {
     'ojek-rush': { appId: 'ojek-rush' },
     minesweeper: { appId: 'minesweeper' },
     mines: { appId: 'minesweeper' },
+    chess: { appId: 'chess' },
+    catur: { appId: 'chess' },
+    rubik: { appId: 'rubik' },
+    rubiks: { appId: 'rubik' },
+    cube: { appId: 'rubik' },
 
     cv: { appId: 'notepad', args: { doc: 'cv' } },
     resume: { appId: 'notepad', args: { doc: 'cv' } },

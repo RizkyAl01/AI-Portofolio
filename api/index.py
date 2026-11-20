@@ -269,6 +269,7 @@ async def send_telegram_message(chat_id: int, text: str):
         except Exception:
             pass
 @app.get("/", response_class=HTMLResponse)
+@app.get("/index.html", response_class=HTMLResponse)
 def read_root():
     try:
         # Try to serve the frontend index.html

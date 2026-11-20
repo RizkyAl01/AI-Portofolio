@@ -42,6 +42,9 @@
 .term-app button,
 .ojek-app button,
 .ms-app button,
+.chess-app button,
+.chess-app select,
+.rubik-app button,
 .gb-app button,
 .gb-app input,
 .gb-app textarea,
@@ -60,6 +63,8 @@
 .rb-list-wrap::-webkit-scrollbar,
 .term-screen::-webkit-scrollbar,
 .ms-board-scroll::-webkit-scrollbar,
+.chess-history-list::-webkit-scrollbar,
+.rubik-stages-list::-webkit-scrollbar,
 .gb-app::-webkit-scrollbar,
 .disp-body::-webkit-scrollbar,
 .disp-wp-list::-webkit-scrollbar {
@@ -76,6 +81,8 @@
 .rb-list-wrap::-webkit-scrollbar-track,
 .term-screen::-webkit-scrollbar-track,
 .ms-board-scroll::-webkit-scrollbar-track,
+.chess-history-list::-webkit-scrollbar-track,
+.rubik-stages-list::-webkit-scrollbar-track,
 .gb-app::-webkit-scrollbar-track,
 .disp-body::-webkit-scrollbar-track,
 .disp-wp-list::-webkit-scrollbar-track {
@@ -91,6 +98,8 @@
 .rb-list-wrap::-webkit-scrollbar-thumb,
 .term-screen::-webkit-scrollbar-thumb,
 .ms-board-scroll::-webkit-scrollbar-thumb,
+.chess-history-list::-webkit-scrollbar-thumb,
+.rubik-stages-list::-webkit-scrollbar-thumb,
 .gb-app::-webkit-scrollbar-thumb,
 .disp-body::-webkit-scrollbar-thumb,
 .disp-wp-list::-webkit-scrollbar-thumb {
@@ -113,6 +122,8 @@
 .rb-list-wrap::-webkit-scrollbar-corner,
 .term-screen::-webkit-scrollbar-corner,
 .ms-board-scroll::-webkit-scrollbar-corner,
+.chess-history-list::-webkit-scrollbar-corner,
+.rubik-stages-list::-webkit-scrollbar-corner,
 .gb-app::-webkit-scrollbar-corner,
 .disp-body::-webkit-scrollbar-corner,
 .disp-wp-list::-webkit-scrollbar-corner {
@@ -2981,6 +2992,982 @@
 .ms-n8 { color: #666666; }
 
 /* ==========================================================================
+   5B. CATUR 95 — LAWAN RIZKY AI (.chess-*)
+   ========================================================================== */
+
+.chess-app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--w95-bg);
+}
+
+.chess-toolbar {
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.chess-toolbar-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chess-tb-btn {
+  min-height: 21px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.chess-mode-select {
+  height: 21px;
+  font-size: 11px;
+  padding: 1px 4px;
+}
+
+.chess-color-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.chess-color-btn {
+  min-height: 21px;
+  padding: 2px 7px;
+  font-size: 11px;
+}
+
+.chess-color-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #000000;
+  flex-shrink: 0;
+}
+
+.chess-color-swatch.is-white {
+  background: #fdfaf2;
+}
+
+.chess-color-swatch.is-black {
+  background: #202124;
+}
+
+.chess-workspace {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.chess-board-pane {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chess-board-stage {
+  position: relative;
+  width: min(100%, 396px);
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chess-board-frame {
+  width: 100%;
+  padding: 5px 6px 4px 4px;
+  background: #c3c3c3;
+}
+
+.chess-board-grid-wrap {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  grid-template-rows: 1fr 16px;
+  gap: 2px;
+  align-items: stretch;
+}
+
+.chess-ranks {
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  align-items: center;
+}
+
+.chess-files {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
+}
+
+.chess-coord {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ed-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #3f3f3f;
+  user-select: none;
+}
+
+.chess-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #2b2118;
+  background: #2b2118;
+}
+
+.chess-sq {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+}
+
+.chess-sq:focus-visible {
+  outline: 2px solid #00007c;
+  outline-offset: -2px;
+  z-index: 2;
+}
+
+.chess-sq-light {
+  background: #efe1c6;
+}
+
+.chess-sq-dark {
+  background: #a67c52;
+}
+
+.chess-sq.is-last-from.chess-sq-light,
+.chess-sq.is-last-to.chess-sq-light {
+  background: #e7d87c;
+}
+
+.chess-sq.is-last-from.chess-sq-dark,
+.chess-sq.is-last-to.chess-sq-dark {
+  background: #b99e44;
+}
+
+.chess-sq.is-hint-from,
+.chess-sq.is-hint-to {
+  box-shadow: inset 0 0 0 3px #018281;
+}
+
+.chess-sq.is-selected {
+  background: #4e73b8 !important;
+  box-shadow: inset 0 0 0 2px #00007c;
+}
+
+.chess-sq.is-check {
+  background: #c62828 !important;
+  box-shadow: inset 0 0 0 2px #5c0000;
+}
+
+.chess-sq.is-legal,
+.chess-sq.is-capture {
+  cursor: pointer;
+}
+
+.chess-piece {
+  position: relative;
+  z-index: 2;
+  width: 86%;
+  height: 86%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.chess-piece svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chess-piece-w,
+.chess-piece-b {
+  user-select: none;
+}
+
+.chess-move-dot {
+  position: absolute;
+  z-index: 1;
+  width: 26%;
+  height: 26%;
+  background: rgba(0, 0, 124, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  pointer-events: none;
+}
+
+.chess-capture-ring {
+  position: absolute;
+  inset: 3px;
+  z-index: 1;
+  border: 3px solid rgba(153, 27, 27, 0.85);
+  pointer-events: none;
+}
+
+/* In-window Win95 Pawn Promotion Modal */
+.chess-promo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.chess-promo-dialog {
+  width: 100%;
+  max-width: 280px;
+  padding: 2px;
+  background: var(--w95-bg);
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.chess-promo-titlebar {
+  background: #00007c;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 6px;
+}
+
+.chess-promo-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chess-promo-text {
+  font-size: 11.5px;
+  color: #111111;
+}
+
+.chess-promo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.chess-promo-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+}
+
+.chess-promo-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chess-promo-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.chess-promo-label {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.chess-promo-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Right Sidebar (Status, Captured, History) */
+.chess-sidebar {
+  width: 196px;
+  flex-shrink: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chess-status-box {
+  padding: 6px 8px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.chess-turn-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chess-turn-swatch {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #000000;
+  flex-shrink: 0;
+}
+
+.chess-turn-swatch.is-white {
+  background: #fdfaf2;
+}
+
+.chess-turn-swatch.is-black {
+  background: #202124;
+}
+
+.chess-turn-swatch.is-thinking {
+  background: #018281;
+}
+
+.chess-turn-swatch.is-check {
+  background: #c62828;
+}
+
+.chess-turn-swatch.is-over {
+  background: #00007c;
+}
+
+.chess-turn-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.chess-status-sub {
+  font-size: 11px;
+  color: #404040;
+  line-height: 1.35;
+}
+
+.chess-result-actions {
+  margin-top: 2px;
+  display: flex;
+  gap: 4px;
+}
+
+.chess-captured-box {
+  margin: 0;
+  padding: 5px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.chess-cap-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 20px;
+}
+
+.chess-cap-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #333333;
+  width: 66px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chess-cap-pieces {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1px;
+}
+
+.chess-cap-icon {
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chess-cap-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.chess-mat-diff {
+  font-family: var(--ed-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #00007c;
+  background: #ecece8;
+  border: 1px solid #808080;
+  padding: 0 3px;
+  flex-shrink: 0;
+}
+
+.chess-history-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.chess-history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: #111111;
+  flex-shrink: 0;
+}
+
+.chess-move-count {
+  font-family: var(--ed-mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: #404040;
+}
+
+.chess-history-list {
+  flex: 1;
+  min-height: 84px;
+  overflow-y: auto;
+  background: #ffffff;
+  padding: 4px;
+  font-family: var(--ed-mono);
+  font-size: 11px;
+}
+
+.chess-history-empty {
+  padding: 10px 6px;
+  color: #666666;
+  font-family: var(--w95-font);
+  font-size: 11px;
+  text-align: center;
+}
+
+.chess-history-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr;
+  gap: 2px;
+  padding: 1px 2px;
+  border-bottom: 1px solid #f0f0ec;
+}
+
+.chess-move-num {
+  color: #666666;
+  user-select: none;
+}
+
+.chess-move-san {
+  padding: 0 3px;
+  color: #111111;
+}
+
+.chess-move-san.is-latest {
+  background: #00007c;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   5C. RUBIK SOLVER 95 — 3D + 2D PAINT + 7-STAGE SOLVER (.rubik-*)
+   ========================================================================== */
+
+.rubik-app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--w95-bg);
+}
+
+.rubik-toolbar {
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.rubik-mode-group,
+.rubik-actions-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.rubik-mode-btn,
+.rubik-action-btn,
+.rubik-solve-btn {
+  min-height: 21px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.rubik-solve-btn {
+  font-weight: 700;
+}
+
+.rubik-state-badge {
+  margin-left: auto;
+  padding: 2px 7px;
+  font-family: var(--ed-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: #e4e4e4;
+  color: #111111;
+  border-top: 1px solid var(--w95-shadow);
+  border-left: 1px solid var(--w95-shadow);
+  border-right: 1px solid var(--w95-white);
+  border-bottom: 1px solid var(--w95-white);
+}
+
+.rubik-state-badge.is-solved {
+  background: #e7f5ea;
+  color: #14532d;
+}
+
+.rubik-state-badge.is-scrambled {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.rubik-state-badge.is-paint {
+  background: #ffffe1;
+  color: #00007c;
+}
+
+.rubik-state-badge.is-playing {
+  background: #00007c;
+  color: #ffffff;
+}
+
+.rubik-workspace {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 306px minmax(0, 1fr);
+  gap: 6px;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.rubik-left-pane,
+.rubik-right-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* 3D Interactive Canvas Stage */
+.rubik-stage-box {
+  position: relative;
+  background: #262b30;
+  padding: 2px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rubik-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 292 / 224;
+  cursor: grab;
+  touch-action: none;
+  background: #262b30;
+}
+
+.rubik-canvas:active {
+  cursor: grabbing;
+}
+
+.rubik-move-banner {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  padding: 2px 6px;
+  background: #ffffe1;
+  color: #111111;
+  border: 1px solid #000000;
+  font-family: var(--ed-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.rubik-cam-hint {
+  position: absolute;
+  bottom: 28px;
+  right: 6px;
+  font-family: var(--ed-mono);
+  font-size: 9.5px;
+  color: #b8c0c8;
+  pointer-events: none;
+}
+
+.rubik-cam-bar {
+  display: flex;
+  gap: 3px;
+  padding: 3px 2px 1px;
+  background: var(--w95-bg);
+}
+
+.rubik-cam-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 4px;
+  font-size: 10.5px;
+}
+
+/* 2D Cross Net & Paint Mode */
+.rubik-net-box {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: auto;
+}
+
+.rubik-palette {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.rubik-swatch-btn {
+  padding: 2px 3px;
+  gap: 3px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.rubik-swatch-chip {
+  width: 11px;
+  height: 11px;
+  border: 1px solid #000000;
+  flex-shrink: 0;
+}
+
+.rubik-swatch-count {
+  font-family: var(--ed-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.rubik-swatch-count.is-warn {
+  color: #b91c1c;
+}
+
+.rubik-net-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+
+.rubik-net-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 3px;
+}
+
+.rubik-face-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 16px);
+  gap: 1px;
+  padding: 1px;
+  background: #181818;
+}
+
+.rubik-sticker {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid #181818;
+  font-family: var(--ed-mono);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.rubik-net-grid.is-paint-mode .rubik-sticker:not(.rubik-sticker-center) {
+  cursor: crosshair;
+}
+
+.rubik-net-grid.is-paint-mode .rubik-sticker:not(.rubik-sticker-center):hover {
+  outline: 1px solid #00007c;
+  outline-offset: -2px;
+}
+
+.rubik-net-grid.is-paint-mode .rubik-sticker-center {
+  cursor: not-allowed;
+}
+
+.rubik-paint-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.rubik-validate-btn {
+  font-weight: 700;
+}
+
+.rubik-diag {
+  padding: 4px 6px;
+  font-size: 11px;
+  line-height: 1.35;
+  border: 1px solid #808080;
+  flex-shrink: 0;
+}
+
+.rubik-diag.is-error {
+  background: #fde8e8;
+  color: #991b1b;
+  border-color: #991b1b;
+}
+
+.rubik-diag.is-ok {
+  background: #e7f5ea;
+  color: #14532d;
+  border-color: #14532d;
+}
+
+/* Manual Singmaster Keypad */
+.rubik-keypad-box {
+  margin: 0;
+  padding: 6px 8px;
+  flex-shrink: 0;
+}
+
+.rubik-keypad {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.rubik-key-btn {
+  font-family: var(--w95-mono);
+  font-weight: 700;
+  font-size: 11.5px;
+  padding: 2px 0;
+  min-width: 0;
+}
+
+/* 7-Stage Solution Player */
+.rubik-solution-box {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rubik-player-bar {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.rubik-play-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+.rubik-play-main {
+  flex: 1.35;
+  font-weight: 700;
+}
+
+.rubik-player-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.rubik-speed-group {
+  display: flex;
+  gap: 2px;
+}
+
+.rubik-speed-btn {
+  padding: 1px 6px;
+  font-size: 10.5px;
+}
+
+.rubik-step-counter {
+  font-family: var(--w95-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #00007c;
+}
+
+.rubik-progress {
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.rubik-stages-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: #ffffff;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rubik-empty-sol {
+  padding: 10px 8px;
+  font-size: 11.5px;
+  color: #404040;
+  line-height: 1.45;
+}
+
+.rubik-already-solved {
+  color: #14532d;
+  font-weight: 700;
+}
+
+.rubik-stage-item {
+  border: 1px solid #c3c3c3;
+  background: #f7f7f5;
+  padding: 4px 6px;
+}
+
+.rubik-stage-item.is-current {
+  border-color: #00007c;
+  background: #eef2fb;
+}
+
+.rubik-stage-item.is-done {
+  border-color: #9db8a0;
+}
+
+.rubik-stage-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.rubik-stage-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.rubik-stage-count {
+  font-family: var(--w95-mono);
+  font-size: 10px;
+  color: #555555;
+  flex-shrink: 0;
+}
+
+.rubik-moves-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.rubik-move-pill {
+  font-family: var(--w95-mono);
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 24px;
+  padding: 1px 4px;
+  background: #e4e4e4;
+  color: #111111;
+  border: 1px solid #808080;
+  cursor: pointer;
+}
+
+.rubik-move-pill:hover {
+  border-color: #00007c;
+}
+
+.rubik-move-pill.is-done {
+  background: #d4e4d6;
+  color: #14532d;
+  border-color: #6a9972;
+}
+
+.rubik-move-pill.is-active {
+  background: #00007c;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.rubik-stage-skip {
+  font-size: 10.5px;
+  font-style: italic;
+  color: #666666;
+}
+
+/* ==========================================================================
    6. GUESTBOOK, DISPLAY PROPERTIES & 3D ROOM (.gb-*, .disp-*, .room3d-*)
    ========================================================================== */
 
@@ -3808,6 +4795,55 @@
     min-width: 48px;
     padding: 4px 10px;
     font-size: 12px;
+  }
+
+  /* Catur 95 */
+  .chess-workspace {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .chess-board-stage {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .chess-sidebar {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .chess-history-list {
+    max-height: 150px;
+  }
+
+  /* Rubik Solver 95 */
+  .rubik-workspace {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+
+  .rubik-state-badge {
+    margin-left: 0;
+  }
+
+  .rubik-face-grid {
+    grid-template-columns: repeat(3, 20px);
+  }
+
+  .rubik-sticker {
+    width: 20px;
+    height: 20px;
+  }
+
+  .rubik-key-btn,
+  .rubik-play-btn {
+    min-height: 28px;
+  }
+
+  .rubik-stages-list {
+    min-height: 160px;
+    max-height: 240px;
   }
 
   /* Guestbook */

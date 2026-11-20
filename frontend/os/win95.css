@@ -603,9 +603,9 @@ code,
 
 .os-desktop-icon {
   pointer-events: auto;
-  width: 78px;
+  width: 86px;
   min-height: 70px;
-  padding: 4px 3px;
+  padding: 4px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -655,8 +655,9 @@ code,
   text-align: center;
   text-shadow: none;
   padding: 1px 3px;
-  word-break: break-word;
-  max-width: 76px;
+  word-break: normal;
+  overflow-wrap: break-word;
+  max-width: 84px;
 }
 
 .os-desktop-icon.is-selected .os-desktop-icon-label {

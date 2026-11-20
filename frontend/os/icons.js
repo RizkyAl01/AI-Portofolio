@@ -588,6 +588,90 @@ const ICONS = {
     <rect x="18" y="12" width="4" height="4" fill="#000080"/>
   `,
 
+  // Classic Win95 Chess (wood chessboard tile + crisp pixel knight piece)
+  chess: `
+    <!-- Outer frame & walnut border -->
+    <rect x="2" y="2" width="28" height="28" fill="#000"/>
+    <rect x="3" y="3" width="26" height="26" fill="#5c3614"/>
+    <rect x="3" y="3" width="25" height="1" fill="#9c6838"/>
+    <rect x="3" y="3" width="1" height="25" fill="#9c6838"/>
+    <!-- 4x4 classic chessboard squares (6x6 each inside 4..28) -->
+    <rect x="4" y="4" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="10" y="4" width="6" height="6" fill="#b58863"/>
+    <rect x="16" y="4" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="22" y="4" width="6" height="6" fill="#b58863"/>
+    <rect x="4" y="10" width="6" height="6" fill="#b58863"/>
+    <rect x="10" y="10" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="16" y="10" width="6" height="6" fill="#b58863"/>
+    <rect x="22" y="10" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="4" y="16" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="10" y="16" width="6" height="6" fill="#b58863"/>
+    <rect x="16" y="16" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="22" y="16" width="6" height="6" fill="#b58863"/>
+    <rect x="4" y="22" width="6" height="6" fill="#b58863"/>
+    <rect x="10" y="22" width="6" height="6" fill="#f0d9b5"/>
+    <rect x="16" y="22" width="6" height="6" fill="#b58863"/>
+    <rect x="22" y="22" width="6" height="6" fill="#f0d9b5"/>
+    <!-- Crisp foreground pixel Knight silhouette -->
+    <rect x="13" y="5" width="4" height="2" fill="#000"/>
+    <rect x="11" y="7" width="9" height="2" fill="#000"/>
+    <rect x="9" y="9" width="12" height="3" fill="#000"/>
+    <rect x="8" y="12" width="6" height="3" fill="#000"/>
+    <rect x="14" y="12" width="8" height="4" fill="#000"/>
+    <rect x="13" y="16" width="9" height="4" fill="#000"/>
+    <rect x="11" y="20" width="11" height="3" fill="#000"/>
+    <rect x="9" y="23" width="14" height="4" fill="#000"/>
+    <!-- Knight inner charcoal body & crisp pixel highlights -->
+    <rect x="14" y="6" width="2" height="1" fill="#ffffff"/>
+    <rect x="12" y="8" width="6" height="1" fill="#4a4a4a"/>
+    <rect x="10" y="10" width="9" height="2" fill="#2e2e2e"/>
+    <rect x="12" y="10" width="2" height="1" fill="#ffffff"/>
+    <rect x="9" y="12" width="4" height="2" fill="#2e2e2e"/>
+    <rect x="15" y="13" width="5" height="3" fill="#3c3c3c"/>
+    <rect x="19" y="10" width="1" height="8" fill="#686868"/>
+    <rect x="14" y="16" width="6" height="4" fill="#2e2e2e"/>
+    <rect x="12" y="21" width="8" height="1" fill="#555555"/>
+    <rect x="10" y="24" width="12" height="2" fill="#383838"/>
+    <rect x="10" y="24" width="11" height="1" fill="#888888"/>
+  `,
+
+  // Classic Win95 3x3 Multicolor Rubik's Cube pixel sprite (3D cube + crisp 3x3 face)
+  rubik: `
+    <!-- 3D Top Bevel Face (White / Yellow / Orange tiles) -->
+    <polygon points="8,3 29,3 24,8 3,8" fill="#000"/>
+    <polygon points="9,4 15,4 13,7 7,7" fill="#ffffff"/>
+    <polygon points="16,4 22,4 20,7 14,7" fill="#ffd500"/>
+    <polygon points="23,4 27,4 25,7 21,7" fill="#ff6600"/>
+    <!-- 3D Right Bevel Face (Green / Blue / Red tiles) -->
+    <polygon points="29,3 29,24 24,29 24,8" fill="#000"/>
+    <polygon points="25,9 28,6 28,11 25,14" fill="#009b48"/>
+    <polygon points="25,15 28,12 28,17 25,20" fill="#ffffff"/>
+    <polygon points="25,21 28,18 28,23 25,26" fill="#0044cc"/>
+    <!-- Front 3x3 Face Frame (x=3..25, y=8..30) -->
+    <rect x="3" y="8" width="22" height="22" fill="#000"/>
+    <!-- Row 1 -->
+    <rect x="4" y="9" width="6" height="6" fill="#cc1111"/>
+    <rect x="4" y="9" width="5" height="1" fill="#ff5555"/>
+    <rect x="11" y="9" width="6" height="6" fill="#0044cc"/>
+    <rect x="11" y="9" width="5" height="1" fill="#4488ff"/>
+    <rect x="18" y="9" width="6" height="6" fill="#ffd500"/>
+    <rect x="18" y="9" width="5" height="1" fill="#ffff88"/>
+    <!-- Row 2 -->
+    <rect x="4" y="16" width="6" height="6" fill="#009b48"/>
+    <rect x="4" y="16" width="5" height="1" fill="#44dd88"/>
+    <rect x="11" y="16" width="6" height="6" fill="#ffffff"/>
+    <rect x="11" y="21" width="6" height="1" fill="#cccccc"/>
+    <rect x="18" y="16" width="6" height="6" fill="#ff6600"/>
+    <rect x="18" y="16" width="5" height="1" fill="#ffaa44"/>
+    <!-- Row 3 -->
+    <rect x="4" y="23" width="6" height="6" fill="#ffd500"/>
+    <rect x="4" y="23" width="5" height="1" fill="#ffff88"/>
+    <rect x="11" y="23" width="6" height="6" fill="#cc1111"/>
+    <rect x="11" y="23" width="5" height="1" fill="#ff5555"/>
+    <rect x="18" y="23" width="6" height="6" fill="#0044cc"/>
+    <rect x="18" y="23" width="5" height="1" fill="#4488ff"/>
+  `,
+
   // Bonus System Tray CRT Monitor Toggle Icon
   crt: `
     <rect x="3" y="5" width="26" height="19" fill="#000"/>
@@ -609,6 +693,8 @@ const ALIASES = {
   'ojek-rush': 'game',
   'recycle-bin': 'recycle-full',
   'pdf-viewer': 'pdf',
+  catur: 'chess',
+  'rubik-solver': 'rubik',
   cert: 'pdf',
   doc: 'notepad',
   txt: 'notepad',

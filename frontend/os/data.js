@@ -1207,7 +1207,7 @@ PANDUAN APLIKASI:
   2. RizkyBot AI       -> Asisten tanya-jawab CV (FastAPI + Groq LLM + Supabase Memory).
   3. My Computer       -> Jelajahi folder C:\\Rizky termasuk 14 dokumen PDF sertifikasi asli.
   4. MS-DOS Prompt     -> Perintah tersedia: help, neofetch, dir, projects, exp, certs, ask <tanya>.
-  5. Ojek Rush 95      -> Mini-game retro Surabaya & Minesweeper 95 klasik.
+  5. Games             -> Ojek Rush 95, Minesweeper 95, Catur 95, & Rubik Solver 95.
   6. 3D Room           -> Ruang kerja 3D isometrik interaktif (flipbook & catur).
   7. Display Props     -> Pengaturan wallpaper (Teal, Clouds, Matrix, Batik, Navy) & CRT.
 
@@ -1489,6 +1489,22 @@ export const VIRTUAL_FS = {
           appId: 'minesweeper',
         },
         {
+          name: 'Catur_95.exe',
+          type: 'app',
+          icon: 'chess',
+          size: '64 KB',
+          date: '1995-08-24',
+          appId: 'chess',
+        },
+        {
+          name: 'Rubik_Solver_95.exe',
+          type: 'app',
+          icon: 'rubik',
+          size: '96 KB',
+          date: '1995-08-24',
+          appId: 'rubik',
+        },
+        {
           name: 'Room_3D_World.exe',
           type: 'app',
           icon: 'room3d',
@@ -1730,6 +1746,18 @@ export const DESKTOP_ICONS = [
     appId: 'minesweeper',
     label: 'Minesweeper',
     iconKey: 'minesweeper',
+  },
+  {
+    id: 'chess',
+    appId: 'chess',
+    label: 'Catur 95',
+    iconKey: 'chess',
+  },
+  {
+    id: 'rubik',
+    appId: 'rubik',
+    label: 'Rubik Solver',
+    iconKey: 'rubik',
   },
   {
     id: 'icon-room3d',

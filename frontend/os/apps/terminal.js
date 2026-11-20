@@ -27,6 +27,11 @@ const APP_ALIASES = {
   minesweeper: 'minesweeper',
   mine: 'minesweeper',
   mines: 'minesweeper',
+  chess: 'chess',
+  catur: 'chess',
+  rubik: 'rubik',
+  rubiks: 'rubik',
+  cube: 'rubik',
   guestbook: 'guestbook',
   book: 'guestbook',
   display: 'display',
@@ -297,10 +302,10 @@ export const terminalApp = {
         ['read <slug>', 'Open a project case study in Internet Explorer'],
         ['exp', 'Display work & organization experience'],
         ['certs', 'Display verified PDF certificates'],
-        ['contact', 'Display email, LinkedIn, GitHub & Instagram'],
-        ['open <app>', 'Launch OS app (messenger, browser, ojek-rush, ...)'],
+        ['contact', 'Display email, phone, LinkedIn, GitHub & portfolio'],
+        ['open <app>', 'Launch app (messenger, browser, chess, rubik, ojek-rush...)'],
         ['ask <question>', 'Live query to RizkyBot AI (POST /api/web-chat)'],
-        ['color <theme>', 'Switch phosphor theme: green|amber|white|cyan'],
+        ['color <theme>', 'Switch color theme: white|green|amber|cyan'],
         ['matrix', 'Toggle Matrix digital rain Easter egg'],
         ['bsod', 'Trigger classic Windows 95 BSOD gag'],
         ['ver / date', 'Show OS version or current date/time'],
@@ -326,7 +331,8 @@ export const terminalApp = {
         '+------------------------------------------------------------+',
         `|  ${padRight(fullName.toUpperCase() + ' — ' + role, 56)}  |`,
         '+------------------------------------------------------------+',
-        `  Education : ${degree} — ${uni}${gpa}`,
+        `  Education : ${degree}`,
+        `              ${uni}${gpa}`,
         `  Location  : ${loc}`,
         `  Handle    : ${PROFILE?.handle || '@rizkyalviando'}`,
         '+------------------------------------------------------------+',
@@ -346,10 +352,15 @@ export const terminalApp = {
     function cmdNeofetch() {
       const fullName = PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando';
       const role = PROFILE?.role || 'AI Engineer & Data Scientist';
-      const edu = `${PROFILE?.degree || 'S1 Matematika'} @ ${PROFILE?.university || 'ITS'} ${PROFILE?.gpa ? `(${PROFILE.gpa})` : ''}`.trim();
+      const shortDegree = String(PROFILE?.degree || 'S1 Matematika').split('(')[0].trim();
+      const rawUni = String(PROFILE?.university || 'ITS Surabaya');
+      const shortUni = rawUni.includes('(ITS)') ? 'ITS Surabaya' : rawUni;
+      const eduLine = `${shortDegree}, ${shortUni}`;
+      const gpaLine = PROFILE?.gpa || '3.67 / 4.00 (Cum Laude)';
       const loc = PROFILE?.location || 'Surabaya, Indonesia';
       const certCount = Array.isArray(CERTIFICATES) ? CERTIFICATES.length : 0;
       const projCount = Array.isArray(PROJECTS) ? PROJECTS.length : 0;
+      const themeLabel = currentTheme === 'white' ? 'CLASSIC (WHITE)' : currentTheme.toUpperCase();
 
       const art = [
         '   ██████╗  ██████╗ ███████╗',
@@ -366,11 +377,12 @@ export const terminalApp = {
         `OS        : RizkyOS 95 [Version 4.00.950]`,
         `Host      : ${fullName}`,
         `Role      : ${role}`,
-        `Education : ${edu}`,
+        `Education : ${eduLine}`,
+        `GPA       : ${gpaLine}`,
         `Location  : ${loc}`,
         `AI Engine : Groq LLM (Qwen / Llama 3.3)`,
         `Portfolio : ${projCount} Case Studies | ${certCount} PDF Certs`,
-        `Phosphor  : ${currentTheme.toUpperCase()} CRT`,
+        `Theme     : ${themeLabel}`,
       ];
 
       const wrap = document.createElement('div');
@@ -687,13 +699,13 @@ export const terminalApp = {
     function cmdOpen(targetArg) {
       if (!targetArg) {
         appendLine('Usage: open <app>', 'term-error');
-        appendLine('Apps : messenger, browser, explorer, ojek-rush, minesweeper, guestbook, display, room3d, notepad, recycle-bin');
+        appendLine('Apps : messenger, browser, explorer, ojek-rush, minesweeper, chess, rubik, guestbook, display, room3d, notepad, recycle-bin');
         return;
       }
       const key = targetArg.toLowerCase();
       const appId = APP_ALIASES[key];
       if (!appId) {
-        appendLine(`Unknown app '${targetArg}'. Try: messenger, browser, explorer, ojek-rush, minesweeper, guestbook, display, room3d, notepad.`, 'term-error');
+        appendLine(`Unknown app '${targetArg}'. Try: messenger, browser, explorer, ojek-rush, minesweeper, chess, rubik, guestbook, display, room3d, notepad.`, 'term-error');
         sound.playError();
         return;
       }
@@ -921,7 +933,7 @@ export const terminalApp = {
       let pool = [];
 
       if (cmd === 'open' || cmd === 'start') {
-        pool = ['messenger', 'browser', 'explorer', 'ojek-rush', 'minesweeper', 'guestbook', 'display', 'room3d', 'notepad', 'recycle-bin'];
+        pool = ['messenger', 'browser', 'explorer', 'ojek-rush', 'minesweeper', 'chess', 'rubik', 'guestbook', 'display', 'room3d', 'notepad', 'recycle-bin'];
       } else if (cmd === 'color') {
         pool = VALID_THEMES;
       } else if (cmd === 'read') {
