@@ -196,7 +196,7 @@ export const messengerApp = {
             'Apa saja sertifikasi resmi & keahlian teknis utama Rizky?'
           ];
 
-    const botAddress = `${PROFILE?.handle || 'ai'}@rizky.os`;
+    const botAddress = 'rizky@rizkyalviando.ai.id';
 
     containerEl.innerHTML = `
       <div class="msn-app">

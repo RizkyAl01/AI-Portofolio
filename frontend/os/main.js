@@ -151,6 +151,11 @@ function resolveHashRoute(rawHash) {
     keahlian: { appId: 'browser', args: { page: 'skills' } },
     contact: { appId: 'browser', args: { page: 'contact' } },
     kontak: { appId: 'browser', args: { page: 'contact' } },
+    search: { appId: 'browser', args: { page: 'search' } },
+    cari: { appId: 'browser', args: { page: 'search' } },
+    linkedin: { appId: 'browser', args: { page: 'agent:linkedin' } },
+    github: { appId: 'browser', args: { page: 'agent:github' } },
+    canva: { appId: 'browser', args: { page: 'agent:canva' } },
 
     dos: { appId: 'terminal' },
     terminal: { appId: 'terminal' },
@@ -204,6 +209,18 @@ function resolveHashRoute(rawHash) {
 
   if (routeMap[lower]) {
     return routeMap[lower];
+  }
+
+  // Search & Browser Agent deep links: #search:<query>, #search/<query>, #agent:<target>
+  if (lower.startsWith('search:') || lower.startsWith('search/')) {
+    const q = cleaned.replace(/^search[:/]/i, '').trim();
+    return { appId: 'browser', args: { page: q ? `search:${q}` : 'search' } };
+  }
+  if (lower.startsWith('agent:') || lower.startsWith('agent/')) {
+    const target = cleaned.replace(/^agent[:/]/i, '').trim();
+    if (target) {
+      return { appId: 'browser', args: { page: `agent:${target}` } };
+    }
   }
 
   // Case study deep links: #project/<slug>, #projects/<slug>, #project:<slug>, or #<slug>
