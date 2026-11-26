@@ -8,6 +8,9 @@ import {
 import { getIconSVG } from '../icons.js';
 import { sound } from '../sound.js';
 
+const CANONICAL_HOST = 'rizkyalviando.ai.id';
+const CANONICAL_ORIGIN = `https://${CANONICAL_HOST}`;
+
 const RIZKY_PHOTO_SRC = PROFILE?.photo || 'assets/images/IMG-20250903-WA0024.jpg';
 if (typeof Image !== 'undefined' && RIZKY_PHOTO_SRC) {
   const preloadedPhoto = new Image();
@@ -21,6 +24,13 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function safeHref(rawUrl) {
+  const url = String(rawUrl ?? '').trim();
+  if (!url) return '#';
+  if (/^(https?:\/\/|mailto:|tel:)/i.test(url)) return url;
+  return '#';
 }
 
 function safeAssetUrl(rawPath) {
@@ -37,87 +47,82 @@ function isLocalPdfPath(rawUrl) {
   return /^assets\/[^\s<>"']+\.pdf$/i.test(url);
 }
 
-const VALID_ICON_KEYS = new Set([
-  'computer', 'ie', 'messenger', 'dos', 'notepad', 'wordpad', 'folder',
-  'folder-open', 'pdf', 'game', 'minesweeper', 'guestbook', 'room3d',
-  'display', 'recycle-empty', 'recycle-full', 'start', 'sound-on',
-  'sound-off', 'info', 'warning', 'error', 'file', 'link', 'ai',
-  'shutdown', 'programs', 'documents', 'settings'
-]);
-
-function safeIconKey(key, fallback = 'info') {
-  return VALID_ICON_KEYS.has(key) ? key : fallback;
+function renderExtIconBtn(url, label, extraClass = '') {
+  const href = safeHref(url);
+  if (href === '#') return '';
+  const cls = extraClass ? `ie-ext-icon-btn ${extraClass}` : 'ie-ext-icon-btn';
+  return `<a class="${cls}" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}">${getIconSVG('external-link', 14)}</a>`;
 }
 
 const OFFICIAL_TARGETS = {
   linkedin: {
     id: 'linkedin',
-    title: 'Rizky Alviando, S.Mat. | LinkedIn',
+    title: 'LinkedIn - Rizky Alviando, S.Mat.',
     url: PROFILE?.linkedin || 'https://www.linkedin.com/in/rizky-alviando-31b47021b/',
     breadcrumb: 'https://www.linkedin.com › in › rizky-alviando-31b47021b',
     displayUrl: 'linkedin.com/in/rizky-alviando-31b47021b',
-    badge: 'LINKEDIN PROFILE',
+    badge: 'LinkedIn',
     desc: 'AI Engineer di DJED Komdigi · S1 Matematika ITS (Cum Laude, IPK 3.67/4.00) · Bangkit Academy ML Graduate · Best Presentation GPBL Shibaura Institute of Technology Tokyo.'
   },
   github: {
     id: 'github',
-    title: 'RizkyAl01 (Rizky Alviando) · GitHub',
+    title: 'GitHub - @RizkyAl01',
     url: PROFILE?.github || 'https://github.com/RizkyAl01',
     breadcrumb: 'https://github.com › RizkyAl01',
     displayUrl: 'github.com/RizkyAl01',
-    badge: 'GITHUB PROFILE',
+    badge: 'GitHub',
     desc: 'Repositori kode open-source Rizky Alviando: Smart Agentic RAG, LexGraph Legal Graph-RAG, AegisLake Medallion Pipeline, SentinelEval, NusantaraASR, dan RizkyOS 95.'
   },
   canva: {
     id: 'canva',
-    title: 'Portofolio AI & Machine Learning 2026 — Rizky Alviando',
+    title: 'Portofolio AI & Machine Learning 2026 - Rizky Alviando',
     url: PROFILE?.canvaPortfolio || 'https://canva.link/Rizky-Alviando-PortoAIML26',
     breadcrumb: 'https://canva.link › Rizky-Alviando-PortoAIML26',
     displayUrl: 'canva.link/Rizky-Alviando-PortoAIML26',
-    badge: 'SLIDE DECK',
-    desc: 'Slide deck presentasi visual portofolio AI & Machine Learning Rizky Alviando (dirender langsung di dalam Internet Explorer 4.0).'
+    badge: 'Slide Deck',
+    desc: 'Presentasi visual portofolio AI & Machine Learning Rizky Alviando (tersedia sebagai PDF dan tautan Canva resmi).'
   },
   rag_demo: {
     id: 'rag_demo',
-    title: 'Smart Agentic RAG: AI Document Assistant (Production Demo)',
+    title: 'Smart Agentic RAG: AI Document Assistant',
     url: 'https://project-rag-zeta.vercel.app/',
-    breadcrumb: 'https://project-rag-zeta.vercel.app › agentic-rag',
+    breadcrumb: 'https://project-rag-zeta.vercel.app',
     displayUrl: 'project-rag-zeta.vercel.app',
-    badge: 'RAG SYSTEM',
-    desc: 'Aplikasi tanya-jawab dokumen PDF pintar menggunakan LangGraph state machine, FastAPI, Groq LLM, PyMuPDF, dan Supabase pgvector.'
+    badge: 'Live Demo',
+    desc: 'Aplikasi tanya-jawab dokumen PDF menggunakan LangGraph state machine, FastAPI, Groq LLM, PyMuPDF, dan Supabase pgvector.'
   },
   sugaryzer: {
     id: 'sugaryzer',
-    title: 'Sugaryzer — Bangkit Academy 2024 Capstone MVP',
+    title: 'Sugaryzer - Bangkit Academy 2024 Capstone',
     url: 'https://github.com/orgs/Sugaryzer/repositories',
     breadcrumb: 'https://github.com › orgs › Sugaryzer › repositories',
     displayUrl: 'github.com/orgs/Sugaryzer/repositories',
-    badge: 'CAPSTONE REPO',
-    desc: 'Proyek Capstone Bangkit Academy 2024: OCR pembaca kode barcode & nutrisi kemasan serta model klasifikasi konsumsi gula harian berbasis TensorFlow (Akurasi 89%).'
+    badge: 'Capstone Repo',
+    desc: 'Proyek Capstone Bangkit Academy 2024: OCR pembaca kode barcode & nutrisi kemasan serta klasifikasi konsumsi gula harian berbasis TensorFlow (Akurasi 89%).'
   },
   telegram: {
     id: 'telegram',
-    title: 'Telegram AI & Automation Bots (@yourneed_bot · @crawlyt_bot · @guruserbabisa_bot)',
+    title: 'Bot Telegram Rizky Alviando (@yourneed_bot · @crawlyt_bot · @guruserbabisa_bot)',
     url: 'https://t.me/yourneed_bot',
-    breadcrumb: 'https://t.me › yourneed_bot · crawlyt_bot · guruserbabisa_bot',
+    breadcrumb: 'https://t.me › yourneed_bot',
     displayUrl: 't.me/yourneed_bot',
-    badge: 'TELEGRAM BOTS',
-    desc: 'Ekosistem bot publik Telegram yang dibangun Rizky menggunakan FastAPI Webhook, Groq LLM, dan orkestrasi n8n.'
+    badge: 'Telegram',
+    desc: 'Bot publik Telegram berbasis FastAPI Webhook, Groq LLM, dan orkestrasi n8n yang dibangun Rizky Alviando.'
   },
   coursera: {
     id: 'coursera',
-    title: 'Coursera Verified Credentials — DeepLearning.AI & Stanford',
+    title: 'Coursera Verified Credentials - DeepLearning.AI & Stanford',
     url: 'https://coursera.org/verify/professional-cert/7QM26EI7X8DK',
     breadcrumb: 'https://coursera.org › verify › professional-cert › 7QM26EI7X8DK',
     displayUrl: 'coursera.org/verify/professional-cert/7QM26EI7X8DK',
-    badge: 'COURSERA VERIFY',
+    badge: 'Coursera',
     desc: '6 sertifikasi spesialisasi Coursera terverifikasi: TensorFlow Developer, Machine Learning, Deep Learning, Mathematics for ML, dan TensorFlow Data & Deployment.'
   },
   plti: {
     id: 'plti',
-    title: 'PLTI — Sertifikat TOEP (Test of English Proficiency) Rizky Alviando',
+    title: 'PLTI - Sertifikat TOEP (Test of English Proficiency)',
     url: 'https://plti.co.id',
-    breadcrumb: 'https://plti.co.id › verify › toep',
+    breadcrumb: 'https://plti.co.id',
     displayUrl: 'plti.co.id',
     badge: 'PLTI TOEP',
     desc: 'Sertifikasi kemampuan bahasa Inggris akademik TOEP dari Pusat Layanan Tes Indonesia (PLTI).'
@@ -130,34 +135,32 @@ const FALLBACK_GITHUB_REPOS = [
     full_name: 'RizkyAl01/web-chatbot',
     language: 'JavaScript / Python',
     stargazers_count: 5,
-    updated_at: '2026-11',
-    topics: ['windows-95', 'fastapi', 'groq-llm', 'bm25-rag', 'threejs', 'portfolio-os'],
+    topics: ['windows-95', 'fastapi', 'groq-llm', 'bm25-rag', 'threejs'],
     projectSlug: 'rizkyos-portfolio-ai',
     description:
       'RizkyOS 95 Desktop Portfolio, 3D Isometric Room (Three.js), & FastAPI + Groq LLM + Semantic BM25 RAG Assistant.',
     files: [
       { name: 'api/index.py', type: 'file', info: 'FastAPI Backend, Semantic BM25 Retriever, /api/web-chat & /api/ie-agent' },
       { name: 'frontend/os/wm.js', type: 'file', info: 'Windows 95 Window Manager, BIOS Boot, Taskbar & CRT Engine' },
-      { name: 'frontend/os/apps/browser.js', type: 'file', info: 'Internet Explorer 4.0 Editorial Reader & In-Portal Search Engine' },
+      { name: 'frontend/os/apps/browser.js', type: 'file', info: 'Internet Explorer 4.0 Editorial Reader & RizkySearch 95' },
       { name: 'frontend/os/apps/messenger.js', type: 'file', info: 'RizkyBot Messenger 95 (1999 MSN Transcript & Nudge)' },
       { name: 'frontend/open-world.html', type: 'file', info: 'Interactive 3D Isometric Room (Three.js + GLTF + Playable Chess)' },
       { name: 'README.md', type: 'file', info: 'Architecture & Deployment Documentation' }
     ],
-    readme: `# RizkyOS 95 — Retro Desktop OS Portfolio & AI Assistant
+    readme: `# RizkyOS 95 - Desktop Portfolio & AI Assistant
 
 Portofolio interaktif bergaya sistem operasi desktop **Windows 95** milik **Rizky Alviando, S.Mat.** (AI Engineer di DJED Komdigi & Lulusan S1 Matematika ITS Cum Laude).
 
 ## Arsitektur Utama
-- **Frontend OS Shell**: Window Manager modular Vanilla ES6 (\`wm.js\`), 14 aplikasi native (Internet Explorer 4.0 + In-Portal Search Engine, RizkyBot Messenger 95, MS-DOS Prompt, Ojek Rush 95, Minesweeper 95, Catur 95, Rubik Solver 95, 3D Isometric Room).
-- **Backend AI & Search Agent**: FastAPI (\`api/index.py\`) dengan Semantic Markdown Chunking & BM25 Retriever (\`<= 9.500\` karakter per request), Groq LLM multi-model fallback, Supabase PostgreSQL memory, dan Upstash Redis rate-limiting.`
+- **Frontend OS Shell**: Window Manager modular Vanilla ES6 (\`wm.js\`), 14 aplikasi (Internet Explorer 4.0 + RizkySearch 95, RizkyBot Messenger 95, MS-DOS Prompt, Ojek Rush 95, Minesweeper 95, Catur 95, Rubik Solver 95, 3D Room).
+- **Backend AI & Search**: FastAPI (\`api/index.py\`) dengan Semantic Markdown Chunking & BM25 Retriever, Groq LLM multi-model fallback, Supabase PostgreSQL memory, dan Upstash Redis rate-limiting.`
   },
   {
     name: 'Smart-Agentic-RAG',
     full_name: 'RizkyAl01/Smart-Agentic-RAG',
     language: 'Python',
     stargazers_count: 4,
-    updated_at: '2026-08',
-    topics: ['langgraph', 'agentic-rag', 'fastapi', 'pgvector', 'supabase', 'groq'],
+    topics: ['langgraph', 'agentic-rag', 'fastapi', 'pgvector', 'supabase'],
     projectSlug: 'smart-agentic-rag',
     description:
       'Agentic PDF Document Assistant powered by LangGraph, FastAPI, Groq LLM, PyMuPDF, and Supabase pgvector.',
@@ -165,24 +168,18 @@ Portofolio interaktif bergaya sistem operasi desktop **Windows 95** milik **Rizk
       { name: 'app/graph.py', type: 'file', info: 'LangGraph State Machine (Query Rewrite -> Retrieve -> Grade -> Generate)' },
       { name: 'app/ingest.py', type: 'file', info: 'PyMuPDF PDF Parsing & Recursive Character Chunking' },
       { name: 'app/vectorstore.py', type: 'file', info: 'Supabase PostgreSQL pgvector Similarity Search' },
-      { name: 'app/main.py', type: 'file', info: 'FastAPI Streaming Endpoint & Session Management' },
       { name: 'README.md', type: 'file', info: 'System Architecture & Evaluation Benchmarks' }
     ],
-    readme: `# Smart Agentic RAG — AI Document Assistant
+    readme: `# Smart Agentic RAG - AI Document Assistant
 
-Sistem tanya-jawab dokumen PDF pintar menggunakan **LangGraph**, **FastAPI**, **Groq LLM**, dan **Supabase pgvector**.
-
-## Fitur Utama
-1. **Self-Correcting Retrieval Loop**: Agen mengevaluasi relevansi dokumen yang ditarik; bila kurang relevan, agen menulis ulang kueri secara otomatis.
-2. **Strict Citation Grounding**: Setiap klaim jawaban disertai rujukan halaman PDF asli untuk menekan halusinasi.`
+Sistem tanya-jawab dokumen PDF menggunakan **LangGraph**, **FastAPI**, **Groq LLM**, dan **Supabase pgvector**.`
   },
   {
     name: 'AegisLake-Medallion',
     full_name: 'RizkyAl01/AegisLake-Medallion',
     language: 'Python',
     stargazers_count: 3,
-    updated_at: '2026-10',
-    topics: ['medallion-architecture', 'duckdb', 'polars', 'airflow', 'pii-masking', 'uu-pdp'],
+    topics: ['medallion', 'duckdb', 'polars', 'airflow', 'uu-pdp'],
     projectSlug: 'aegislake',
     description:
       'Medallion Architecture (Bronze-Silver-Gold) Data Pipeline & IndonesianPIIGuard (UU PDP) with DuckDB & Airflow.',
@@ -192,22 +189,16 @@ Sistem tanya-jawab dokumen PDF pintar menggunakan **LangGraph**, **FastAPI**, **
       { name: 'aegislake/sandbox.py', type: 'file', info: 'Isolated DuckDB Columnar Analytics Sandbox' },
       { name: 'README.md', type: 'file', info: 'Data Governance & UU PDP Compliance Guide' }
     ],
-    readme: `# AegisLake — Pipeline Data Medallion & Sandbox Pelatihan AI
+    readme: `# AegisLake - Pipeline Data Medallion & Sandbox Pelatihan AI
 
-Arsitektur data **Bronze–Silver–Gold** yang dilengkapi penyensoran PII otomatis sesuai **UU PDP** sebelum dataset menyentuh pelatihan model AI.
-
-## Komponen Inti
-- **Bronze Layer**: Penyerapan data mentah dengan pencatatan fingerprint SHA-256.
-- **Silver Layer (\`IndonesianPIIGuard\`)**: Penyamaran otomatis NIK 16-digit, nomor telepon, rekening bank, dan identitas personal.
-- **Gold Layer**: Penyimpanan kolumnar teroptimasi dengan sandbox kueri **DuckDB** berlatensi rendah.`
+Arsitektur data **Bronze–Silver–Gold** yang dilengkapi penyensoran PII otomatis sesuai **UU PDP** sebelum dataset menyentuh pelatihan model AI.`
   },
   {
     name: 'LexGraph-Legal-RAG',
     full_name: 'RizkyAl01/LexGraph-Legal-RAG',
     language: 'Python',
     stargazers_count: 4,
-    updated_at: '2026-10',
-    topics: ['graph-rag', 'neo4j', 'pgvector', 'bm25', 'flashrank', 'legal-ai'],
+    topics: ['graph-rag', 'neo4j', 'pgvector', 'bm25', 'flashrank'],
     projectSlug: 'lexgraph',
     description:
       'Indonesian Legal & Regulation Graph-RAG using Pasal/Ayat chunking, BM25 + pgvector (RRF), Neo4j, & FlashRank ONNX.',
@@ -215,20 +206,18 @@ Arsitektur data **Bronze–Silver–Gold** yang dilengkapi penyensoran PII otoma
       { name: 'lexgraph/chunker.py', type: 'file', info: 'Structural Legal Chunker (BAB, Bagian, Pasal, Ayat)' },
       { name: 'lexgraph/hybrid_retriever.py', type: 'file', info: 'BM25 + PostgreSQL pgvector + Reciprocal Rank Fusion (RRF)' },
       { name: 'lexgraph/graph_traverse.py', type: 'file', info: 'Neo4j Multi-Hop Cross-Referenced Pasal Expansion' },
-      { name: 'lexgraph/reranker.py', type: 'file', info: 'FlashRank ONNX Low-Latency Reranking' },
       { name: 'README.md', type: 'file', info: 'Legal Graph-RAG Architecture' }
     ],
-    readme: `# LexGraph — Pencarian Regulasi & Dokumen Hukum dengan Graph-RAG
+    readme: `# LexGraph - Pencarian Regulasi & Dokumen Hukum dengan Graph-RAG
 
-Mesin pencari regulasi berbasis **Graph-RAG** yang memadukan pemotongan sadar struktur **Pasal–Ayat**, pencarian hibrida **BM25 + pgvector (RRF)**, ekspansi graf relasi **Neo4j**, dan reranking **FlashRank ONNX**.`
+Mesin pencari regulasi berbasis **Graph-RAG** dengan pemotongan struktur **Pasal–Ayat**, pencarian hibrida **BM25 + pgvector (RRF)**, ekspansi graf **Neo4j**, dan reranking **FlashRank ONNX**.`
   },
   {
     name: 'SentinelEval-LLM',
     full_name: 'RizkyAl01/SentinelEval-LLM',
     language: 'TypeScript / Python',
     stargazers_count: 3,
-    updated_at: '2026-09',
-    topics: ['ai-safety', 'red-teaming', 'llm-evaluation', 'prompt-injection'],
+    topics: ['ai-safety', 'red-teaming', 'llm-evaluation'],
     projectSlug: 'sentineleval',
     description:
       'Automated LLM Red-Teaming & AI Risk Governance Benchmark (Homoglyph, Nusantara Local Dialect, & Jailbreak Guards).',
@@ -237,7 +226,7 @@ Mesin pencari regulasi berbasis **Graph-RAG** yang memadukan pemotongan sadar st
       { name: 'sentineleval/evaluator.py', type: 'file', info: 'Automated Safety Scoring & Risk Matrix Generator' },
       { name: 'README.md', type: 'file', info: 'Red-Teaming Methodology' }
     ],
-    readme: `# SentinelEval — Perangkat Uji Keamanan (Red-Teaming) & Evaluasi Risiko LLM
+    readme: `# SentinelEval - Perangkat Uji Keamanan (Red-Teaming) & Evaluasi Risiko LLM
 
 Kerangka kerja pengujian adversarial otomatis untuk menguji ketahanan model bahasa terhadap serangan prompt injection, manipulasi karakter homoglyph, dan jailbreak berbahasa lokal Nusantara.`
   },
@@ -246,18 +235,16 @@ Kerangka kerja pengujian adversarial otomatis untuk menguji ketahanan model baha
     full_name: 'RizkyAl01/NusantaraASR-Pipeline',
     language: 'Python',
     stargazers_count: 3,
-    updated_at: '2026-06',
-    topics: ['whisperx', 'wav2vec2', 'pyannote', 'asr', 'indonesian-nlp'],
+    topics: ['whisperx', 'wav2vec2', 'pyannote', 'asr'],
     projectSlug: 'nusantara-asr',
     description:
       'YouTube Audio Transcription & Regional Dialect Post-Correction with WhisperX large-v3, Wav2Vec2, & Pyannote.',
     files: [
       { name: 'pipeline/transcribe.py', type: 'file', info: 'WhisperX large-v3 + Wav2Vec2 Forced Alignment' },
       { name: 'pipeline/diarize.py', type: 'file', info: 'Pyannote Speaker Diarization & VAD' },
-      { name: 'pipeline/evaluate_wer.py', type: 'file', info: 'Word Error Rate (WER) & Character Error Rate (CER) Benchmark' },
       { name: 'README.md', type: 'file', info: 'Audio Pipeline Documentation' }
     ],
-    readme: `# NusantaraASR — Pipeline Transkripsi Audio & Diarisasi Pembicara
+    readme: `# NusantaraASR - Pipeline Transkripsi Audio & Diarisasi Pembicara
 
 Pipeline ekstraksi dan transkripsi audio YouTube berskala besar (workflow success rate 95%) menggunakan **WhisperX large-v3**, perataan waktu **Wav2Vec2**, dan pemisahan pembicara **Pyannote**.`
   },
@@ -266,8 +253,7 @@ Pipeline ekstraksi dan transkripsi audio YouTube berskala besar (workflow succes
     full_name: 'Sugaryzer/Sugaryzer-App',
     language: 'Python / TensorFlow',
     stargazers_count: 6,
-    updated_at: '2025-01',
-    topics: ['bangkit-academy', 'tensorflow', 'ocr', 'computer-vision', 'healthcare-ai'],
+    topics: ['bangkit-academy', 'tensorflow', 'ocr', 'computer-vision'],
     projectSlug: 'sugaryzer-bangkit',
     description:
       'Bangkit Academy 2024 Capstone MVP: Daily Sugar Consumption Analysis with OCR & TensorFlow Classification (89% Acc).',
@@ -276,12 +262,9 @@ Pipeline ekstraksi dan transkripsi audio YouTube berskala besar (workflow succes
       { name: 'ml/sugar_classifier.py', type: 'file', info: 'TensorFlow Daily Sugar Intake Classification & Clustering Model' },
       { name: 'README.md', type: 'file', info: 'Bangkit Academy 2024 Capstone Documentation' }
     ],
-    readme: `# Sugaryzer — Bangkit Academy 2024 Capstone Project
+    readme: `# Sugaryzer - Bangkit Academy 2024 Capstone Project
 
-Aplikasi kesehatan pintar yang dikembangkan oleh tim lintas fungsi (Machine Learning, Cloud Computing, Mobile Development) di **Bangkit Academy 2024**.
-
-- **OCR & Barcode Detection**: Membaca label informasi nilai gizi dan barcode kemasan minuman/makanan.
-- **TensorFlow Classification (Akurasi 89%)**: Mengklasifikasikan tingkat konsumsi gula harian serta memberikan rekomendasi kesehatan personal.`
+Aplikasi kesehatan yang dikembangkan oleh tim lintas fungsi (Machine Learning, Cloud Computing, Mobile Development) di **Bangkit Academy 2024** dengan akurasi klasifikasi konsumsi gula harian 89%.`
   }
 ];
 
@@ -348,7 +331,6 @@ function mapExternalUrlToInternalNav(rawUrl, fallbackTitle = '') {
     return toep ? `agent:pdf:${toep.id}` : 'agent:plti';
   }
 
-  // Generic web search result -> open in-IE Web Reader view
   const payload = encodeURIComponent(JSON.stringify({ url, title: fallbackTitle || url }));
   return `agent:web:${payload}`;
 }
@@ -358,7 +340,6 @@ function detectExternalTargetCommand(rawInput) {
   if (!text) return null;
   const lower = text.toLowerCase();
 
-  // Specific GitHub repo URL or command
   const repoUrlMatch = text.match(/github\.com\/rizkyal01\/([A-Za-z0-9._-]+)/i);
   if (repoUrlMatch) {
     return `agent:github-repo:${repoUrlMatch[1]}`;
@@ -367,7 +348,6 @@ function detectExternalTargetCommand(rawInput) {
     return 'agent:github-repo:Sugaryzer-Bangkit-Capstone';
   }
 
-  // Official LinkedIn
   if (
     /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/rizky-alviando-31b47021b\/?$/i.test(lower) ||
     /^(visit|buka|open|kunjungi|lihat)?\s*(profil\s+)?linkedin(\s+asli|\s+aslinya|\s+rizky)?$/i.test(lower)
@@ -375,7 +355,6 @@ function detectExternalTargetCommand(rawInput) {
     return 'agent:linkedin';
   }
 
-  // Official GitHub
   if (
     /^(https?:\/\/)?(www\.)?github\.com\/rizkyal01\/?$/i.test(lower) ||
     /^(visit|buka|open|kunjungi|lihat|inspect)?\s*(live\s+)?github(\s+asli|\s+aslinya|\s+rizky|\s+@?rizkyal01)?$/i.test(lower)
@@ -383,7 +362,6 @@ function detectExternalTargetCommand(rawInput) {
     return 'agent:github';
   }
 
-  // Official Canva
   if (
     /canva\.link\/rizky-alviando-portoaiml26/i.test(lower) ||
     /^(visit|buka|open|lihat)\s+(canva|slide\s+portofolio|portofolio\s+canva)$/i.test(lower)
@@ -391,12 +369,10 @@ function detectExternalTargetCommand(rawInput) {
     return 'agent:canva';
   }
 
-  // Coursera verify URL
   if (/^https?:\/\/(www\.)?coursera\.org\/verify\//i.test(lower)) {
     return mapExternalUrlToInternalNav(text);
   }
 
-  // Official Telegram bots
   if (/^https?:\/\/t\.me\/(crawlyt_bot|yourneed_bot|guruserbabisa_bot)/i.test(lower)) {
     return 'agent:telegram';
   }
@@ -429,9 +405,9 @@ function normalizePageId(input) {
   }
 
   let raw = rawOrig;
-  const isInternalOrigin = /^(https?:\/\/)?(www\.)?rizky\.os(\/|$)/i.test(raw);
+  const isInternalOrigin = /^(https?:\/\/)?(www\.)?(rizkyalviando\.ai\.id|rizky\.os)(\/|$)/i.test(raw);
   if (isInternalOrigin) {
-    raw = raw.replace(/^(https?:\/\/)?(www\.)?rizky\.os\/?/i, '');
+    raw = raw.replace(/^(https?:\/\/)?(www\.)?(rizkyalviando\.ai\.id|rizky\.os)\/?/i, '');
   }
   raw = raw.replace(/^\/+|\/+$/g, '');
 
@@ -483,8 +459,8 @@ function normalizePageId(input) {
 }
 
 function pageToUrl(pageId) {
-  if (pageId === 'home') return 'https://rizky.os/';
-  if (pageId === 'search') return 'https://rizky.os/search';
+  if (pageId === 'home') return `${CANONICAL_ORIGIN}/`;
+  if (pageId === 'search') return `${CANONICAL_ORIGIN}/search`;
   if (pageId === 'agent:linkedin') return OFFICIAL_TARGETS.linkedin.url;
   if (pageId === 'agent:github') return OFFICIAL_TARGETS.github.url;
   if (pageId === 'agent:canva') return OFFICIAL_TARGETS.canva.url;
@@ -495,7 +471,7 @@ function pageToUrl(pageId) {
   if (pageId.startsWith('agent:pdf:')) {
     const key = pageId.slice('agent:pdf:'.length);
     const cert = findCertByFileOrId(key);
-    return `https://rizky.os/certs/${cert ? cert.id : key}`;
+    return `${CANONICAL_ORIGIN}/certs/${cert ? cert.id : key}`;
   }
   if (pageId.startsWith('agent:web:')) {
     try {
@@ -504,58 +480,60 @@ function pageToUrl(pageId) {
     } catch {
       // ignore
     }
-    return 'https://rizky.os/search/reader';
+    return `${CANONICAL_ORIGIN}/search`;
   }
   if (pageId.startsWith('agent:')) {
     const t = pageId.slice('agent:'.length);
-    return OFFICIAL_TARGETS[t]?.url || `https://rizky.os/agent/${t}`;
+    return OFFICIAL_TARGETS[t]?.url || `${CANONICAL_ORIGIN}/${t}`;
   }
   if (pageId.startsWith('search:')) {
     const q = pageId.slice('search:'.length);
-    return `https://rizky.os/search?q=${encodeURIComponent(q)}`;
+    return `${CANONICAL_ORIGIN}/search?q=${encodeURIComponent(q)}`;
   }
   if (pageId.startsWith('project:')) {
     const slug = pageId.slice('project:'.length);
     const proj = (PROJECTS || []).find((p) => p.slug === slug || p.id === slug);
-    if (proj?.url && /^https?:\/\//i.test(proj.url)) return proj.url;
-    return `https://rizky.os/projects/${slug}`;
+    if (proj?.url && /^https?:\/\//i.test(proj.url)) {
+      return proj.url.replace(/^https?:\/\/rizky\.os/i, CANONICAL_ORIGIN);
+    }
+    return `${CANONICAL_ORIGIN}/projects/${slug}`;
   }
-  return `https://rizky.os/${pageId}`;
+  return `${CANONICAL_ORIGIN}/${pageId}`;
 }
 
 function pageToTitle(pageId) {
   const brand = PROFILE?.name || 'Rizky Alviando';
-  if (pageId === 'home') return `${brand} — Portfolio Dossier`;
-  if (pageId === 'about') return `About — ${brand}`;
-  if (pageId === 'experience') return `Experience — ${brand}`;
-  if (pageId === 'projects') return `Projects & Case Studies — ${brand}`;
-  if (pageId === 'skills') return `Skills & Competencies — ${brand}`;
-  if (pageId === 'contact') return `Contact — ${brand}`;
-  if (pageId === 'search') return `RizkySearch 95 — Search Engine`;
+  if (pageId === 'home') return `${brand} - Portfolio`;
+  if (pageId === 'about') return `About - ${brand}`;
+  if (pageId === 'experience') return `Experience - ${brand}`;
+  if (pageId === 'projects') return `Projects & Case Studies - ${brand}`;
+  if (pageId === 'skills') return `Skills & Technical Stack - ${brand}`;
+  if (pageId === 'contact') return `Contact - ${brand}`;
+  if (pageId === 'search') return `RizkySearch 95`;
   if (pageId.startsWith('agent:github-repo:')) {
     const repo = pageId.slice('agent:github-repo:'.length);
-    return `RizkyAl01/${repo} — GitHub Repository`;
+    return `RizkyAl01/${repo} - GitHub`;
   }
   if (pageId.startsWith('agent:pdf:')) {
     const cert = findCertByFileOrId(pageId.slice('agent:pdf:'.length));
-    return `${cert?.title || 'PDF Document'} — In-Portal Viewer`;
+    return `${cert?.title || 'Dokumen PDF'} - PDF Viewer`;
   }
   if (pageId.startsWith('agent:web:')) {
-    return `Web Reader — RizkySearch 95`;
+    return `Web Reader - RizkySearch 95`;
   }
   if (pageId.startsWith('agent:')) {
     const t = pageId.slice('agent:'.length);
     const info = OFFICIAL_TARGETS[t];
-    return info ? info.title : `Browser Agent — ${brand}`;
+    return info ? info.title : brand;
   }
   if (pageId.startsWith('search:')) {
     const q = pageId.slice('search:'.length);
-    return `${q} — RizkySearch 95`;
+    return `${q} - RizkySearch 95`;
   }
   if (pageId.startsWith('project:')) {
     const slug = pageId.slice('project:'.length);
     const proj = (PROJECTS || []).find((p) => p.slug === slug || p.id === slug);
-    if (proj) return `${proj.title} — Case Study`;
+    if (proj) return `${proj.title} - Case Study`;
   }
   return 'Page Not Found';
 }
@@ -566,44 +544,24 @@ function renderPortrait(className = 'ie-avatar-img', size = 88) {
   return `<img class="${className}" src="${escapeHtml(photoSrc)}" alt="${escapeHtml(name)}" width="${size}" height="${size}">`;
 }
 
-function renderProjectCard(project, indexNumber) {
+function renderEditorialProjectItem(project, indexNumber) {
   const slug = project.slug || project.id || '';
   const num = String(indexNumber + 1).padStart(2, '0');
-  const tech = Array.isArray(project.techStack) ? project.techStack.slice(0, 4) : [];
-  const metrics = Array.isArray(project.metrics) ? project.metrics.slice(0, 2) : [];
+  const techText = Array.isArray(project.techStack) ? project.techStack.slice(0, 5).join(' · ') : '';
+  const topMetric =
+    Array.isArray(project.metrics) && project.metrics.length
+      ? `${project.metrics[0].label}: ${project.metrics[0].value}`
+      : '';
+  const metaParts = [project.category, project.date, project.readTime, topMetric].filter(Boolean);
 
   return `
-    <article class="ie-project-card" data-nav="project:${escapeHtml(slug)}" tabindex="0" role="button">
-      <div class="ie-card-eyebrow">
-        <span class="ie-card-index">${num}</span>
-        <span class="ie-card-cat">${escapeHtml(project.category || 'Engineering')}</span>
-        <span class="ie-card-meta-right">
-          ${escapeHtml(project.date || '')}${project.readTime ? ` · ${escapeHtml(project.readTime)}` : ''}
-        </span>
-      </div>
-      <div class="ie-card-body">
-        <h3 class="ie-card-title">${escapeHtml(project.title || 'Untitled Project')}</h3>
-        <p class="ie-card-subtitle">${escapeHtml(project.subtitle || project.summary || '')}</p>
-        ${
-          metrics.length
-            ? `<div class="ie-card-metrics">
-                ${metrics
-                  .map(
-                    (m) =>
-                      `<span class="ie-mini-metric"><strong>${escapeHtml(m.value)}</strong> ${escapeHtml(m.label)}</span>`
-                  )
-                  .join('')}
-              </div>`
-            : ''
-        }
-        ${
-          tech.length
-            ? `<div class="ie-tags">
-                ${tech.map((t) => `<span class="ie-tag">${escapeHtml(t)}</span>`).join('')}
-              </div>`
-            : ''
-        }
-        <div class="ie-card-cta">Baca Case Study →</div>
+    <article class="ie-editorial-item" data-nav="project:${escapeHtml(slug)}" tabindex="0" role="button">
+      <div class="ie-ed-num">${num}</div>
+      <div class="ie-ed-body">
+        <div class="ie-ed-meta">${escapeHtml(metaParts.join(' · '))}</div>
+        <h3 class="ie-ed-title">${escapeHtml(project.title || 'Untitled Project')}</h3>
+        <p class="ie-ed-thesis">${escapeHtml(project.subtitle || project.summary || '')}</p>
+        ${techText ? `<div class="ie-ed-tech">${escapeHtml(techText)}</div>` : ''}
       </div>
     </article>
   `;
@@ -611,25 +569,21 @@ function renderProjectCard(project, indexNumber) {
 
 function renderHomePage() {
   const projects = Array.isArray(PROJECTS) ? PROJECTS : [];
-  const featured = projects.slice(0, 4);
-  const stats = Array.isArray(PROFILE?.stats) ? PROFILE.stats : [];
+  const featured = projects.slice(0, 5);
   const certCount = Array.isArray(CERTIFICATES) ? CERTIFICATES.length : 0;
 
   return `
-    <div class="ie-article ie-home">
+    <div class="ie-article ie-home ie-editorial">
       <header class="ie-hero">
         <div class="ie-hero-top">
           <div class="ie-avatar-frame">
             ${renderPortrait('ie-avatar-img', 92)}
           </div>
           <div class="ie-hero-copy">
-            <div class="ie-kicker">PORTFOLIO DOSSIER · ${escapeHtml(PROFILE?.location || 'Indonesia')}</div>
             <h1 class="ie-headline">${escapeHtml(PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando')}</h1>
-            <p class="ie-subhead">${escapeHtml(PROFILE?.role || 'AI Engineer & Data Specialist')}</p>
-            <div class="ie-badges">
-              <span class="ie-badge ie-badge-navy">${escapeHtml(PROFILE?.degree || 'S1 Matematika ITS')} · ${escapeHtml(PROFILE?.gpa || 'Cum Laude')}</span>
-              <span class="ie-badge ie-badge-teal">AI Engineer · DJED Komdigi</span>
-              <span class="ie-badge">Bangkit ML · SIT Tokyo GPBL</span>
+            <p class="ie-subhead">${escapeHtml(PROFILE?.role || 'AI Engineer & Data Specialist')} - ${escapeHtml(PROFILE?.location || 'Jakarta & Surabaya')}</p>
+            <div class="ie-meta-strip">
+              IPK 3,67 Cum Laude (ITS) · ${projects.length} Proyek AI &amp; Data · ${certCount} Dokumen Resmi · DJED Komdigi
             </div>
           </div>
         </div>
@@ -643,7 +597,7 @@ function renderHomePage() {
           </button>
           <button type="button" class="ie-action-btn" data-nav="agent:pdf:cv-rizky-alviando">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Buka CV (PDF Asli)</span>
+            <span>Buka CV (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-nav="agent:pdf:portfolio-deck">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
@@ -660,67 +614,48 @@ function renderHomePage() {
         </div>
       </header>
 
-      ${
-        stats.length
-          ? `<section class="ie-stats-grid" aria-label="Ringkasan pencapaian">
-              ${stats
-                .map(
-                  (st) => `
-                  <div class="ie-stat-card">
-                    <div class="ie-stat-value">${escapeHtml(st.value)}</div>
-                    <div class="ie-stat-label">${escapeHtml(st.label)}</div>
-                  </div>
-                `
-                )
-                .join('')}
-            </section>`
-          : ''
-      }
-
       <section class="ie-section">
         <div class="ie-section-head">
-          <div>
-            <div class="ie-kicker">SELECTED CASE STUDIES</div>
-            <h2 class="ie-section-title">Arsitektur AI, Data Governance &amp; Riset</h2>
-          </div>
-          <button type="button" class="ie-text-link" data-nav="projects">Indeks lengkap (${projects.length}) →</button>
+          <h2 class="ie-section-title">Selected Case Studies</h2>
+          <button type="button" class="ie-text-link" data-nav="projects">Semua proyek (${projects.length}) →</button>
         </div>
-        <div class="ie-cards-grid">
-          ${featured.map((proj, idx) => renderProjectCard(proj, idx)).join('')}
+        <div class="ie-editorial-list">
+          ${featured.map((proj, idx) => renderEditorialProjectItem(proj, idx)).join('')}
         </div>
       </section>
 
-      <section class="ie-section ie-directory-box">
-        <div class="ie-kicker">IN-PORTAL SEARCH &amp; PROFILE EXPLORER</div>
-        <h2 class="ie-section-title">Jelajahi Bagian Lain di Dalam Portal IE 4.0</h2>
-        <div class="ie-quick-grid">
-          <button type="button" class="ie-quick-tile" data-nav="search">
-            <span class="ie-quick-ico">${getIconSVG('ie', 18)}</span>
-            <div>
-              <strong>RizkySearch 95 Engine</strong>
-              <span>Cari topik karier, riset, sertifikat, atau profil di dalam IE 4.0</span>
-            </div>
+      <section class="ie-section">
+        <h2 class="ie-section-title">Direktori Portofolio</h2>
+        <div class="ie-dir-list">
+          <button type="button" class="ie-dir-row" data-nav="about">
+            <span class="ie-dir-name">About Me</span>
+            <span class="ie-dir-desc">Biografi, pendidikan ITS Cum Laude &amp; Shibaura Tokyo, serta kepemimpinan</span>
+            <span class="ie-dir-arrow">→</span>
           </button>
-          <button type="button" class="ie-quick-tile" data-nav="agent:linkedin">
-            <span class="ie-quick-ico">${getIconSVG('info', 18)}</span>
-            <div>
-              <strong>LinkedIn Profile (In-Portal)</strong>
-              <span>Tampilan penuh profil LinkedIn Rizky Alviando langsung di IE 4.0</span>
-            </div>
+          <button type="button" class="ie-dir-row" data-nav="experience">
+            <span class="ie-dir-name">Experience</span>
+            <span class="ie-dir-desc">DJED Komdigi, Bangkit Academy, BPS Jatim, dan Departemen Matematika ITS</span>
+            <span class="ie-dir-arrow">→</span>
           </button>
-          <button type="button" class="ie-quick-tile" data-nav="agent:github">
-            <span class="ie-quick-ico">${getIconSVG('dos', 18)}</span>
-            <div>
-              <strong>GitHub @RizkyAl01 (In-Portal)</strong>
-              <span>Telusuri daftar repositori publik &amp; baca README.md di dalam IE 4.0</span>
-            </div>
+          <button type="button" class="ie-dir-row" data-nav="skills">
+            <span class="ie-dir-name">Skills &amp; Stack</span>
+            <span class="ie-dir-desc">Fine-Tuning LLM, Graph-RAG, Medallion DuckDB, PyTorch, dan Matematika Terapan</span>
+            <span class="ie-dir-arrow">→</span>
           </button>
-          <button type="button" class="ie-quick-tile" data-open-app="room3d">
-            <span class="ie-quick-ico">${getIconSVG('room3d', 18)}</span>
-            <div>
-              <strong>3D Room Portfolio</strong>
-              <span>Ruang kerja isometrik 3D interaktif dengan dossier dan catur</span>
-            </div>
+          <button type="button" class="ie-dir-row" data-nav="agent:linkedin">
+            <span class="ie-dir-name">LinkedIn - Rizky Alviando</span>
+            <span class="ie-dir-desc">Profil profesional lengkap beserta lisensi sertifikasi dan tautan resmi</span>
+            <span class="ie-dir-arrow">→</span>
+          </button>
+          <button type="button" class="ie-dir-row" data-nav="agent:github">
+            <span class="ie-dir-name">GitHub - @RizkyAl01</span>
+            <span class="ie-dir-desc">Daftar repositori publik, struktur berkas, dan README teknis</span>
+            <span class="ie-dir-arrow">→</span>
+          </button>
+          <button type="button" class="ie-dir-row" data-open-app="room3d">
+            <span class="ie-dir-name">3D Room Portfolio</span>
+            <span class="ie-dir-desc">Ruang kerja isometrik 3D interaktif dengan dossier dan papan catur</span>
+            <span class="ie-dir-arrow">→</span>
           </button>
         </div>
       </section>
@@ -745,10 +680,9 @@ function renderAboutPage() {
           ${renderPortrait('ie-avatar-img', 96)}
         </div>
         <div class="ie-hero-copy">
-          <div class="ie-kicker">PROFILE &amp; BACKGROUND</div>
           <h1 class="ie-article-title" style="margin-bottom:4px">${escapeHtml(PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando')}</h1>
           <p class="ie-article-subtitle" style="margin-bottom:6px">${escapeHtml(PROFILE?.role || 'AI Engineer')} · ${escapeHtml(PROFILE?.location || 'Indonesia')}</p>
-          <div class="ie-author-meta">${escapeHtml(PROFILE?.university || 'ITS Surabaya')} · ${escapeHtml(PROFILE?.gpa || 'Cum Laude')}</div>
+          <div class="ie-meta-strip">${escapeHtml(PROFILE?.university || 'ITS Surabaya')} · ${escapeHtml(PROFILE?.gpa || 'Cum Laude')}</div>
         </div>
       </div>
 
@@ -763,20 +697,22 @@ function renderAboutPage() {
 
       ${
         education.length
-          ? `<section class="ie-callout-card">
-              <div class="ie-kicker">EDUCATION</div>
-              <h3>Riwayat Pendidikan</h3>
-              <div class="ie-edu-list">
+          ? `<section class="ie-section">
+              <h2 class="ie-section-title">Pendidikan</h2>
+              <div class="ie-ledger">
                 ${education
                   .map(
                     (ed) => `
-                    <div class="ie-edu-item">
-                      <div class="ie-edu-head">
-                        <strong>${escapeHtml(ed.institution)}</strong>
-                        <span>${escapeHtml(ed.period)}</span>
+                    <div class="ie-ledger-row">
+                      <div class="ie-ledger-left">
+                        <div class="ie-ledger-period">${escapeHtml(ed.period)}</div>
+                        <div class="ie-ledger-loc">${escapeHtml(ed.location || '')}</div>
                       </div>
-                      <div class="ie-edu-sub">${escapeHtml(ed.degree)} · ${escapeHtml(ed.score)}</div>
-                      <p class="ie-edu-detail">${escapeHtml(ed.details)}</p>
+                      <div class="ie-ledger-right">
+                        <h3 class="ie-ledger-role">${escapeHtml(ed.institution)}</h3>
+                        <div class="ie-ledger-org">${escapeHtml(ed.degree)} · ${escapeHtml(ed.score)}</div>
+                        <p class="ie-body-text">${escapeHtml(ed.details)}</p>
+                      </div>
                     </div>
                   `
                   )
@@ -788,20 +724,21 @@ function renderAboutPage() {
 
       ${
         organizations.length
-          ? `<section class="ie-callout-card">
-              <div class="ie-kicker">LEADERSHIP &amp; COMMUNITY</div>
-              <h3>Organisasi &amp; Kepemimpinan</h3>
-              <div class="ie-edu-list">
+          ? `<section class="ie-section">
+              <h2 class="ie-section-title">Organisasi &amp; Kepemimpinan</h2>
+              <div class="ie-ledger">
                 ${organizations
                   .map(
                     (org) => `
-                    <div class="ie-edu-item">
-                      <div class="ie-edu-head">
-                        <strong>${escapeHtml(org.role)}</strong>
-                        <span>${escapeHtml(org.period)}</span>
+                    <div class="ie-ledger-row">
+                      <div class="ie-ledger-left">
+                        <div class="ie-ledger-period">${escapeHtml(org.period)}</div>
                       </div>
-                      <div class="ie-edu-sub">${escapeHtml(org.org)}</div>
-                      <p class="ie-edu-detail">${escapeHtml(org.summary)}</p>
+                      <div class="ie-ledger-right">
+                        <h3 class="ie-ledger-role">${escapeHtml(org.role)}</h3>
+                        <div class="ie-ledger-org">${escapeHtml(org.org)}</div>
+                        <p class="ie-body-text">${escapeHtml(org.summary)}</p>
+                      </div>
                     </div>
                   `
                   )
@@ -814,10 +751,7 @@ function renderAboutPage() {
       ${
         interests.length
           ? `<section class="ie-section">
-              <div class="ie-kicker">BEYOND CODE</div>
-              <div class="ie-tags">
-                ${interests.map((item) => `<span class="ie-tag">${escapeHtml(item)}</span>`).join('')}
-              </div>
+              <div class="ie-meta-strip"><strong>Minat di luar riset &amp; kode:</strong> ${escapeHtml(interests.join(' · '))}</div>
             </section>`
           : ''
       }
@@ -825,12 +759,12 @@ function renderAboutPage() {
       <div class="ie-cta-box">
         <div>
           <h3>Dokumen Resmi &amp; Diskusi Langsung</h3>
-          <p>Buka dokumen CV resmi (PDF asli), lihat slide portofolio AI &amp; ML (PDF), atau ajukan pertanyaan spesifik ke RizkyBot AI.</p>
+          <p>Buka dokumen CV resmi (PDF), lihat slide portofolio AI &amp; ML (PDF), atau ajukan pertanyaan spesifik ke RizkyBot AI.</p>
         </div>
         <div class="ie-cta-buttons">
           <button type="button" class="ie-action-btn ie-action-primary" data-nav="agent:pdf:cv-rizky-alviando">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Buka CV (PDF Asli)</span>
+            <span>Buka CV (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-nav="agent:pdf:portfolio-deck">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
@@ -850,27 +784,25 @@ function renderExperiencePage() {
 
   return `
     <div class="ie-article ie-editorial">
-      <div class="ie-kicker">CAREER &amp; LEADERSHIP TIMELINE</div>
       <h1 class="ie-article-title">Experience</h1>
       <p class="ie-article-subtitle">Rekam jejak rekayasa AI, pelatihan korporat, statistik daerah, dan koordinasi operasional akademik.</p>
 
-      <div class="ie-timeline">
+      <div class="ie-ledger">
         ${experiences
           .map((exp) => {
             const highlights = Array.isArray(exp.highlights) ? exp.highlights : [];
             const tags = Array.isArray(exp.tags) ? exp.tags : [];
             const certObj = exp.certFile ? findCertByFileOrId(exp.certFile) : null;
             return `
-              <article class="ie-timeline-item">
-                <div class="ie-timeline-dot" aria-hidden="true"></div>
-                <div class="ie-timeline-content">
-                  <div class="ie-timeline-meta">
-                    <span class="ie-timeline-period">${escapeHtml(exp.period || '')}</span>
-                    ${exp.location ? `<span>·</span><span>${escapeHtml(exp.location)}</span>` : ''}
-                    ${exp.type ? `<span class="ie-type-pill">${escapeHtml(exp.type)}</span>` : ''}
-                  </div>
-                  <h2 class="ie-timeline-role">${escapeHtml(exp.role || '')}</h2>
-                  <div class="ie-timeline-org">${escapeHtml(exp.org || '')}</div>
+              <article class="ie-ledger-row">
+                <div class="ie-ledger-left">
+                  <div class="ie-ledger-period">${escapeHtml(exp.period || '')}</div>
+                  ${exp.location ? `<div class="ie-ledger-loc">${escapeHtml(exp.location)}</div>` : ''}
+                  ${exp.type ? `<div class="ie-ledger-type">${escapeHtml(exp.type)}</div>` : ''}
+                </div>
+                <div class="ie-ledger-right">
+                  <h2 class="ie-ledger-role">${escapeHtml(exp.role || '')}</h2>
+                  <div class="ie-ledger-org">${escapeHtml(exp.org || '')}</div>
                   ${exp.summary ? `<p class="ie-body-text">${escapeHtml(exp.summary)}</p>` : ''}
                   ${
                     highlights.length
@@ -879,19 +811,12 @@ function renderExperiencePage() {
                         </ul>`
                       : ''
                   }
-                  <div class="ie-exp-footer">
-                    ${
-                      tags.length
-                        ? `<div class="ie-tags">
-                            ${tags.map((t) => `<span class="ie-tag">${escapeHtml(t)}</span>`).join('')}
-                          </div>`
-                        : ''
-                    }
+                  <div class="ie-ledger-foot">
+                    ${tags.length ? `<div class="ie-ed-tech">${escapeHtml(tags.join(' · '))}</div>` : ''}
                     ${
                       exp.certFile && isLocalPdfPath(exp.certFile)
-                        ? `<button type="button" class="ie-inline-pdf-btn" data-nav="agent:pdf:${escapeHtml(certObj ? certObj.id : exp.certFile)}">
-                            <span class="ie-btn-ico">${getIconSVG('pdf', 13)}</span>
-                            <span>Lihat Sertifikat PDF</span>
+                        ? `<button type="button" class="ie-text-link" data-nav="agent:pdf:${escapeHtml(certObj ? certObj.id : exp.certFile)}">
+                            Lihat Sertifikat (PDF) →
                           </button>`
                         : ''
                     }
@@ -905,13 +830,13 @@ function renderExperiencePage() {
 
       <div class="ie-cta-box">
         <div>
-          <h3>Ingin melihat dokumen CV resmi atau detail pengalaman tertentu?</h3>
-          <p>Buka dokumen CV asli (PDF) &amp; slide Portofolio (PDF) langsung di dalam IE 4.0, atau tanyakan detail proyek Komdigi ke RizkyBot AI.</p>
+          <h3>Dokumen CV &amp; Diskusi Karier</h3>
+          <p>Baca dokumen CV resmi atau slide Portofolio AI &amp; ML, atau tanyakan detail proyek Komdigi langsung ke RizkyBot AI.</p>
         </div>
         <div class="ie-cta-buttons">
           <button type="button" class="ie-action-btn ie-action-primary" data-nav="agent:pdf:cv-rizky-alviando">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Buka CV (PDF Asli)</span>
+            <span>Buka CV (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-nav="agent:pdf:portfolio-deck">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
@@ -936,10 +861,9 @@ function renderProjectsPage(selectedCategory = 'All') {
       : indexed.filter(({ proj }) => proj.category === selectedCategory);
 
   return `
-    <div class="ie-article">
-      <div class="ie-kicker">TECHNICAL CASE STUDIES</div>
-      <h1 class="ie-article-title">Projects &amp; Research</h1>
-      <p class="ie-article-subtitle">Dokumentasi teknis proyek LLM, Graph-RAG, evaluasi keamanan AI, pipeline data, dan riset terapan yang dikerjakan Rizky.</p>
+    <div class="ie-article ie-editorial">
+      <h1 class="ie-article-title">Projects &amp; Case Studies</h1>
+      <p class="ie-article-subtitle">Arsip studi kasus arsitektur LLM, Graph-RAG, evaluasi keamanan AI, pipeline data, dan riset terapan (${projects.length} karya).</p>
 
       <div class="ie-filter-bar" role="tablist" aria-label="Filter kategori proyek">
         ${categories
@@ -959,10 +883,10 @@ function renderProjectsPage(selectedCategory = 'All') {
           .join('')}
       </div>
 
-      <div class="ie-cards-grid">
+      <div class="ie-editorial-list">
         ${
           filtered.length
-            ? filtered.map(({ proj, originalIdx }) => renderProjectCard(proj, originalIdx)).join('')
+            ? filtered.map(({ proj, originalIdx }) => renderEditorialProjectItem(proj, originalIdx)).join('')
             : '<p class="ie-body-text">Belum ada proyek pada kategori ini.</p>'
         }
       </div>
@@ -1010,28 +934,16 @@ function renderProjectDetailPage(slug) {
 
       ${
         metrics.length
-          ? `<div class="ie-metrics-strip">
-              ${metrics
-                .map(
-                  (m) => `
-                  <div class="ie-metric-box">
-                    <div class="ie-metric-val">${escapeHtml(m.value)}</div>
-                    <div class="ie-metric-lbl">${escapeHtml(m.label)}</div>
-                  </div>
-                `
-                )
-                .join('')}
+          ? `<div class="ie-meta-strip ie-case-metrics-line">
+              ${metrics.map((m) => `<span><strong>${escapeHtml(m.label)}:</strong> ${escapeHtml(m.value)}</span>`).join(' · ')}
             </div>`
           : ''
       }
 
       ${
         techStack.length
-          ? `<div class="ie-tech-block">
-              <div class="ie-tech-label">Stack &amp; Teknologi</div>
-              <div class="ie-tags">
-                ${techStack.map((t) => `<span class="ie-tag">${escapeHtml(t)}</span>`).join('')}
-              </div>
+          ? `<div class="ie-ed-tech" style="margin-bottom:18px">
+              <strong>Stack:</strong> ${escapeHtml(techStack.join(' · '))}
             </div>`
           : ''
       }
@@ -1064,16 +976,24 @@ function renderProjectDetailPage(slug) {
       ${
         links.length
           ? `<div class="ie-ext-links">
-              <div class="ie-tech-label">Tautan &amp; Lampiran (Dibuka di Dalam Portal IE 4.0)</div>
+              <div class="ie-tech-label">Tautan &amp; Lampiran</div>
               <div class="ie-ext-links-row">
                 ${links
                   .map((lnk) => {
                     const internalTarget = mapExternalUrlToInternalNav(lnk.href, lnk.label || project.title);
                     const isPdf = isLocalPdfPath(lnk.href) || internalTarget.startsWith('agent:pdf:');
-                    return `<button type="button" class="ie-ext-link ${isPdf ? 'ie-ext-pdf' : ''}" data-nav="${escapeHtml(internalTarget)}">
-                      <span class="ie-btn-ico">${getIconSVG(isPdf ? 'pdf' : 'ie', 14)}</span>
-                      <span>${escapeHtml(lnk.label || 'Buka di Portal IE')} →</span>
-                    </button>`;
+                    const extHref = safeHref(lnk.href);
+                    return `
+                      <button type="button" class="ie-ext-link ${isPdf ? 'ie-ext-pdf' : ''}" data-nav="${escapeHtml(internalTarget)}">
+                        <span class="ie-btn-ico">${getIconSVG(isPdf ? 'pdf' : 'ie', 14)}</span>
+                        <span>${escapeHtml(lnk.label || 'Buka Lampiran')}</span>
+                      </button>
+                      ${
+                        !isPdf && extHref !== '#'
+                          ? renderExtIconBtn(extHref, `Buka ${lnk.label || 'tautan'} di tab baru`)
+                          : ''
+                      }
+                    `;
                   })
                   .join('')}
               </div>
@@ -1124,37 +1044,27 @@ function renderSkillsPage() {
   const certs = Array.isArray(CERTIFICATES) ? CERTIFICATES : [];
 
   return `
-    <div class="ie-article">
-      <div class="ie-kicker">CAPABILITIES &amp; TOOLKIT</div>
-      <h1 class="ie-article-title">Skills &amp; Competencies</h1>
-      <p class="ie-article-subtitle">Perpaduan rekayasa AI &amp; LLM, fondasi matematika dan statistika, serta pengalaman memimpin tim teknis.</p>
+    <div class="ie-article ie-editorial">
+      <h1 class="ie-article-title">Skills &amp; Technical Specification</h1>
+      <p class="ie-article-subtitle">Ringkasan kemampuan teknis AI Engineering, rekayasa data, matematika terapan, dan kepemimpinan proyek.</p>
 
-      <div class="ie-skills-grid">
+      <div class="ie-spec-sheet">
         ${skillGroups
           .map((group) => {
             const items = Array.isArray(group.items) ? group.items : [];
-            const iconSvg = getIconSVG(safeIconKey(group.icon || group.iconKey, 'info'), 18);
             return `
-              <section class="ie-skill-card">
-                <header class="ie-skill-card-head">
-                  <span class="ie-skill-icon" aria-hidden="true">${iconSvg}</span>
-                  <h2>${escapeHtml(group.category || 'Skills')}</h2>
-                </header>
-                <div class="ie-skill-list">
+              <section class="ie-spec-group">
+                <h2 class="ie-spec-heading">${escapeHtml(group.category || 'Skills')}</h2>
+                <div class="ie-spec-table">
                   ${items
-                    .map((item) => {
-                      const tier = String(item.level || '').trim();
-                      const tierSlug = tier.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                      return `
-                        <div class="ie-skill-item">
-                          <div class="ie-skill-row">
-                            <strong class="ie-skill-name">${escapeHtml(item.name || '')}</strong>
-                            ${tier ? `<span class="ie-skill-tier ie-tier-${escapeHtml(tierSlug)}">${escapeHtml(tier)}</span>` : ''}
-                          </div>
-                          ${item.detail ? `<div class="ie-skill-detail">${escapeHtml(item.detail)}</div>` : ''}
-                        </div>
-                      `;
-                    })
+                    .map(
+                      (item) => `
+                      <div class="ie-spec-row">
+                        <div class="ie-spec-key">${escapeHtml(item.name || '')}</div>
+                        <div class="ie-spec-val">${escapeHtml(item.detail || '')}</div>
+                      </div>
+                    `
+                    )
                     .join('')}
                 </div>
               </section>
@@ -1166,12 +1076,12 @@ function renderSkillsPage() {
       <div class="ie-cta-box">
         <div>
           <h3>Sertifikasi Terverifikasi (${certs.length} Dokumen PDF)</h3>
-          <p>Seluruh sertifikat PASAS CISDE, BNSP Ilmuwan Data Madya, Komdigi, Bangkit Academy, Coursera, dan TOEP dapat dibaca langsung di dalam Internet Explorer 4.0.</p>
+          <p>Seluruh sertifikat PASAS CISDE, BNSP Ilmuwan Data Madya, Komdigi, Bangkit Academy, Coursera, dan TOEP dapat dilihat langsung di PDF Viewer.</p>
         </div>
         <div class="ie-cta-buttons">
           <button type="button" class="ie-action-btn ie-action-primary" data-nav="agent:pdf:pasas-cisde">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Baca Sertifikat di IE 4.0</span>
+            <span>Lihat Sertifikat (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-open-app="explorer" data-path="C:\\Rizky\\Certificates">
             <span class="ie-btn-ico">${getIconSVG('folder-open', 15)}</span>
@@ -1190,80 +1100,98 @@ function renderContactPage() {
 
   return `
     <div class="ie-article ie-editorial">
-      <div class="ie-kicker">CONTACT &amp; COLLABORATION</div>
       <h1 class="ie-article-title">Contact</h1>
       <p class="ie-article-subtitle">Terbuka untuk diskusi peran AI Engineer / Data Specialist, kolaborasi proyek LLM &amp; RAG, maupun pelatihan data korporat.</p>
 
-      <div class="ie-contact-grid">
-        <button type="button" class="ie-contact-card" data-nav="agent:linkedin">
-          <div class="ie-contact-label">LinkedIn (In-Portal View)</div>
-          <div class="ie-contact-value">${escapeHtml(PROFILE?.name || 'Rizky Alviando')}</div>
-          <div class="ie-contact-hint">Buka profil LinkedIn di IE 4.0 →</div>
-        </button>
-        <button type="button" class="ie-contact-card" data-nav="agent:github">
-          <div class="ie-contact-label">GitHub (In-Portal View)</div>
-          <div class="ie-contact-value">@RizkyAl01</div>
-          <div class="ie-contact-hint">Telusuri repositori &amp; README di IE 4.0 →</div>
-        </button>
-        <button type="button" class="ie-contact-card" data-nav="agent:canva">
-          <div class="ie-contact-label">Visual Portfolio Deck</div>
-          <div class="ie-contact-value">Portofolio AI &amp; ML 2026</div>
-          <div class="ie-contact-hint">Baca slide deck di dalam IE 4.0 →</div>
-        </button>
+      <div class="ie-spec-sheet">
+        <section class="ie-spec-group">
+          <h2 class="ie-spec-heading">Kanal Resmi</h2>
+          <div class="ie-spec-table">
+            <div class="ie-spec-row">
+              <div class="ie-spec-key">Website</div>
+              <div class="ie-spec-val">
+                <code>${escapeHtml(PROFILE?.website || CANONICAL_ORIGIN)}</code>
+              </div>
+            </div>
+            ${
+              email
+                ? `<div class="ie-spec-row">
+                    <div class="ie-spec-key">Email</div>
+                    <div class="ie-spec-val"><a class="ie-text-link" href="${escapeHtml(safeHref(`mailto:${email}`))}">${escapeHtml(email)}</a></div>
+                  </div>`
+                : ''
+            }
+            ${
+              phone
+                ? `<div class="ie-spec-row">
+                    <div class="ie-spec-key">Telepon / WhatsApp</div>
+                    <div class="ie-spec-val">${escapeHtml(phone)} · ${escapeHtml(PROFILE?.location || 'Jakarta & Surabaya')}</div>
+                  </div>`
+                : ''
+            }
+            <div class="ie-spec-row">
+              <div class="ie-spec-key">LinkedIn</div>
+              <div class="ie-spec-val ie-spec-links">
+                <button type="button" class="ie-text-link" data-nav="agent:linkedin">Lihat Profil LinkedIn →</button>
+                ${renderExtIconBtn(OFFICIAL_TARGETS.linkedin.url, 'Buka LinkedIn di tab baru')}
+              </div>
+            </div>
+            <div class="ie-spec-row">
+              <div class="ie-spec-key">GitHub</div>
+              <div class="ie-spec-val ie-spec-links">
+                <button type="button" class="ie-text-link" data-nav="agent:github">Lihat Repositori @RizkyAl01 →</button>
+                ${renderExtIconBtn(OFFICIAL_TARGETS.github.url, 'Buka GitHub di tab baru')}
+              </div>
+            </div>
+            <div class="ie-spec-row">
+              <div class="ie-spec-key">Portofolio Visual</div>
+              <div class="ie-spec-val ie-spec-links">
+                <button type="button" class="ie-text-link" data-nav="agent:canva">Lihat Slide Portofolio (PDF) →</button>
+                ${renderExtIconBtn(OFFICIAL_TARGETS.canva.url, 'Buka Canva asli di tab baru')}
+              </div>
+            </div>
+          </div>
+        </section>
+
         ${
-          email
-            ? `<div class="ie-contact-card ie-contact-static">
-                <div class="ie-contact-label">Email &amp; Telepon / WhatsApp</div>
-                <div class="ie-contact-value">${escapeHtml(email)}</div>
-                <div class="ie-contact-hint">${escapeHtml(phone)} · ${escapeHtml(PROFILE?.location || 'Jakarta & Surabaya')}</div>
-              </div>`
+          bots.length
+            ? `<section class="ie-spec-group">
+                <h2 class="ie-spec-heading">Bot Telegram Publik</h2>
+                <div class="ie-spec-table">
+                  ${bots
+                    .map(
+                      (b) => `
+                      <div class="ie-spec-row">
+                        <div class="ie-spec-key"><code>${escapeHtml(b.name)}</code></div>
+                        <div class="ie-spec-val ie-spec-links">
+                          <span>${escapeHtml(b.desc)}</span>
+                          ${renderExtIconBtn(b.href, `Buka ${b.name} di Telegram (tab baru)`)}
+                        </div>
+                      </div>
+                    `
+                    )
+                    .join('')}
+                </div>
+              </section>`
             : ''
         }
       </div>
 
-      ${
-        bots.length
-          ? `<section class="ie-callout-card">
-              <div class="ie-kicker">TELEGRAM AUTOMATION BOTS</div>
-              <h3>Bot Publik yang Dibangun Rizky</h3>
-              <div class="ie-bot-list">
-                ${bots
-                  .map(
-                    (b) => `
-                      <div class="ie-bot-row">
-                        <div>
-                          <strong>${escapeHtml(b.name)}</strong>
-                          <span class="ie-bot-desc"> — ${escapeHtml(b.desc)}</span>
-                        </div>
-                        <button type="button" class="ie-text-link" data-nav="agent:telegram">Inspect di IE →</button>
-                      </div>
-                    `
-                  )
-                  .join('')}
-              </div>
-            </section>`
-          : ''
-      }
-
       <div class="ie-cta-box">
         <div>
-          <h3>Respon Instan atau Tinggalkan Jejak di RizkyOS 95</h3>
-          <p>Gunakan RizkyBot Messenger untuk tanya jawab real-time, atau tulis catatan singkat di RizkyBook Guestbook.</p>
+          <h3>Respon Instan atau Tinggalkan Pesan</h3>
+          <p>Gunakan RizkyBot Messenger untuk tanya jawab real-time, atau tulis catatan singkat di Guest book.txt.</p>
         </div>
         <div class="ie-cta-buttons">
           <button type="button" class="ie-action-btn ie-action-primary" data-open-app="messenger">
             Buka RizkyBot Messenger
           </button>
           <button type="button" class="ie-action-btn" data-open-app="guestbook">
-            Isi RizkyBook Guestbook
+            Buka Guest book.txt
           </button>
           <button type="button" class="ie-action-btn" data-nav="agent:pdf:cv-rizky-alviando">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Buka CV (PDF Asli)</span>
-          </button>
-          <button type="button" class="ie-action-btn" data-nav="agent:pdf:portfolio-deck">
-            <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Buka Portofolio (PDF)</span>
+            <span>Buka CV (PDF)</span>
           </button>
         </div>
       </div>
@@ -1272,7 +1200,7 @@ function renderContactPage() {
 }
 
 /* ============================================================================
- * IN-PORTAL SEARCH ENGINE (BING / GOOGLE SERP STYLE) & IN-IE PAGE RENDERING
+ * RIZKYSEARCH 95 & EXTERNAL PROFILE / DOCUMENT VIEWS
  * ========================================================================== */
 
 function tokenizeSearchQuery(query) {
@@ -1312,7 +1240,6 @@ function buildSerpItems(query, agentData) {
   const webItems = [];
   const seenNavs = new Set();
 
-  // 1. Official Profiles & Repos matching query
   for (const t of Object.values(OFFICIAL_TARGETS)) {
     const sc = showAllDefault
       ? 6
@@ -1326,13 +1253,13 @@ function buildSerpItems(query, agentData) {
         breadcrumb: t.breadcrumb,
         title: t.title,
         nav,
+        externalUrl: t.url,
         snippet: t.desc,
         score: sc + 5
       });
     }
   }
 
-  // 2. GitHub Repositories matching query
   for (const repo of FALLBACK_GITHUB_REPOS) {
     const sc = scoreTextMatch(
       tokens,
@@ -1349,19 +1276,19 @@ function buildSerpItems(query, agentData) {
         seenNavs.add(nav);
         webItems.push({
           category: 'web',
-          badge: 'GITHUB REPO',
+          badge: 'GitHub Repo',
           breadcrumb: `https://github.com › RizkyAl01 › ${repo.name}`,
-          title: `${repo.full_name || `RizkyAl01/${repo.name}`} — ${repo.language}`,
+          title: `${repo.full_name || `RizkyAl01/${repo.name}`} - ${repo.language}`,
           nav,
+          externalUrl: `https://github.com/RizkyAl01/${repo.name}`,
           snippet: repo.description,
-          tags: repo.topics?.slice(0, 4) || [],
+          techText: repo.topics?.slice(0, 4).join(' · ') || '',
           score: sc + 3
         });
       }
     }
   }
 
-  // 3. Remote web_results from POST /api/ie-agent (DuckDuckGo / backend search)
   if (Array.isArray(agentData?.web_results)) {
     for (const w of agentData.web_results) {
       const rawUrl = w.url || w.href || '';
@@ -1380,20 +1307,20 @@ function buildSerpItems(query, agentData) {
       seenNavs.add(nav);
       const crumb = rawUrl
         ? rawUrl.replace(/^https?:\/\//i, 'https://').replace(/\//g, ' › ')
-        : 'https://rizky.os › web › result';
+        : `${CANONICAL_ORIGIN} › search`;
       webItems.push({
         category: 'web',
-        badge: (w.source || w.domain || 'WEB RESULT').toUpperCase(),
+        badge: w.source || w.domain || 'Web',
         breadcrumb: crumb,
-        title: w.title || rawUrl || 'Web Result',
+        title: w.title || rawUrl || 'Hasil Web',
         nav,
+        externalUrl: safeHref(rawUrl) !== '#' ? rawUrl : '',
         snippet: snippetText,
         score: Number(w.score || 4)
       });
     }
   }
 
-  // 4. Case Studies / Projects
   const projectItems = (PROJECTS || [])
     .map((p) => {
       const sc = showAllDefault
@@ -1410,19 +1337,18 @@ function buildSerpItems(query, agentData) {
           );
       return {
         category: 'projects',
-        badge: `CASE STUDY · ${p.category || 'AI'}`,
-        breadcrumb: `https://rizky.os › projects › ${p.slug}`,
+        badge: p.category || 'Case Study',
+        breadcrumb: `${CANONICAL_ORIGIN} › projects › ${p.slug}`,
         title: `${p.title} (${p.date || '2026'})`,
         nav: `project:${p.slug}`,
         snippet: p.summary || p.subtitle || '',
-        tags: (p.techStack || []).slice(0, 5),
+        techText: (p.techStack || []).slice(0, 5).join(' · '),
         score: sc
       };
     })
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score);
 
-  // 5. Experiences & Education
   const expItems = (EXPERIENCES || [])
     .map((e) => {
       const sc = showAllDefault
@@ -1441,12 +1367,12 @@ function buildSerpItems(query, agentData) {
           );
       return {
         category: 'experience',
-        badge: `EXPERIENCE · ${e.type || 'Career'}`,
-        breadcrumb: `https://rizky.os › experience › ${e.id}`,
-        title: `${e.role} — ${e.org} (${e.period})`,
+        badge: e.type || 'Experience',
+        breadcrumb: `${CANONICAL_ORIGIN} › experience › ${e.id}`,
+        title: `${e.role} - ${e.org} (${e.period})`,
         nav: 'experience',
         snippet: e.summary || (e.highlights && e.highlights[0]) || '',
-        tags: (e.tags || []).slice(0, 4),
+        techText: (e.tags || []).slice(0, 4).join(' · '),
         score: sc
       };
     })
@@ -1469,9 +1395,9 @@ function buildSerpItems(query, agentData) {
     if (sc > 0) {
       expItems.push({
         category: 'experience',
-        badge: 'EDUCATION',
-        breadcrumb: `https://rizky.os › about › education`,
-        title: `${ed.institution} — ${ed.degree} (${ed.score})`,
+        badge: 'Education',
+        breadcrumb: `${CANONICAL_ORIGIN} › about`,
+        title: `${ed.institution} - ${ed.degree} (${ed.score})`,
         nav: 'about',
         snippet: ed.details || '',
         score: sc
@@ -1479,7 +1405,6 @@ function buildSerpItems(query, agentData) {
     }
   }
 
-  // 6. Certificates & PDF Documents
   const pdfItems = (CERTIFICATES || [])
     .map((c) => {
       const sc = showAllDefault
@@ -1497,11 +1422,12 @@ function buildSerpItems(query, agentData) {
           );
       return {
         category: 'pdfs',
-        badge: `PDF · ${c.category || 'Document'}`,
-        breadcrumb: `https://rizky.os › certs › ${c.id}`,
-        title: `${c.title} — ${c.issuer} (${c.year})`,
+        badge: c.category || 'PDF',
+        breadcrumb: `${CANONICAL_ORIGIN} › certs › ${c.id}`,
+        title: `${c.title} - ${c.issuer} (${c.year})`,
         nav: `agent:pdf:${c.id}`,
-        snippet: `Dokumen PDF resmi (${c.size || 'PDF'}) · Kredensial: ${c.credentialId || c.id}. Klik untuk membaca dokumen PDF langsung di dalam Internet Explorer 4.0.`,
+        externalUrl: safeHref(c.verifyUrl) !== '#' ? c.verifyUrl : '',
+        snippet: `Dokumen PDF resmi (${c.size || 'PDF'}) · Kredensial: ${c.credentialId || c.id}.`,
         score: sc
       };
     })
@@ -1525,8 +1451,8 @@ function renderSearchBoxHeader(currentQuery = '', activeTab = 'all', counts = nu
   const tabs = [
     { id: 'all', label: 'All', count: counts?.all?.length },
     { id: 'web', label: 'Web & Profiles', count: counts?.web?.length },
-    { id: 'projects', label: 'Projects & Case Studies', count: counts?.projects?.length },
-    { id: 'experience', label: 'Experience & Education', count: counts?.experience?.length },
+    { id: 'projects', label: 'Projects', count: counts?.projects?.length },
+    { id: 'experience', label: 'Experience', count: counts?.experience?.length },
     { id: 'pdfs', label: 'Certificates & PDF', count: counts?.pdfs?.length }
   ];
 
@@ -1539,17 +1465,17 @@ function renderSearchBoxHeader(currentQuery = '', activeTab = 'all', counts = nu
             type="text"
             class="win95-field ie-search-input"
             value="${escapeHtml(currentQuery)}"
-            placeholder="Cari apa saja tentang Rizky Alviando, LinkedIn, GitHub, proyek, sertifikat..."
+            placeholder="Cari proyek, pengalaman Komdigi, LinkedIn, GitHub, atau sertifikat Rizky..."
             aria-label="RizkySearch 95 Input"
           >
           <button type="submit" class="win95-btn primary ie-search-submit">Search</button>
         </div>
         <div class="ie-agent-chips">
-          <span class="ie-agent-chips-label">Populer:</span>
-          <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="agent:linkedin">Profil LinkedIn</button>
+          <span class="ie-agent-chips-label">Pintasan:</span>
+          <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="agent:linkedin">LinkedIn</button>
           <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="agent:github">GitHub @RizkyAl01</button>
           <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="search:pengalaman ai engineer komdigi">Pengalaman Komdigi</button>
-          <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="search:prestasi tokyo gpbl shibaura">Prestasi Tokyo GPBL</button>
+          <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="search:prestasi tokyo gpbl shibaura">GPBL Tokyo</button>
           <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="search:graph-rag dan fine-tuning llm">Graph-RAG &amp; LLM</button>
           <button type="button" class="win95-btn win95-btn-sm ie-agent-chip" data-nav="agent:pdf:cv-rizky-alviando">CV Resmi (PDF)</button>
         </div>
@@ -1588,55 +1514,35 @@ function renderSearchHomePage() {
   ];
 
   return `
-    <div class="ie-article ie-search-portal">
-      <div class="ie-kicker">RIZKYSEARCH 95 · IN-PORTAL SEARCH ENGINE &amp; BROWSER AGENT</div>
+    <div class="ie-article ie-editorial ie-search-portal">
       <h1 class="ie-article-title">RizkySearch 95</h1>
       <p class="ie-article-subtitle">
-        Mesin pencari internal bergaya Bing / Google di dalam Internet Explorer 4.0. Seluruh hasil pencarian, profil <strong>LinkedIn</strong>, repositori <strong>GitHub</strong>, <strong>13 studi kasus AI</strong>, serta <strong>15 dokumen PDF</strong> dibuka langsung di dalam jendela portal ini.
+        Mesin pencari khusus portofolio <strong>Rizky Alviando</strong> untuk menelusuri profil LinkedIn, repositori GitHub, 13 studi kasus AI, dan 15 dokumen PDF resmi.
       </p>
 
       ${renderSearchBoxHeader('', 'all', null)}
 
       <section class="ie-section">
-        <div class="ie-section-head">
-          <div>
-            <div class="ie-kicker">IN-PORTAL VERIFIED PROFILES &amp; DOCUMENTS</div>
-            <h2 class="ie-section-title">Jelajahi Profil &amp; Dokumen Resmi di Dalam IE 4.0</h2>
-          </div>
-          <span class="ie-zone-pill">100% In-Portal Rendering</span>
-        </div>
-
-        <div class="ie-agent-targets-grid">
+        <h2 class="ie-section-title">Profil &amp; Dokumen Resmi</h2>
+        <div class="ie-dir-list">
           ${targets
             .map((t) => {
-              const navTarget =
-                t.id === 'coursera' ? 'agent:pdf:coursera-tf' : `agent:${t.id}`;
+              const navTarget = t.id === 'coursera' ? 'agent:pdf:coursera-tf' : `agent:${t.id}`;
               return `
-                <article class="ie-agent-target-card">
-                  <div class="ie-agent-target-top">
-                    <span class="ie-agent-target-badge">${escapeHtml(t.badge)}</span>
-                    <code class="ie-agent-target-domain">${escapeHtml(t.displayUrl)}</code>
+                <div class="ie-dir-row ie-dir-row-static">
+                  <div class="ie-dir-main">
+                    <button type="button" class="ie-hit-title-btn" data-nav="${escapeHtml(navTarget)}">${escapeHtml(t.title)}</button>
+                    <div class="ie-dir-desc">${escapeHtml(t.desc)}</div>
                   </div>
-                  <h3 class="ie-agent-target-title">${escapeHtml(t.title)}</h3>
-                  <p class="ie-agent-target-desc">${escapeHtml(t.desc)}</p>
-                  <div class="ie-agent-target-actions">
-                    <button type="button" class="ie-action-btn ie-action-primary" data-nav="${escapeHtml(navTarget)}">
-                      <span>Buka Halaman di Dalam IE 4.0 →</span>
-                    </button>
+                  <div class="ie-dir-actions">
+                    <button type="button" class="ie-text-link" data-nav="${escapeHtml(navTarget)}">Buka →</button>
+                    ${renderExtIconBtn(t.url, `Buka ${t.badge} di tab baru`)}
                   </div>
-                </article>
+                </div>
               `;
             })
             .join('')}
         </div>
-      </section>
-
-      <section class="ie-callout-card ie-agent-policy-note">
-        <div class="ie-kicker">RIZKYOS 95 SECURITY ZONE · SCOPE-LOCKED SEARCH</div>
-        <h3>Pencarian Khusus Seputar Rizky Alviando</h3>
-        <p class="ie-body-text">
-          Ketik kata kunci apa saja di kotak pencarian atau langsung di <strong>Address Bar</strong> Internet Explorer (misalnya <code>linkedin</code>, <code>github</code>, <code>pengalaman komdigi</code>, <code>tokyo</code>, <code>aegislake</code>, <code>lexgraph</code>, atau <code>bnsp</code>). Kueri di luar konteks Rizky Alviando akan ditolak secara otomatis oleh Security Zone.
-        </p>
       </section>
     </div>
   `;
@@ -1647,28 +1553,26 @@ function formatAgentStepsHtml(steps) {
   return steps
     .map((s, idx) => {
       if (typeof s === 'string') {
-        return `<div class="ie-agent-step-line"><span class="ie-agent-step-num">[0${idx + 1}]</span> <span>${escapeHtml(s)}</span></div>`;
+        return `<div class="ie-trace-line"><span class="ie-trace-num">[0${idx + 1}]</span> ${escapeHtml(s)}</div>`;
       }
       const num = typeof s.step === 'number' ? `0${s.step}` : `0${idx + 1}`;
       const label =
         s.action || (typeof s.step === 'string' ? s.step : '') || s.title || s.stage || `STEP_${idx + 1}`;
       const detail = s.detail || s.text || s.message || '';
-      const status = s.status ? ` · ${String(s.status).toUpperCase()}` : '';
-      return `<div class="ie-agent-step-line"><span class="ie-agent-step-num">[${escapeHtml(num)} ${escapeHtml(label)}${escapeHtml(status)}]</span> <span>${escapeHtml(detail)}</span></div>`;
+      return `<div class="ie-trace-line"><span class="ie-trace-num">[${escapeHtml(num)} · ${escapeHtml(label)}]</span> ${escapeHtml(detail)}</div>`;
     })
     .join('');
 }
 
 function renderBlockedAgentHtml(query, reason) {
   const defaultReason =
-    'Akses Dibatasi oleh RizkyOS 95 Security Zone: Mesin pencari dan Browser Agent ini dikhususkan hanya untuk penelusuran informasi, proyek, dokumen, dan profil resmi terkait Rizky Alviando.';
+    'Akses Dibatasi oleh RizkyOS 95 Security Zone: Mesin pencari ini dikhususkan hanya untuk penelusuran informasi, proyek, dokumen, dan profil resmi terkait Rizky Alviando.';
   return `
     <section class="ie-security-panel win95-raised">
       <div class="ie-security-head">
         <span class="ie-security-ico">${getIconSVG('warning', 28)}</span>
         <div>
-          <div class="ie-kicker">RIZKYOS 95 SECURITY ZONE · ACCESS RESTRICTED</div>
-          <h2 class="ie-security-title">Kueri atau Alamat di Luar Ruang Lingkup Rizky Alviando</h2>
+          <h2 class="ie-security-title">Permintaan di Luar Ruang Lingkup Portofolio Rizky Alviando</h2>
         </div>
       </div>
       <p class="ie-security-reason">${escapeHtml(reason || defaultReason)}</p>
@@ -1677,10 +1581,10 @@ function renderBlockedAgentHtml(query, reason) {
       </div>
       <div class="ie-security-actions">
         <button type="button" class="ie-action-btn ie-action-primary" data-nav="agent:linkedin">
-          Buka LinkedIn Rizky (In-Portal)
+          LinkedIn - Rizky Alviando
         </button>
         <button type="button" class="ie-action-btn" data-nav="agent:github">
-          Buka GitHub @RizkyAl01 (In-Portal)
+          GitHub - @RizkyAl01
         </button>
         <button type="button" class="ie-action-btn" data-nav="search:pengalaman ai engineer komdigi">
           Cari: Pengalaman Komdigi
@@ -1701,32 +1605,28 @@ function renderSerpBodyHtml(query, serpBuckets, activeTab, agentData) {
   return `
     <div class="ie-search-results-wrap">
       <div class="ie-serp-meta">
-        Menampilkan <strong>${items.length}</strong> hasil di dalam portal untuk <strong>"${escapeHtml(query)}"</strong> (Kategori: ${escapeHtml(activeTab.toUpperCase())})
+        Menampilkan <strong>${items.length}</strong> hasil untuk <strong>"${escapeHtml(query)}"</strong>
       </div>
 
       ${
         aiSummary && activeTab === 'all'
           ? `<section class="ie-agent-overview">
-              <div class="ie-kicker">BING / RIZKYSEARCH AI COPILOT ANSWER · GROQ LLM + BM25</div>
+              <div class="ie-meta-strip" style="margin-bottom:6px"><strong>Ringkasan AI · RizkySearch 95</strong></div>
               <p class="ie-agent-overview-text">${escapeHtml(aiSummary)}</p>
               <div class="ie-agent-overview-foot">
-                <button type="button" class="ie-action-btn" data-nav="agent:linkedin">
-                  <span>Profil LinkedIn (In-Portal)</span>
-                </button>
-                <button type="button" class="ie-action-btn" data-nav="agent:github">
-                  <span>GitHub @RizkyAl01 (In-Portal)</span>
-                </button>
-                <button type="button" class="ie-action-btn" data-nav="agent:pdf:cv-rizky-alviando">
-                  <span>CV Resmi (PDF di IE)</span>
-                </button>
+                <button type="button" class="ie-text-link" data-nav="agent:linkedin">LinkedIn - Rizky Alviando →</button>
+                <span>·</span>
+                <button type="button" class="ie-text-link" data-nav="agent:github">GitHub - @RizkyAl01 →</button>
+                <span>·</span>
+                <button type="button" class="ie-text-link" data-nav="agent:pdf:cv-rizky-alviando">Buka CV (PDF) →</button>
+                <span>·</span>
                 <button
                   type="button"
-                  class="ie-action-btn"
+                  class="ie-text-link"
                   data-open-app="messenger"
                   data-prefill="${escapeHtml(`Jelaskan lebih detail tentang "${query}" terkait Rizky Alviando.`)}"
                 >
-                  <span class="ie-btn-ico">${getIconSVG('messenger', 14)}</span>
-                  <span>Tanya di RizkyBot Messenger</span>
+                  Diskusikan di RizkyBot Messenger →
                 </button>
               </div>
             </section>`
@@ -1741,8 +1641,8 @@ function renderSerpBodyHtml(query, serpBuckets, activeTab, agentData) {
                   (hit) => `
                   <article class="ie-search-hit-card">
                     <div class="ie-search-hit-url">
-                      <span class="ie-hit-badge">${escapeHtml(hit.badge || 'RESULT')}</span>
-                      <span>${escapeHtml(hit.breadcrumb || 'https://rizky.os')}</span>
+                      <span>${escapeHtml(hit.breadcrumb || CANONICAL_ORIGIN)}</span>
+                      ${hit.badge ? `<span>· ${escapeHtml(hit.badge)}</span>` : ''}
                     </div>
                     <h3 class="ie-search-hit-title">
                       <button type="button" class="ie-hit-title-btn" data-nav="${escapeHtml(hit.nav)}">
@@ -1750,13 +1650,14 @@ function renderSerpBodyHtml(query, serpBuckets, activeTab, agentData) {
                       </button>
                     </h3>
                     <p class="ie-search-hit-snippet">${escapeHtml(hit.snippet || '')}</p>
-                    ${
-                      Array.isArray(hit.tags) && hit.tags.length
-                        ? `<div class="ie-tags">
-                            ${hit.tags.map((t) => `<span class="ie-tag">${escapeHtml(t)}</span>`).join('')}
-                          </div>`
-                        : ''
-                    }
+                    <div class="ie-hit-foot">
+                      ${hit.techText ? `<span class="ie-ed-tech">${escapeHtml(hit.techText)}</span>` : ''}
+                      ${
+                        hit.externalUrl && safeHref(hit.externalUrl) !== '#'
+                          ? renderExtIconBtn(hit.externalUrl, `Buka ${hit.title || 'halaman'} di tab baru`)
+                          : ''
+                      }
+                    </div>
                   </article>
                 `
                 )
@@ -1768,7 +1669,6 @@ function renderSerpBodyHtml(query, serpBuckets, activeTab, agentData) {
       ${
         !items.length && cvChunks.length
           ? `<section class="ie-search-section">
-              <div class="ie-kicker">RETRIEVED CV DOSSIER CHUNKS</div>
               <div class="ie-search-web-list">
                 ${cvChunks
                   .map((ch) => {
@@ -1776,13 +1676,10 @@ function renderSerpBodyHtml(query, serpBuckets, activeTab, agentData) {
                     const body = typeof ch === 'string' ? ch : ch.content || ch.text || ch.snippet || '';
                     return `
                       <article class="ie-search-hit-card">
-                        <div class="ie-search-hit-url">
-                          <span class="ie-hit-badge">CV CHUNK</span>
-                          <span>https://rizky.os › cv › ${escapeHtml(title)}</span>
-                        </div>
+                        <div class="ie-search-hit-url">${CANONICAL_ORIGIN} › cv › ${escapeHtml(title)}</div>
                         <h3 class="ie-search-hit-title">
                           <button type="button" class="ie-hit-title-btn" data-nav="agent:pdf:cv-rizky-alviando">
-                            ${escapeHtml(title)} — Buka CV Resmi (PDF)
+                            ${escapeHtml(title)} - Buka CV Resmi (PDF)
                           </button>
                         </h3>
                         <p class="ie-search-hit-snippet">${escapeHtml(String(body).slice(0, 420))}</p>
@@ -1825,10 +1722,9 @@ function renderLinkedInDossierHtml(agentData) {
       <div class="ie-dossier-card">
         <div class="ie-li-banner">
           <div class="ie-li-banner-top">
-            <span class="ie-agent-target-badge">LINKEDIN · IN-PORTAL PROFILE VIEW</span>
+            <strong>LinkedIn - Rizky Alviando</strong>
             <code>${escapeHtml(target.url)}</code>
           </div>
-          <div class="ie-li-banner-sub">Dirender penuh di dalam portal Internet Explorer 4.0 — RizkyOS 95</div>
         </div>
 
         <div class="ie-dossier-header">
@@ -1840,26 +1736,23 @@ function renderLinkedInDossierHtml(agentData) {
             <p class="ie-dossier-headline">
               AI Engineer at DJED Komdigi · S1 Mathematics ITS (Cum Laude, GPA 3.67/4.00) · Bangkit ML Graduate · Best Presentation GPBL SIT Tokyo
             </p>
-            <div class="ie-dossier-loc">${escapeHtml(PROFILE?.location || 'Jakarta & Surabaya, Indonesia')} · 500+ koneksi · Terverifikasi</div>
+            <div class="ie-dossier-loc">${escapeHtml(PROFILE?.location || 'Jakarta & Surabaya, Indonesia')} · 500+ koneksi</div>
           </div>
         </div>
 
         <div class="ie-dossier-cta-bar">
-          <button type="button" class="ie-action-btn ie-action-primary" data-nav="agent:pdf:cv-rizky-alviando">
+          ${renderExtIconBtn(target.url, 'Buka LinkedIn di tab baru', 'ie-action-primary')}
+          <button type="button" class="ie-action-btn" data-nav="agent:pdf:cv-rizky-alviando">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Lihat CV Resmi (Inline PDF di IE)</span>
+            <span>Buka CV (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-nav="agent:pdf:portfolio-deck">
             <span class="ie-btn-ico">${getIconSVG('pdf', 15)}</span>
-            <span>Lihat Slide Portofolio (Inline PDF di IE)</span>
-          </button>
-          <button type="button" class="ie-action-btn" data-nav="agent:github">
-            <span class="ie-btn-ico">${getIconSVG('dos', 15)}</span>
-            <span>Buka GitHub @RizkyAl01 di IE</span>
+            <span>Buka Portofolio (PDF)</span>
           </button>
           <button type="button" class="ie-action-btn" data-open-app="messenger" data-prefill="Ceritakan ringkasan profil LinkedIn dan pengalaman kerja utama Rizky Alviando.">
             <span class="ie-btn-ico">${getIconSVG('messenger', 15)}</span>
-            <span>Kirim Pesan via RizkyBot</span>
+            <span>Tanya RizkyBot</span>
           </button>
         </div>
 
@@ -1871,58 +1764,34 @@ function renderLinkedInDossierHtml(agentData) {
         </section>
 
         <section class="ie-dossier-section">
-          <h3>Unggulan (Featured Projects &amp; Documents)</h3>
-          <div class="ie-gh-repos-grid">
-            ${featuredProjs
-              .map(
-                (p) => `
-                <article class="ie-gh-repo-card">
-                  <div class="ie-gh-repo-top">
-                    <strong class="ie-gh-repo-name">${escapeHtml(p.title)}</strong>
-                    <span class="ie-tag">${escapeHtml(p.category)}</span>
-                  </div>
-                  <p class="ie-gh-repo-desc">${escapeHtml(p.summary || p.subtitle || '')}</p>
-                  <div class="ie-gh-repo-foot">
-                    <button type="button" class="ie-text-link" data-nav="project:${escapeHtml(p.slug)}">Baca Case Study di IE →</button>
-                  </div>
-                </article>
-              `
-              )
-              .join('')}
+          <h3>Proyek Unggulan</h3>
+          <div class="ie-editorial-list">
+            ${featuredProjs.map((p, i) => renderEditorialProjectItem(p, i)).join('')}
           </div>
         </section>
 
         <section class="ie-dossier-section">
-          <h3>Pengalaman (Experience — ${exps.length} Posisi)</h3>
-          <div class="ie-edu-list">
+          <h3>Pengalaman (${exps.length} Posisi)</h3>
+          <div class="ie-ledger">
             ${exps
               .map((e) => {
                 const certObj = e.certFile ? findCertByFileOrId(e.certFile) : null;
                 return `
-                  <div class="ie-edu-item">
-                    <div class="ie-edu-head">
-                      <strong>${escapeHtml(e.role)}</strong>
-                      <span>${escapeHtml(e.period)}</span>
+                  <div class="ie-ledger-row">
+                    <div class="ie-ledger-left">
+                      <div class="ie-ledger-period">${escapeHtml(e.period)}</div>
+                      <div class="ie-ledger-loc">${escapeHtml(e.location || '')}</div>
                     </div>
-                    <div class="ie-edu-sub">${escapeHtml(e.org)} · ${escapeHtml(e.location || '')} (${escapeHtml(e.type || '')})</div>
-                    <p class="ie-edu-detail">${escapeHtml(e.summary || '')}</p>
-                    ${
-                      Array.isArray(e.highlights) && e.highlights.length
-                        ? `<ul class="ie-bullet-list">
-                            ${e.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join('')}
-                          </ul>`
-                        : ''
-                    }
-                    ${
-                      certObj
-                        ? `<div style="margin-top:6px">
-                            <button type="button" class="ie-inline-pdf-btn" data-nav="agent:pdf:${escapeHtml(certObj.id)}">
-                              <span class="ie-btn-ico">${getIconSVG('pdf', 13)}</span>
-                              <span>Tampilkan Sertifikat PDF di IE</span>
-                            </button>
-                          </div>`
-                        : ''
-                    }
+                    <div class="ie-ledger-right">
+                      <h4 class="ie-ledger-role">${escapeHtml(e.role)}</h4>
+                      <div class="ie-ledger-org">${escapeHtml(e.org)}</div>
+                      <p class="ie-body-text">${escapeHtml(e.summary || '')}</p>
+                      ${
+                        certObj
+                          ? `<button type="button" class="ie-text-link" data-nav="agent:pdf:${escapeHtml(certObj.id)}">Lihat Sertifikat (PDF) →</button>`
+                          : ''
+                      }
+                    </div>
                   </div>
                 `;
               })
@@ -1931,18 +1800,20 @@ function renderLinkedInDossierHtml(agentData) {
         </section>
 
         <section class="ie-dossier-section">
-          <h3>Pendidikan (Education)</h3>
-          <div class="ie-edu-list">
+          <h3>Pendidikan</h3>
+          <div class="ie-ledger">
             ${edus
               .map(
                 (ed) => `
-                <div class="ie-edu-item">
-                  <div class="ie-edu-head">
-                    <strong>${escapeHtml(ed.institution)}</strong>
-                    <span>${escapeHtml(ed.period)}</span>
+                <div class="ie-ledger-row">
+                  <div class="ie-ledger-left">
+                    <div class="ie-ledger-period">${escapeHtml(ed.period)}</div>
                   </div>
-                  <div class="ie-edu-sub">${escapeHtml(ed.degree)} · ${escapeHtml(ed.score)}</div>
-                  <p class="ie-edu-detail">${escapeHtml(ed.details || '')}</p>
+                  <div class="ie-ledger-right">
+                    <h4 class="ie-ledger-role">${escapeHtml(ed.institution)}</h4>
+                    <div class="ie-ledger-org">${escapeHtml(ed.degree)} · ${escapeHtml(ed.score)}</div>
+                    <p class="ie-body-text">${escapeHtml(ed.details || '')}</p>
+                  </div>
                 </div>
               `
               )
@@ -1951,20 +1822,24 @@ function renderLinkedInDossierHtml(agentData) {
         </section>
 
         <section class="ie-dossier-section">
-          <h3>Lisensi &amp; Sertifikasi (${certs.length} Dokumen Resmi — Klik untuk Baca di IE)</h3>
-          <div class="ie-dossier-certs-grid">
+          <h3>Lisensi &amp; Sertifikasi (${certs.length} Dokumen)</h3>
+          <div class="ie-dir-list">
             ${certs
               .map(
                 (c) => `
-                <div class="ie-dossier-cert-item">
-                  <div>
-                    <strong>${escapeHtml(c.title)}</strong>
-                    <div class="ie-edu-sub">${escapeHtml(c.issuer)} (${escapeHtml(c.year)}) · ${escapeHtml(c.credentialId || '')}</div>
+                <div class="ie-dir-row ie-dir-row-static">
+                  <div class="ie-dir-main">
+                    <button type="button" class="ie-hit-title-btn" data-nav="agent:pdf:${escapeHtml(c.id)}">${escapeHtml(c.title)}</button>
+                    <div class="ie-dir-desc">${escapeHtml(c.issuer)} (${escapeHtml(c.year)})${c.credentialId ? ` · ${escapeHtml(c.credentialId)}` : ''}</div>
                   </div>
-                  <button type="button" class="ie-inline-pdf-btn" data-nav="agent:pdf:${escapeHtml(c.id)}">
-                    <span class="ie-btn-ico">${getIconSVG('pdf', 13)}</span>
-                    <span>Baca PDF di IE</span>
-                  </button>
+                  <div class="ie-dir-actions">
+                    <button type="button" class="ie-text-link" data-nav="agent:pdf:${escapeHtml(c.id)}">Lihat PDF →</button>
+                    ${
+                      safeHref(c.verifyUrl) !== '#'
+                        ? renderExtIconBtn(c.verifyUrl, `Verifikasi kredensial ${c.title} di tab baru`)
+                        : ''
+                    }
+                  </div>
                 </div>
               `
               )
@@ -2001,10 +1876,9 @@ function renderGitHubDossierHtml(agentData) {
       <div class="ie-dossier-card">
         <div class="ie-li-banner">
           <div class="ie-li-banner-top">
-            <span class="ie-agent-target-badge">GITHUB · IN-PORTAL PROFILE &amp; REPOSITORIES</span>
+            <strong>GitHub - @${escapeHtml(login)}</strong>
             <code>${escapeHtml(target.url)}</code>
           </div>
-          <div class="ie-li-banner-sub">Klik salah satu repositori di bawah untuk membuka detail &amp; membaca README.md langsung di dalam IE 4.0</div>
         </div>
 
         <div class="ie-dossier-header">
@@ -2014,46 +1888,46 @@ function renderGitHubDossierHtml(agentData) {
           <div class="ie-dossier-head-copy">
             <h2 class="ie-dossier-name">${escapeHtml(displayName)} (<code>@${escapeHtml(login)}</code>)</h2>
             <p class="ie-dossier-headline">${escapeHtml(bio)}</p>
-            <div class="ie-gh-stats-row">
-              <span class="ie-badge ie-badge-navy">Repositories: ${escapeHtml(publicReposCount)}</span>
-              <span class="ie-badge ie-badge-teal">Followers: ${escapeHtml(followersCount)}</span>
-              <span class="ie-badge">Location: Jakarta &amp; Surabaya, ID</span>
+            <div class="ie-meta-strip">
+              Repositories: ${escapeHtml(publicReposCount)} · Followers: ${escapeHtml(followersCount)} · Jakarta &amp; Surabaya, Indonesia
             </div>
           </div>
         </div>
 
         <div class="ie-dossier-cta-bar">
-          <button type="button" class="ie-action-btn ie-action-primary" data-nav="agent:github-repo:web-chatbot">
-            <span>Inspect Repo: RizkyAl01/web-chatbot</span>
-          </button>
-          <button type="button" class="ie-action-btn" data-nav="agent:github-repo:Smart-Agentic-RAG">
-            <span>Inspect Repo: Smart-Agentic-RAG</span>
-          </button>
+          ${renderExtIconBtn(target.url, 'Buka GitHub di tab baru', 'ie-action-primary')}
           <button type="button" class="ie-action-btn" data-nav="agent:linkedin">
-            <span>Buka LinkedIn di IE →</span>
+            LinkedIn - Rizky Alviando
+          </button>
+          <button type="button" class="ie-action-btn" data-nav="projects">
+            Semua Case Studies →
           </button>
         </div>
 
         <section class="ie-dossier-section">
-          <h3>Public Repositories (${rawRepos.length}) — Klik untuk Membaca README di Dalam IE</h3>
-          <div class="ie-gh-repos-grid">
+          <h3>Public Repositories (${rawRepos.length})</h3>
+          <div class="ie-dir-list">
             ${rawRepos
               .map((repo) => {
                 const repoName = repo.name || 'web-chatbot';
                 const navTarget = `agent:github-repo:${repoName}`;
+                const repoUrl = safeHref(repo.html_url) !== '#'
+                  ? repo.html_url
+                  : `https://github.com/RizkyAl01/${repoName}`;
                 return `
-                  <article class="ie-gh-repo-card" data-nav="${escapeHtml(navTarget)}" tabindex="0" role="button">
-                    <div class="ie-gh-repo-top">
-                      <strong class="ie-gh-repo-name">${escapeHtml(repo.full_name || `RizkyAl01/${repoName}`)}</strong>
-                      ${repo.language ? `<span class="ie-tag">${escapeHtml(repo.language)}</span>` : ''}
-                    </div>
-                    <p class="ie-gh-repo-desc">${escapeHtml(repo.description || 'Repositori kode & eksperimen rekayasa AI Rizky Alviando.')}</p>
-                    <div class="ie-gh-repo-foot">
-                      <button type="button" class="ie-text-link" data-nav="${escapeHtml(navTarget)}">
-                        Buka Repo &amp; README.md di IE →
+                  <div class="ie-dir-row ie-dir-row-static">
+                    <div class="ie-dir-main">
+                      <button type="button" class="ie-hit-title-btn" data-nav="${escapeHtml(navTarget)}">
+                        ${escapeHtml(repo.full_name || `RizkyAl01/${repoName}`)}
                       </button>
+                      <div class="ie-dir-desc">${escapeHtml(repo.description || 'Repositori kode & eksperimen rekayasa AI Rizky Alviando.')}</div>
+                      ${repo.language ? `<div class="ie-ed-tech">${escapeHtml(repo.language)}</div>` : ''}
                     </div>
-                  </article>
+                    <div class="ie-dir-actions">
+                      <button type="button" class="ie-text-link" data-nav="${escapeHtml(navTarget)}">README →</button>
+                      ${renderExtIconBtn(repoUrl, `Buka repo ${repoName} di tab baru`)}
+                    </div>
+                  </div>
                 `;
               })
               .join('')}
@@ -2077,10 +1951,14 @@ function renderGitHubRepoDossierHtml(repoName, agentData) {
   const desc = remoteRepo.description || fallback.description || '';
   const lang = remoteRepo.language || fallback.language || 'Python';
   const stars = remoteRepo.stargazers_count ?? fallback.stargazers_count ?? 4;
+  const repoExternalUrl =
+    safeHref(remoteRepo.html_url || probe.url) !== '#'
+      ? remoteRepo.html_url || probe.url
+      : `https://github.com/RizkyAl01/${encodeURIComponent(cleanName)}`;
   const topics =
     Array.isArray(remoteRepo.topics) && remoteRepo.topics.length
       ? remoteRepo.topics
-      : fallback.topics || ['ai-engineering', 'python', 'rizky-alviando'];
+      : fallback.topics || ['ai-engineering', 'python'];
   const files =
     Array.isArray(probe.files) && probe.files.length
       ? probe.files
@@ -2103,31 +1981,24 @@ function renderGitHubRepoDossierHtml(repoName, agentData) {
       <div class="ie-dossier-card">
         <div class="ie-li-banner">
           <div class="ie-li-banner-top">
-            <span class="ie-agent-target-badge">GITHUB REPOSITORY · IN-PORTAL CODE &amp; README VIEW</span>
+            <button type="button" class="ie-text-link" data-nav="agent:github">← @RizkyAl01 Repositories</button>
             <code>https://github.com/RizkyAl01/${escapeHtml(cleanName)}</code>
-          </div>
-          <div class="ie-li-banner-sub">
-            <button type="button" class="ie-text-link" data-nav="agent:github">← Kembali ke Daftar Repositori @RizkyAl01</button>
           </div>
         </div>
 
         <div class="ie-dossier-header">
           <div class="ie-dossier-head-copy">
-            <div class="ie-kicker">PUBLIC REPOSITORY · ${escapeHtml(lang)} · ★ ${escapeHtml(stars)}</div>
+            <div class="ie-meta-strip">Public Repository · ${escapeHtml(lang)} · ★ ${escapeHtml(stars)}</div>
             <h2 class="ie-dossier-name">${escapeHtml(title)}</h2>
             <p class="ie-dossier-headline">${escapeHtml(desc)}</p>
-            <div class="ie-tags" style="margin-top:8px">
-              ${topics.map((t) => `<span class="ie-tag">${escapeHtml(t)}</span>`).join('')}
-            </div>
+            <div class="ie-ed-tech" style="margin-top:6px">${escapeHtml(topics.join(' · '))}</div>
           </div>
         </div>
 
         <div class="ie-dossier-cta-bar">
-          <button type="button" class="ie-action-btn ie-action-primary" data-nav="project:${escapeHtml(relatedSlug)}">
-            <span>Baca Case Study Lengkap Proyek Ini di IE →</span>
-          </button>
-          <button type="button" class="ie-action-btn" data-nav="agent:github">
-            <span>← Semua Repositori @RizkyAl01</span>
+          ${renderExtIconBtn(repoExternalUrl, `Buka repo ${cleanName} di GitHub (tab baru)`, 'ie-action-primary')}
+          <button type="button" class="ie-action-btn" data-nav="project:${escapeHtml(relatedSlug)}">
+            Baca Case Study →
           </button>
           <button
             type="button"
@@ -2136,22 +2007,19 @@ function renderGitHubRepoDossierHtml(repoName, agentData) {
             data-prefill="${escapeHtml(`Jelaskan arsitektur kode dan implementasi pada repositori GitHub ${title}.`)}"
           >
             <span class="ie-btn-ico">${getIconSVG('messenger', 14)}</span>
-            <span>Tanya RizkyBot soal Repo Ini</span>
+            <span>Tanya RizkyBot</span>
           </button>
         </div>
 
         <section class="ie-dossier-section">
-          <h3>Struktur Berkas Repositori</h3>
-          <div class="ie-edu-list">
+          <h3>Struktur Berkas</h3>
+          <div class="ie-spec-table">
             ${files
               .map(
                 (f) => `
-                <div class="ie-edu-item">
-                  <div class="ie-edu-head">
-                    <strong><code>${escapeHtml(f.name || f.path || '')}</code></strong>
-                    <span>${escapeHtml(f.type || 'file')}</span>
-                  </div>
-                  <div class="ie-edu-sub">${escapeHtml(f.info || (f.size ? `${f.size} bytes` : f.path || ''))}</div>
+                <div class="ie-spec-row">
+                  <div class="ie-spec-key"><code>${escapeHtml(f.name || f.path || '')}</code></div>
+                  <div class="ie-spec-val">${escapeHtml(f.info || (f.size ? `${f.size} bytes` : f.type || 'file'))}</div>
                 </div>
               `
               )
@@ -2161,53 +2029,51 @@ function renderGitHubRepoDossierHtml(repoName, agentData) {
 
         <section class="ie-dossier-section">
           <h3>README.md</h3>
-          <pre class="ie-agent-console win95-sunken" style="white-space:pre-wrap;padding:14px;font-family:'JetBrains Mono','Courier New',monospace;font-size:12.5px;line-height:1.6">${escapeHtml(readmeText)}</pre>
+          <pre class="ie-readme-pre win95-sunken">${escapeHtml(readmeText)}</pre>
         </section>
       </div>
     </div>
   `;
 }
 
-function renderInlinePdfPortalPage(certKey) {
+function renderPdfViewerPage(certKey, extraCanvaLink = false) {
   const certs = Array.isArray(CERTIFICATES) ? CERTIFICATES : [];
   let cert = findCertByFileOrId(certKey);
   if (!cert && isLocalPdfPath(certKey)) {
     cert = {
       id: 'custom-pdf',
       title: certKey.split('/').pop() || 'Document.pdf',
-      issuer: 'Rizky Alviando Official Document',
+      issuer: 'Rizky Alviando',
       year: '2026',
-      credentialId: 'PDF-DOC',
+      credentialId: '',
       file: certKey
     };
   }
   if (!cert && certs.length) cert = certs[0];
 
   const encodedSrc = safeAssetUrl(cert?.file || 'assets/certs/Rizky_Alviando_CV_ID.pdf');
+  const safeVerify = safeHref(cert?.verifyUrl);
+  const showCanvaBtn = extraCanvaLink || cert?.id === 'portfolio-deck';
 
   return `
-    <div class="ie-article ie-inline-pdf-page">
+    <div class="ie-article ie-pdf-page">
       <div class="ie-breadcrumb">
-        <button type="button" class="ie-text-link" data-nav="search">← Kembali ke RizkySearch 95</button>
-        <span class="ie-crumb-cat">In-Portal PDF Reader · Internet Explorer 4.0</span>
+        <button type="button" class="ie-text-link" data-nav="search">← RizkySearch 95</button>
+        <span class="ie-crumb-cat">PDF Viewer</span>
       </div>
 
       <div class="ie-dossier-card">
         <div class="ie-dossier-header" style="padding-bottom:10px">
           <div class="ie-dossier-head-copy">
-            <div class="ie-kicker">OFFICIAL PDF DOCUMENT · ${escapeHtml(cert?.issuer || 'RizkyOS 95')} (${escapeHtml(cert?.year || '2026')})</div>
-            <h2 class="ie-dossier-name">${escapeHtml(cert?.title || 'Document.pdf')}</h2>
-            <div class="ie-dossier-loc">
-              Berkas: <code>${escapeHtml(cert?.file || '')}</code>
-              ${cert?.credentialId ? ` · Credential ID: <code>${escapeHtml(cert.credentialId)}</code>` : ''}
-            </div>
+            <div class="ie-meta-strip">${escapeHtml(cert?.issuer || 'Rizky Alviando')} · ${escapeHtml(cert?.date || cert?.year || '2026')}${cert?.credentialId ? ` · ID: ${escapeHtml(cert.credentialId)}` : ''}</div>
+            <h2 class="ie-dossier-name">${escapeHtml(cert?.title || 'Dokumen PDF')}</h2>
           </div>
         </div>
 
         <div class="ie-dossier-cta-bar" style="align-items:center">
-          <label style="display:flex;align-items:center;gap:6px;flex:1;min-width:220px">
-            <span style="font-size:12px;font-weight:700">Ganti Dokumen PDF:</span>
-            <select class="win95-field ie-inline-pdf-select" aria-label="Pilih Dokumen PDF di IE" style="flex:1;max-width:420px">
+          <label class="ie-pdf-switch-label">
+            <span>Dokumen:</span>
+            <select class="win95-field ie-pdf-select" aria-label="Pilih Dokumen PDF">
               ${certs
                 .map(
                   (c) =>
@@ -2216,10 +2082,20 @@ function renderInlinePdfPortalPage(certKey) {
                 .join('')}
             </select>
           </label>
+          <a class="ie-ext-icon-btn ie-action-primary" href="${escapeHtml(encodedSrc)}" target="_blank" rel="noopener noreferrer" title="Buka PDF di tab baru" aria-label="Buka PDF di tab baru">${getIconSVG('external-link', 14)}</a>
           <a class="ie-action-btn" href="${escapeHtml(encodedSrc)}" download>
-            <span class="ie-btn-ico">${getIconSVG('pdf', 14)}</span>
-            <span>Download PDF</span>
+            Download PDF
           </a>
+          ${
+            safeVerify !== '#'
+              ? renderExtIconBtn(safeVerify, 'Verifikasi kredensial di tab baru')
+              : ''
+          }
+          ${
+            showCanvaBtn
+              ? renderExtIconBtn(OFFICIAL_TARGETS.canva.url, 'Buka Canva asli di tab baru')
+              : ''
+          }
           <button
             type="button"
             class="ie-action-btn"
@@ -2227,16 +2103,15 @@ function renderInlinePdfPortalPage(certKey) {
             data-cert-id="${escapeHtml(cert?.id || '')}"
             data-pdf-title="${escapeHtml(cert?.title || '')}"
           >
-            <span>Buka di Jendela Acrobat Terpisah</span>
+            Buka di Acrobat Reader 95
           </button>
         </div>
 
-        <div class="win95-sunken" style="height:440px;background:#525659;margin-top:10px">
+        <div class="ie-pdf-frame-wrap win95-sunken">
           <iframe
-            class="ie-inline-pdf"
+            class="ie-pdf-frame"
             src="${escapeHtml(encodedSrc)}"
             title="${escapeHtml(cert?.title || 'PDF Preview')}"
-            style="width:100%;height:100%;border:0;display:block"
           ></iframe>
         </div>
       </div>
@@ -2244,18 +2119,18 @@ function renderInlinePdfPortalPage(certKey) {
   `;
 }
 
-function renderInPortalWebReaderHtml(targetId, agentData, customWebPayload = null) {
+function renderWebReaderHtml(targetId, agentData, customWebPayload = null) {
   if (targetId === 'canva') {
-    return renderInlinePdfPortalPage('portfolio-deck');
+    return renderPdfViewerPage('portfolio-deck', true);
   }
   const target = OFFICIAL_TARGETS[targetId] || {
     id: targetId,
-    title: customWebPayload?.title || 'In-Portal Web Reader',
-    url: customWebPayload?.url || 'https://rizky.os/search',
-    breadcrumb: customWebPayload?.url || 'https://rizky.os › web › reader',
-    badge: 'IN-PORTAL WEB VIEW',
+    title: customWebPayload?.title || 'Web Reader',
+    url: customWebPayload?.url || `${CANONICAL_ORIGIN}/search`,
+    badge: 'Web Result',
     desc: customWebPayload?.snippet || agentData?.ai_summary || PROFILE?.summary || ''
   };
+  const safeExternal = safeHref(target.url);
   const bots = Array.isArray(PROFILE?.telegramBots) ? PROFILE.telegramBots : [];
 
   return `
@@ -2263,10 +2138,9 @@ function renderInPortalWebReaderHtml(targetId, agentData, customWebPayload = nul
       <div class="ie-dossier-card">
         <div class="ie-li-banner">
           <div class="ie-li-banner-top">
-            <span class="ie-agent-target-badge">${escapeHtml(target.badge)}</span>
+            <strong>${escapeHtml(target.badge)}</strong>
             <code>${escapeHtml(target.url)}</code>
           </div>
-          <div class="ie-li-banner-sub">Halaman dirender langsung di dalam portal Internet Explorer 4.0</div>
         </div>
 
         <h2 class="ie-dossier-name" style="margin-top:12px">${escapeHtml(target.title)}</h2>
@@ -2275,17 +2149,17 @@ function renderInPortalWebReaderHtml(targetId, agentData, customWebPayload = nul
         ${
           targetId === 'telegram' && bots.length
             ? `<section class="ie-dossier-section">
-                <h3>Arsitektur &amp; Daftar Bot Telegram Rizky Alviando</h3>
-                <div class="ie-edu-list">
+                <h3>Bot Telegram Rizky Alviando</h3>
+                <div class="ie-spec-table">
                   ${bots
                     .map(
                       (b) => `
-                      <div class="ie-edu-item">
-                        <div class="ie-edu-head">
-                          <strong>${escapeHtml(b.name)}</strong>
-                          <code>${escapeHtml(b.href)}</code>
+                      <div class="ie-spec-row">
+                        <div class="ie-spec-key"><code>${escapeHtml(b.name)}</code></div>
+                        <div class="ie-spec-val ie-spec-links">
+                          <span>${escapeHtml(b.desc)}</span>
+                          ${renderExtIconBtn(b.href, `Buka ${b.name} di Telegram (tab baru)`)}
                         </div>
-                        <p class="ie-edu-detail">${escapeHtml(b.desc)}</p>
                       </div>
                     `
                     )
@@ -2296,15 +2170,16 @@ function renderInPortalWebReaderHtml(targetId, agentData, customWebPayload = nul
         }
 
         <div class="ie-dossier-cta-bar" style="margin-top:14px">
-          <button type="button" class="ie-action-btn ie-action-primary" data-nav="search">
-            <span>← Kembali ke Hasil Pencarian</span>
+          ${
+            safeExternal !== '#'
+              ? renderExtIconBtn(safeExternal, `Kunjungi ${target.title || 'situs asli'} di tab baru`, 'ie-action-primary')
+              : ''
+          }
+          <button type="button" class="ie-action-btn" data-nav="search">
+            ← Kembali ke Pencarian
           </button>
           <button type="button" class="ie-action-btn" data-nav="projects">
-            <span>Lihat 13 Case Studies Teknis →</span>
-          </button>
-          <button type="button" class="ie-action-btn" data-open-app="messenger">
-            <span class="ie-btn-ico">${getIconSVG('messenger', 14)}</span>
-            <span>Coba Chat AI Langsung di RizkyBot Messenger</span>
+            Semua Proyek →
           </button>
         </div>
       </div>
@@ -2318,7 +2193,7 @@ function renderNotFoundPage(rawRoute) {
       <div class="ie-notfound-icon">${getIconSVG('warning', 40)}</div>
       <h1 class="ie-article-title">The page cannot be displayed</h1>
       <p class="ie-body-text">
-        Halaman <code>${escapeHtml(rawRoute)}</code> tidak ditemukan di server internal <strong>rizky.os</strong>.
+        Halaman <code>${escapeHtml(rawRoute)}</code> tidak ditemukan di <strong>${CANONICAL_HOST}</strong>.
       </p>
       <div class="ie-hero-actions">
         <button type="button" class="ie-action-btn ie-action-primary" data-nav="home">Kembali ke Home</button>
@@ -2330,7 +2205,7 @@ function renderNotFoundPage(rawRoute) {
 
 export const browserApp = {
   id: 'browser',
-  title: 'Rizky Alviando — Microsoft Internet Explorer',
+  title: 'Rizky Alviando - Microsoft Internet Explorer',
   icon: 'ie',
   width: 780,
   height: 590,
@@ -2363,9 +2238,9 @@ export const browserApp = {
           <div class="ie-menu-group">
             <button type="button" class="win95-menubar-item ie-menu-btn" data-menu="file"><u>F</u>ile</button>
             <div class="win95-menu-dropdown ie-menu-dropdown" data-dropdown="file" hidden>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="search">RizkySearch 95 (In-Portal Search)...</button>
-              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-cv">Open CV (Inline PDF)...</button>
-              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-portfolio">Open Portofolio (Inline PDF)...</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="search">RizkySearch 95...</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-cv">Buka CV (PDF)...</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-action="open-portfolio">Buka Portofolio (PDF)...</button>
               <button type="button" class="win95-menu-item ie-menu-item" data-action="print">Print Page...</button>
               <div class="win95-menu-sep"></div>
               <button type="button" class="win95-menu-item ie-menu-item" data-action="close">Close</button>
@@ -2383,13 +2258,13 @@ export const browserApp = {
           <div class="ie-menu-group">
             <button type="button" class="win95-menubar-item ie-menu-btn" data-menu="favorites">F<u>a</u>vorites</button>
             <div class="win95-menu-dropdown ie-menu-dropdown" data-dropdown="favorites" hidden>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="home">Home Dossier</button>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="search">RizkySearch 95 Engine</button>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="agent:linkedin">LinkedIn Profile (In-Portal)</button>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="agent:github">GitHub @RizkyAl01 (In-Portal)</button>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="agent:pdf:cv-rizky-alviando">CV Resmi (In-Portal PDF)</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="home">Home</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="search">RizkySearch 95</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="agent:linkedin">LinkedIn - Rizky Alviando</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="agent:github">GitHub - @RizkyAl01</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="agent:pdf:cv-rizky-alviando">CV Rizky (PDF)</button>
               <div class="win95-menu-sep"></div>
-              <button type="button" class="win95-menu-item ie-menu-item" data-nav="about">About Rizky</button>
+              <button type="button" class="win95-menu-item ie-menu-item" data-nav="about">About Me</button>
               <button type="button" class="win95-menu-item ie-menu-item" data-nav="experience">Experience</button>
               <button type="button" class="win95-menu-item ie-menu-item" data-nav="projects">Projects &amp; Case Studies</button>
               <button type="button" class="win95-menu-item ie-menu-item" data-nav="skills">Skills</button>
@@ -2411,7 +2286,7 @@ export const browserApp = {
             <button type="button" class="win95-toolbar-btn ie-nav-btn" data-action="forward" title="Forward" disabled>Forward ▶</button>
             <button type="button" class="win95-toolbar-btn ie-nav-btn" data-action="refresh" title="Refresh">↻ Refresh</button>
             <button type="button" class="win95-toolbar-btn ie-nav-btn" data-action="home" title="Home">Home</button>
-            <button type="button" class="win95-toolbar-btn ie-nav-btn" data-nav="search" title="RizkySearch 95 In-Portal Search Engine">
+            <button type="button" class="win95-toolbar-btn ie-nav-btn" data-nav="search" title="RizkySearch 95">
               <span class="ie-tb-ico">${getIconSVG('ai', 14)}</span>
               <span>Search</span>
             </button>
@@ -2438,7 +2313,7 @@ export const browserApp = {
 
         <form class="ie-addressbar" autocomplete="off">
           <span class="ie-bar-label">Address</span>
-          <input type="text" class="win95-field ie-url-input" value="https://rizky.os/" placeholder="Ketik URL rizky.os, linkedin, github, atau kata kunci pencarian..." aria-label="Address or Search Query">
+          <input type="text" class="win95-field ie-url-input" value="${CANONICAL_ORIGIN}/" placeholder="Ketik URL ${CANONICAL_HOST}, linkedin, github, atau kata kunci pencarian..." aria-label="Address or Search Query">
           <button type="submit" class="win95-btn win95-btn-sm ie-go-btn">Go</button>
         </form>
 
@@ -2451,7 +2326,7 @@ export const browserApp = {
             <button type="button" class="ie-link-tab" data-nav="projects">Projects</button>
             <button type="button" class="ie-link-tab" data-nav="skills">Skills</button>
             <button type="button" class="ie-link-tab" data-nav="contact">Contact</button>
-            <button type="button" class="ie-link-tab" data-nav="search">Search Agent</button>
+            <button type="button" class="ie-link-tab" data-nav="search">Search</button>
           </div>
         </div>
 
@@ -2517,8 +2392,8 @@ export const browserApp = {
         tab.classList.toggle('is-active', tab.dataset.nav === activeTab);
       });
 
-      winApi?.setTitle?.(`${title} — Microsoft Internet Explorer`);
-      winApi?.setStatus?.(`Done — ${url}`);
+      winApi?.setTitle?.(`${title} - Microsoft Internet Explorer`);
+      winApi?.setStatus?.(`Done - ${url}`);
     }
 
     function refreshSerpTabView() {
@@ -2542,7 +2417,7 @@ export const browserApp = {
       const repoName = isRepoMode ? queryOrTarget : null;
 
       if (mode === 'agent' && queryOrTarget === 'canva') {
-        viewportEl.innerHTML = renderInlinePdfPortalPage('portfolio-deck');
+        viewportEl.innerHTML = renderPdfViewerPage('portfolio-deck', true);
         viewportEl.scrollTop = 0;
         setThrobberLoading(false);
         return;
@@ -2563,13 +2438,12 @@ export const browserApp = {
 
       const initialSteps = isTargetMode
         ? [
-            { step: 1, action: 'In-Portal Router', detail: `Memuat halaman ${displayQuery} di dalam viewport IE 4.0...`, status: 'ALLOW' },
-            { step: 2, action: 'Remote Agent Probe', detail: `Menghubungi POST /api/ie-agent untuk sinkronisasi data live...`, status: 'RUNNING' }
+            { step: 1, action: 'Route Check', detail: `Memuat ${displayQuery}...` },
+            { step: 2, action: 'Live Sync', detail: 'Menyinkronkan data terbaru dari server...' }
           ]
         : [
-            { step: 1, action: 'Security Zone Check', detail: `Memeriksa kueri "${queryOrTarget}" pada RizkyOS 95 Security Zone...`, status: 'CHECKING' },
-            { step: 2, action: 'In-Portal Indexer', detail: `Menyusun SERP dari 13 proyek, 9 pengalaman, 15 PDF, LinkedIn, dan GitHub...`, status: 'DONE' },
-            { step: 3, action: 'AI Search Copilot', detail: `Menghubungi POST /api/ie-agent (Groq LLM + Semantic BM25)...`, status: 'RUNNING' }
+            { step: 1, action: 'Scope Check', detail: `Memeriksa kueri "${queryOrTarget}"...` },
+            { step: 2, action: 'Search Index', detail: 'Memindai 13 proyek, 9 pengalaman, 15 dokumen PDF, LinkedIn, dan GitHub...' }
           ];
 
       const initialBodyHtml = isRepoMode
@@ -2579,27 +2453,28 @@ export const browserApp = {
           ? renderLinkedInDossierHtml(null)
           : targetId === 'github'
           ? renderGitHubDossierHtml(null)
-          : renderInPortalWebReaderHtml(targetId, null)
+          : renderWebReaderHtml(targetId, null)
         : renderSerpBodyHtml(queryOrTarget, serpBuckets, serpTab, null);
 
       viewportEl.innerHTML = `
-        <div class="ie-article ie-agent-page">
+        <div class="ie-article ie-editorial ie-agent-page">
           <div class="ie-breadcrumb">
-            <button type="button" class="ie-text-link" data-nav="search">← Beranda RizkySearch 95</button>
-            <span class="ie-crumb-cat">In-Portal Search Engine &amp; Browser Agent</span>
+            <button type="button" class="ie-text-link" data-nav="search">← RizkySearch 95</button>
+            <span class="ie-crumb-cat">${CANONICAL_HOST}</span>
           </div>
 
           <div class="ie-serp-header-host">
             ${renderSearchBoxHeader(displayQuery, serpTab, serpBuckets)}
           </div>
 
-          <section class="ie-agent-console win95-sunken" aria-live="polite">
-            <div class="ie-agent-console-head">
-              <strong>IE 4.0 IN-PORTAL AGENT TRACE</strong>
-              <span class="ie-agent-status-badge is-running">SYNCING /API/IE-AGENT...</span>
-            </div>
-            <div class="ie-agent-steps">${formatAgentStepsHtml(initialSteps)}</div>
-          </section>
+          <div class="ie-info-strip" aria-live="polite">
+            <span class="ie-info-strip-ico">${getIconSVG('info', 14)}</span>
+            <span class="ie-info-strip-text">Memuat hasil untuk "${escapeHtml(displayQuery)}"...</span>
+            <details class="ie-trace-details">
+              <summary>Detail proses</summary>
+              <div class="ie-trace-list">${formatAgentStepsHtml(initialSteps)}</div>
+            </details>
+          </div>
 
           <div class="ie-agent-result-body">${initialBodyHtml}</div>
         </div>
@@ -2607,7 +2482,7 @@ export const browserApp = {
       viewportEl.scrollTop = 0;
 
       setThrobberLoading(true);
-      winApi?.setStatus?.(`Memuat hasil di dalam portal untuk "${displayQuery}"...`);
+      winApi?.setStatus?.(`Memuat "${displayQuery}"...`);
 
       try {
         const payload = isRepoMode
@@ -2631,29 +2506,30 @@ export const browserApp = {
 
         if (reqId !== activeAgentReqId) return;
 
-        const stepsEl = viewportEl.querySelector('.ie-agent-steps');
-        const badgeEl = viewportEl.querySelector('.ie-agent-status-badge');
+        const stripTextEl = viewportEl.querySelector('.ie-info-strip-text');
+        const stripEl = viewportEl.querySelector('.ie-info-strip');
+        const traceListEl = viewportEl.querySelector('.ie-trace-list');
         const bodyEl = viewportEl.querySelector('.ie-agent-result-body');
         const headerHost = viewportEl.querySelector('.ie-serp-header-host');
-        if (!stepsEl || !badgeEl || !bodyEl) return;
+        if (!stripTextEl || !bodyEl) return;
 
-        if (data && Array.isArray(data.agent_steps) && data.agent_steps.length) {
-          stepsEl.innerHTML = formatAgentStepsHtml(data.agent_steps);
+        if (traceListEl && data && Array.isArray(data.agent_steps) && data.agent_steps.length) {
+          traceListEl.innerHTML = formatAgentStepsHtml(data.agent_steps);
         }
 
         if (data && (data.allowed === false || data.intent === 'blocked')) {
-          badgeEl.textContent = 'RESTRICTED (SCOPE LOCK)';
-          badgeEl.className = 'ie-agent-status-badge is-blocked';
+          stripEl?.classList.add('is-blocked');
+          stripTextEl.textContent = 'RizkyOS 95 Security Zone: Permintaan di luar ruang lingkup portofolio Rizky Alviando.';
           if (headerHost) {
             headerHost.innerHTML = renderSearchBoxHeader(displayQuery, serpTab, null);
           }
           bodyEl.innerHTML = renderBlockedAgentHtml(displayQuery, data.reason);
-          winApi?.setStatus?.('RizkyOS 95 Security Zone: Permintaan di luar ruang lingkup Rizky Alviando.');
+          winApi?.setStatus?.('RizkyOS 95 Security Zone: Akses dibatasi.');
           return;
         }
 
-        badgeEl.textContent = 'IN-PORTAL · 200 OK';
-        badgeEl.className = 'ie-agent-status-badge is-ok';
+        stripEl?.classList.remove('is-blocked');
+        stripTextEl.textContent = `Terverifikasi · ${CANONICAL_HOST}`;
 
         if (isRepoMode || data?.target_id === 'github_repo') {
           bodyEl.innerHTML = renderGitHubRepoDossierHtml(repoName || data?.live_probe?.repo_name || 'web-chatbot', data);
@@ -2663,10 +2539,9 @@ export const browserApp = {
           } else if (targetId === 'github') {
             bodyEl.innerHTML = renderGitHubDossierHtml(data);
           } else {
-            bodyEl.innerHTML = renderInPortalWebReaderHtml(targetId, data);
+            bodyEl.innerHTML = renderWebReaderHtml(targetId, data);
           }
         } else {
-          // Always render full Bing-like SERP on search:<query> (even if backend matched a target)
           serpBuckets = buildSerpItems(queryOrTarget, data);
           lastSerpState = { query: queryOrTarget, buckets: serpBuckets, agentData: data };
           if (headerHost) {
@@ -2675,13 +2550,12 @@ export const browserApp = {
           bodyEl.innerHTML = renderSerpBodyHtml(queryOrTarget, serpBuckets, serpTab, data);
         }
 
-        winApi?.setStatus?.(`Done — ${pageToUrl(historyStack[historyIndex] || 'search')}`);
+        winApi?.setStatus?.(`Done - ${pageToUrl(historyStack[historyIndex] || 'search')}`);
       } catch {
         if (reqId !== activeAgentReqId) return;
-        const badgeEl = viewportEl.querySelector('.ie-agent-status-badge');
-        if (badgeEl) {
-          badgeEl.textContent = 'IN-PORTAL LOCAL INDEX';
-          badgeEl.className = 'ie-agent-status-badge is-ok';
+        const stripTextEl = viewportEl.querySelector('.ie-info-strip-text');
+        if (stripTextEl) {
+          stripTextEl.textContent = `Menampilkan indeks lokal · ${CANONICAL_HOST}`;
         }
       } finally {
         if (reqId === activeAgentReqId) {
@@ -2704,7 +2578,7 @@ export const browserApp = {
       if (pageId.startsWith('agent:pdf:')) {
         lastSerpState = null;
         const certKey = pageId.slice('agent:pdf:'.length);
-        viewportEl.innerHTML = renderInlinePdfPortalPage(certKey);
+        viewportEl.innerHTML = renderPdfViewerPage(certKey, false);
         viewportEl.scrollTop = 0;
         setThrobberLoading(false);
         return;
@@ -2720,9 +2594,9 @@ export const browserApp = {
         try {
           payload = JSON.parse(decodeURIComponent(pageId.slice('agent:web:'.length)));
         } catch {
-          payload = { title: 'Web Result', url: 'https://rizky.os/search' };
+          payload = { title: 'Web Result', url: `${CANONICAL_ORIGIN}/search` };
         }
-        viewportEl.innerHTML = `<div class="ie-article">${renderInPortalWebReaderHtml('web', null, payload)}</div>`;
+        viewportEl.innerHTML = `<div class="ie-article ie-editorial">${renderWebReaderHtml('web', null, payload)}</div>`;
         viewportEl.scrollTop = 0;
         setThrobberLoading(false);
         return;
@@ -2890,7 +2764,7 @@ export const browserApp = {
             title: 'About Microsoft Internet Explorer',
             icon: 'ie',
             message:
-              'Microsoft Internet Explorer 4.0 — RizkyOS 95 Edition\n\nDilengkapi RizkySearch 95 In-Portal Search Engine untuk mencari dan menampilkan profil LinkedIn, repositori GitHub + README.md, 13 studi kasus AI, serta 15 dokumen PDF langsung di dalam jendela browser ini.',
+              'Microsoft Internet Explorer 4.0 - RizkyOS 95\n\nMenampilkan profil, studi kasus AI, sertifikat PDF, serta RizkySearch 95 untuk rizkyalviando.ai.id.',
             buttons: ['OK']
           });
         }
@@ -2901,7 +2775,7 @@ export const browserApp = {
     });
 
     viewportEl.addEventListener('change', (e) => {
-      const pdfSelect = e.target.closest('.ie-inline-pdf-select');
+      const pdfSelect = e.target.closest('.ie-pdf-select');
       if (pdfSelect && pdfSelect.value) {
         sound.playClick();
         navigate(`agent:pdf:${pdfSelect.value}`, true);
@@ -2918,7 +2792,6 @@ export const browserApp = {
         if (!q) {
           navigate('search', true);
         } else {
-          // Search box always runs in-portal SERP unless user explicitly typed an agent: route
           const extDirect = detectExternalTargetCommand(q);
           navigate(extDirect || `search:${q}`, true);
         }

@@ -6,7 +6,7 @@ const STORAGE_USERNAME_KEY = 'rizkyos_chat_username';
 const NUDGE_REPLIES = [
   'Woi! Jangan digoyang-goyang jendelanya, GPU inference lagi antre. Mau tanya apa soal Rizky?',
   'Hadir, hadir! Layarnya sampai ikut getar. Coba ketik pertanyaan soal Komdigi, LLM, atau proyek Graph-RAG Rizky.',
-  'Siap komandan — status masih Online (Groq LLM + Supabase aktif). Klik salah satu Quick Prompt atau langsung ketik pesanmu.',
+  'Siap komandan, status masih Online (Groq LLM + Supabase aktif). Klik salah satu Quick Prompt atau langsung ketik pesanmu.',
   'Nudge diterima. Tenang, RizkyBot tidak ketiduran seperti cron job hari Jumat sore. Ada yang bisa dibantu?'
 ];
 
@@ -401,7 +401,7 @@ export const messengerApp = {
     function exportChatTxt() {
       const lines = [
         '==================================================',
-        'RizkyBot Messenger 95 — Chat Transcript',
+        'RizkyBot Messenger 95 - Chat Transcript',
         `Session ID : ${sessionId}`,
         `User       : ${username}`,
         `Exported   : ${new Date().toLocaleString()}`,

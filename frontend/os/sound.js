@@ -1,5 +1,5 @@
 /**
- * RizkyOS 95 — Retro Web Audio Synthesizer & Sound Manager
+ * RizkyOS 95 - Retro Web Audio Synthesizer & Sound Manager
  * Lazy AudioContext unlocked on first user gesture; completely safe if blocked.
  */
 

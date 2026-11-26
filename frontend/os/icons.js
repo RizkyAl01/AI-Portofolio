@@ -1,5 +1,5 @@
 /**
- * RizkyOS 95 — Authentic Windows 95 Pixel-Art SVG Icon Library
+ * RizkyOS 95 - Authentic Windows 95 Pixel-Art SVG Icon Library
  * Crisp 32x32 retro pixel-styled inline SVGs with zero gradient ID collisions.
  */
 
@@ -341,7 +341,7 @@ const ICONS = {
     <rect x="14" y="19" width="4" height="2" fill="#007700"/>
   `,
 
-  // Recycle Bin (Full — overflowing crumpled papers)
+  // Recycle Bin (Full: overflowing crumpled papers)
   'recycle-full': `
     <!-- Crumpled papers sticking out of top -->
     <rect x="9" y="2" width="6" height="5" fill="#000"/>
@@ -725,6 +725,23 @@ const ICONS = {
     <!-- Bottom-Right inward bracket -->
     <rect x="18" y="18" width="5" height="2" fill="#ffff94"/>
     <rect x="18" y="18" width="2" height="5" fill="#ffff94"/>
+  `,
+
+  // Crisp Win95 External Link / Open-in-New-Tab Icon (readable at 13-16px)
+  'external-link': `
+    <!-- Open square box (bottom-left) -->
+    <rect x="4" y="10" width="10" height="3" fill="#000"/>
+    <rect x="4" y="10" width="3" height="18" fill="#000"/>
+    <rect x="4" y="25" width="18" height="3" fill="#000"/>
+    <rect x="19" y="18" width="3" height="10" fill="#000"/>
+    <!-- Top-right exit arrow head -->
+    <rect x="17" y="4" width="11" height="3" fill="#00007c"/>
+    <rect x="25" y="4" width="3" height="11" fill="#00007c"/>
+    <!-- Crisp diagonal arrow shaft -->
+    <rect x="22" y="7" width="3" height="3" fill="#00007c"/>
+    <rect x="19" y="10" width="3" height="3" fill="#00007c"/>
+    <rect x="16" y="13" width="3" height="3" fill="#00007c"/>
+    <rect x="13" y="16" width="3" height="3" fill="#00007c"/>
   `,
 };
 

@@ -41,7 +41,7 @@ const APP_ALIASES = {
   '3d': 'room3d',
   room: 'room3d',
   notepad: 'notepad',
-  cv: 'notepad',
+  cv: 'pdf-viewer',
   readme: 'notepad',
   'recycle-bin': 'recycle-bin',
   trash: 'recycle-bin',
@@ -202,7 +202,7 @@ export const terminalApp = {
     function updatePrompt() {
       const pathStr = getCwdPath();
       promptEl.textContent = `${pathStr}>`;
-      winApi.setTitle(`MS-DOS Prompt — ${pathStr}`);
+      winApi.setTitle(`MS-DOS Prompt - ${pathStr}`);
       winApi.setStatus(`Ready | ${pathStr} | Theme: ${currentTheme.toUpperCase()} | Type 'help'`);
     }
 
@@ -312,7 +312,7 @@ export const terminalApp = {
         ['cls / clear', 'Clear terminal screen'],
         ['exit', 'Close MS-DOS Prompt window'],
       ];
-      appendLine('RIZKYOS 95 — MS-DOS COMMAND REFERENCE', 'term-bright');
+      appendLine('RIZKYOS 95 - MS-DOS COMMAND REFERENCE', 'term-bright');
       appendLine('='.repeat(62), 'term-dim');
       const lines = rows.map(([cmd, desc]) => `  ${padRight(cmd, 20)} ${desc}`);
       appendPre(lines.join('\n'));
@@ -329,7 +329,7 @@ export const terminalApp = {
 
       appendPre([
         '+------------------------------------------------------------+',
-        `|  ${padRight(fullName.toUpperCase() + ' — ' + role, 56)}  |`,
+        `|  ${padRight(fullName.toUpperCase() + ' - ' + role, 56)}  |`,
         '+------------------------------------------------------------+',
         `  Education : ${degree}`,
         `              ${uni}${gpa}`,
@@ -419,7 +419,7 @@ export const terminalApp = {
     function cmdDir(arg) {
       const targetStack = arg ? resolvePathNodes(arg) : cwdStack;
       if (!targetStack) {
-        appendLine(`File Not Found — '${arg}'`, 'term-error');
+        appendLine(`File Not Found: '${arg}'`, 'term-error');
         sound.playError();
         return;
       }
@@ -516,7 +516,7 @@ export const terminalApp = {
       }
       const node = targetStack[targetStack.length - 1];
       if (node.type === 'folder') {
-        appendLine(`Access denied — '${node.name}' is a directory. Use 'dir ${node.name}'.`, 'term-error');
+        appendLine(`Access denied: '${node.name}' is a directory. Use 'dir ${node.name}'.`, 'term-error');
         return;
       }
 
@@ -527,10 +527,10 @@ export const terminalApp = {
 
       if (node.type === 'doc') {
         if (node.docKey === 'cv') {
-          appendLine(`=== ${PROFILE?.fullName || 'Rizky Alviando'} — CURRICULUM VITAE ===`, 'term-bright');
+          appendLine(`=== ${PROFILE?.fullName || 'Rizky Alviando'} - CURRICULUM VITAE ===`, 'term-bright');
           cmdWhoami();
           appendLine('');
-          appendLine("Tip: run 'open notepad' to view/print the full formatted WordPad CV.", 'term-dim');
+          appendLine("Tip: run 'open cv' to view or download the official PDF CV in Acrobat Reader 95.", 'term-dim');
           return;
         }
         appendLine(`=== ${node.name} ===`, 'term-bright');
@@ -558,7 +558,8 @@ export const terminalApp = {
           appendLine(`Tip: run 'read ${proj.slug}' to open this full Medium-style article in IE.`, 'term-dim');
           return;
         }
-        appendLine(`Internet Shortcut -> https://rizky.os/${node.page}`);
+        const baseSite = String(PROFILE?.website || 'https://rizkyalviando.ai.id').replace(/\/+$/, '');
+        appendLine(`Internet Shortcut -> ${baseSite}/${node.page}`);
         appendLine("Run 'open browser' to open in Internet Explorer.", 'term-dim');
         return;
       }
@@ -684,6 +685,7 @@ export const terminalApp = {
         `  Email     : ${PROFILE?.email || '-'}`,
       ];
       if (PROFILE?.phone) rows.push(`  Phone     : ${PROFILE.phone}`);
+      if (PROFILE?.website) rows.push(`  Website   : ${PROFILE.website}`);
       if (PROFILE?.linkedin) rows.push(`  LinkedIn  : ${PROFILE.linkedin}`);
       if (PROFILE?.github) rows.push(`  GitHub    : ${PROFILE.github}`);
       if (PROFILE?.canvaPortfolio) rows.push(`  Portfolio : ${PROFILE.canvaPortfolio}`);
@@ -709,7 +711,12 @@ export const terminalApp = {
         sound.playError();
         return;
       }
-      const openArgs = key === 'cv' ? { doc: 'cv' } : key === 'readme' ? { doc: 'readme' } : {};
+      const openArgs =
+        key === 'cv'
+          ? { file: PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf', title: 'CV Resmi - Rizky Alviando, S.Mat. (PDF)' }
+          : key === 'readme'
+          ? { doc: 'readme' }
+          : {};
       winApi.os.openApp(appId, openArgs);
       appendLine(`Launching ${appId}.exe...`, 'term-accent');
     }
@@ -753,9 +760,9 @@ export const terminalApp = {
 
         if (!resp.ok) {
           let errMsg = `HTTP ${resp.status}`;
-          if (resp.status === 429) errMsg = '429 Too Many Requests — tunggu sebentar sebelum bertanya lagi.';
-          else if (resp.status === 503) errMsg = '503 Service Unavailable — rate limiter sementara tidak tersedia.';
-          else if (resp.status === 422) errMsg = '422 Unprocessable Entity — pertanyaan tidak boleh kosong.';
+          if (resp.status === 429) errMsg = '429 Too Many Requests: tunggu sebentar sebelum bertanya lagi.';
+          else if (resp.status === 503) errMsg = '503 Service Unavailable: rate limiter sementara tidak tersedia.';
+          else if (resp.status === 422) errMsg = '422 Unprocessable Entity: pertanyaan tidak boleh kosong.';
           statusLine.textContent = `[ERROR] ${errMsg}`;
           statusLine.className = 'term-line term-error';
           sound.playError();
@@ -882,7 +889,7 @@ export const terminalApp = {
           winApi.os.triggerBSOD();
           break;
         case 'ver':
-          appendLine('RizkyOS 95 [Version 4.00.950] — Surabaya AI Engineer Edition', 'term-bright');
+          appendLine('RizkyOS 95 [Version 4.00.950] - Surabaya AI Engineer Edition', 'term-bright');
           break;
         case 'date':
         case 'time': {

@@ -1,5 +1,5 @@
 /**
- * RizkyOS 95 — Main Bootstrap & Application Registry
+ * RizkyOS 95 - Main Bootstrap & Application Registry
  * Wires the Window Manager, portfolio data, all 14 desktop applications,
  * multi-level Start Menu, initial workspace layout, and URL hash deep-linking.
  */

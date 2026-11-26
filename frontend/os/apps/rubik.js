@@ -1,6 +1,6 @@
 /**
- * RizkyOS 95 — Rubik Solver 95 (Mathematical 3x3x3 Cube Engine, Validator & 7-Stage Solver)
- * Authentic Windows 95 utility craft — strict border-radius: 0, zero AI-slop.
+ * RizkyOS 95 - Rubik Solver 95 (Mathematical 3x3x3 Cube Engine, Validator & 7-Stage Solver)
+ * Authentic Windows 95 utility craft: strict border-radius: 0, zero AI-slop.
  *
  * Sticker Layout (54 indices: U=0..8, R=9..17, F=18..26, D=27..35, L=36..44, B=45..53)
  * Standard Western Color Scheme:
@@ -821,7 +821,7 @@ export function solveCube(inputState) {
   });
 
   // --------------------------------------------------------------------------
-  // STAGE 4: Salib Kuning (Yellow Cross — OLL Edges on D, using z2 view D=top)
+  // STAGE 4: Salib Kuning (Yellow Cross, OLL Edges on D, using z2 view D=top)
   // --------------------------------------------------------------------------
   runStage(4, 'Salib Kuning (Bawah)', 'Membentuk salib kuning pada lapisan terakhir (sisi D).', (exec) => {
     const checkYellowEdges = (vm) => ({
@@ -1488,7 +1488,7 @@ export const rubikApp = {
           btn.dataset.idx = String(idx);
           if (isCenter) {
             btn.textContent = face;
-            btn.title = `Sisi ${face} (${COLOR_META[FACE_DEFAULT_COLOR[face]].name} — stiker tengah tetap)`;
+            btn.title = `Sisi ${face} (${COLOR_META[FACE_DEFAULT_COLOR[face]].name} - stiker tengah tetap)`;
           } else {
             btn.title = `Stiker ${face}${i + 1}`;
           }
@@ -1594,7 +1594,7 @@ export const rubikApp = {
         durationMs: Math.max(40, durationMs),
         move,
       };
-      moveBannerEl.textContent = `${move} — ${MOVE_LABELS_ID[move] || move}`;
+      moveBannerEl.textContent = `${move} - ${MOVE_LABELS_ID[move] || move}`;
       moveBannerEl.hidden = false;
     }
 
@@ -1721,7 +1721,7 @@ export const rubikApp = {
         winApi.setStatus(`Selesai! Kubus terpecahkan dalam ${solution.totalMoves} langkah.`);
       } else if (stepIndex > 0) {
         const m = solution.allMoves[stepIndex - 1];
-        winApi.setStatus(`Langkah ${stepIndex}/${solution.totalMoves}: ${m} — ${MOVE_LABELS_ID[m]}`);
+        winApi.setStatus(`Langkah ${stepIndex}/${solution.totalMoves}: ${m} - ${MOVE_LABELS_ID[m]}`);
       } else {
         winApi.setStatus(`Solusi siap: ${solution.totalMoves} langkah (7 tahap). Klik Play atau Next.`);
       }
@@ -2062,7 +2062,7 @@ export const rubikApp = {
     buildNetDom();
     syncNetColors();
     renderSolutionPanel();
-    winApi.setStatus('Rubik Solver 95 siap — Klik Acak (20) atau Input Warna untuk memecahkan kubus!');
+    winApi.setStatus('Rubik Solver 95 siap. Klik Acak (20) atau Input Warna untuk memecahkan kubus!');
     rafId = requestAnimationFrame(renderLoop);
 
     winApi.onClose(() => {

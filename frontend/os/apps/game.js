@@ -36,7 +36,7 @@ function lerpColor(c1, c2, t) {
 }
 
 // ============================================================================
-// APP 1: OJEK RUSH 95 — SURABAYA EDITION (Pseudo-3D Retro Arcade Highway Racer)
+// APP 1: OJEK RUSH 95 - SURABAYA EDITION (Pseudo-3D Retro Arcade Highway Racer)
 // ============================================================================
 
 const ROAD_ZONES = [
@@ -107,7 +107,7 @@ export const ojekRushApp = {
             <div class="ojek-title-box">
               <div class="ojek-badge">SURABAYA ARCADE 1995</div>
               <h2 class="ojek-logo">OJEK RUSH 95</h2>
-              <p class="ojek-subtitle">Surabaya Edition — Dodge Angkot, Bus Suroboyo, Bajaj &amp; Gerobak Bakso!</p>
+              <p class="ojek-subtitle">Surabaya Edition: Dodge Angkot, Bus Suroboyo, Bajaj &amp; Gerobak Bakso!</p>
               <div class="ojek-legend">
                 <span><b>←/→</b> or <b>A/D</b> Steer</span>
                 <span><b>↑/↓</b> or <b>W/S</b> Gas / Brake</span>
@@ -123,7 +123,7 @@ export const ojekRushApp = {
 
           <div class="ojek-overlay ojek-overlay-pause" data-overlay="pause" hidden>
             <div class="ojek-title-box">
-              <h3 class="ojek-logo-sm">PAUSED — NGOPI DULU</h3>
+              <h3 class="ojek-logo-sm">PAUSED - NGOPI DULU</h3>
               <p class="ojek-subtitle">Jalanan Surabaya menunggu...</p>
               <div class="ojek-btn-row">
                 <button type="button" class="win95-btn" data-action="resume">Resume</button>
@@ -369,7 +369,7 @@ export const ojekRushApp = {
       initScenery();
       setOverlay('playing');
       sound.playOpen();
-      winApi.setStatus(`Riding: ${ROAD_ZONES[0].name} — Space for Klakson/Nitro`);
+      winApi.setStatus(`Riding: ${ROAD_ZONES[0].name} - Space for Klakson/Nitro`);
     }
 
     function togglePause() {
@@ -377,7 +377,7 @@ export const ojekRushApp = {
         state.mode = 'paused';
         setOverlay('paused');
         sound.playClick();
-        winApi.setStatus('Ojek Rush 95 — Paused');
+        winApi.setStatus('Ojek Rush 95 - Paused');
       } else if (state.mode === 'paused') {
         state.mode = 'playing';
         setOverlay('playing');
@@ -409,7 +409,7 @@ export const ojekRushApp = {
       goEls.newbest.hidden = !isNewBest;
       hudEls.best.textContent = bestScore.toLocaleString();
       setOverlay('gameover');
-      winApi.setStatus(`Game Over — Score: ${finalScore.toLocaleString()} | Best: ${bestScore.toLocaleString()}`);
+      winApi.setStatus(`Game Over | Score: ${finalScore.toLocaleString()} | Best: ${bestScore.toLocaleString()}`);
     }
 
     function spawnTraffic() {
@@ -555,7 +555,7 @@ export const ojekRushApp = {
         state.zoneDist = 0;
         state.zoneIndex = (state.zoneIndex + 1) % ROAD_ZONES.length;
         state.zoneBannerTimer = 2.6;
-        winApi.setStatus(`Entering ${ROAD_ZONES[state.zoneIndex].name} — Keep dodging!`);
+        winApi.setStatus(`Entering ${ROAD_ZONES[state.zoneIndex].name} - Keep dodging!`);
       }
 
       // Timers
@@ -1381,7 +1381,7 @@ export const ojekRushApp = {
 
     initScenery();
     updateHud();
-    winApi.setStatus('Ojek Rush 95 Ready — Press Start or Enter to ride Surabaya!');
+    winApi.setStatus('Ojek Rush 95 Ready - Press Start or Enter to ride Surabaya!');
     rafId = requestAnimationFrame(loop);
 
     winApi.onClose(() => {
@@ -1396,7 +1396,7 @@ export const ojekRushApp = {
 };
 
 // ============================================================================
-// APP 2: MINESWEEPER 95 — Authentic Classic Win95 Minesweeper
+// APP 2: MINESWEEPER 95 - Authentic Classic Win95 Minesweeper
 // ============================================================================
 
 const MINE_MODES = {
@@ -1515,7 +1515,7 @@ export const minesweeperApp = {
       const best = loadBestTimes()[currentModeKey];
       const bestTxt = best !== undefined ? ` | Best: ${best}s` : '';
       const modeName = MINE_MODES[currentModeKey].label;
-      winApi.setStatus(`${modeName}${bestTxt}${extra ? ' — ' + extra : ''}`);
+      winApi.setStatus(`${modeName}${bestTxt}${extra ? ' - ' + extra : ''}`);
     }
 
     function getNeighbors(r, c) {

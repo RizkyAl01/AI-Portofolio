@@ -77,208 +77,352 @@ function formatTodayDate() {
   return `${y}-${m}-${d}`;
 }
 
+function getSiteDomain() {
+  const raw = PROFILE?.website || 'https://rizkyalviando.ai.id';
+  return String(raw).replace(/^https?:\/\//i, '').replace(/\/+$/, '');
+}
+
+function downloadTextFile(filename, content) {
+  try {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch {
+    // Ignore download failure
+  }
+}
+
+async function copyText(text) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // Fallback below
+  }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
 // ============================================================================
-// APP 1: RIZKYBOOK 95 — RETRO 90s GUESTBOOK
+// APP 1: GUEST BOOK.TXT - AUTHENTIC 1995 NOTEPAD GUESTBOOK (RIZKYBOOK 95)
 // ============================================================================
 
 export const guestbookApp = {
   id: 'guestbook',
-  title: 'RizkyBook 95 — Guestbook',
+  title: 'Guest book.txt - RizkyBook 95',
   icon: 'guestbook',
-  width: 580,
-  height: 540,
+  width: 560,
+  height: 510,
   minWidth: 360,
-  minHeight: 380,
+  minHeight: 360,
   singleton: true,
   resizable: true,
 
   onOpen(containerEl, winApi) {
     const hitDigits = getAndIncrementHitCounter();
-    let selectedMood = MOOD_OPTIONS[0].badge;
+    const siteDomain = getSiteDomain();
+    let openMenu = null;
+    let signBarVisible = true;
 
     containerEl.innerHTML = `
-      <div class="gb-app win95-scrollbar">
-        <div class="gb-header win95-raised">
-          <div class="gb-header-left">
-            <div class="gb-header-icon">${getIconSVG('guestbook', 32)}</div>
-            <div class="gb-header-text">
-              <h2 class="gb-title">RizkyBook 95</h2>
-              <p class="gb-subtitle">Public Visitor Guestbook — ${escapeHtml(PROFILE?.fullName || 'Rizky Alviando')}</p>
+      <div class="gb-app">
+        <div class="win95-menubar gb-menubar" role="menubar">
+          <div class="gb-menubar-left">
+            <div class="gb-menu-group">
+              <button type="button" class="win95-menubar-item gb-menu-btn" data-gb-menu="file" aria-haspopup="true"><u>F</u>ile</button>
+              <div class="win95-menu-dropdown gb-menu-dd" data-gb-dd="file" hidden>
+                <button type="button" class="win95-menu-item" data-gb-action="focus-sign">Sign Guestbook...</button>
+                <button type="button" class="win95-menu-item" data-gb-action="export">Export Guest book.txt</button>
+                <div class="win95-menu-sep"></div>
+                <button type="button" class="win95-menu-item" data-gb-action="close">Exit</button>
+              </div>
+            </div>
+
+            <div class="gb-menu-group">
+              <button type="button" class="win95-menubar-item gb-menu-btn" data-gb-menu="edit" aria-haspopup="true"><u>E</u>dit</button>
+              <div class="win95-menu-dropdown gb-menu-dd" data-gb-dd="edit" hidden>
+                <button type="button" class="win95-menu-item" data-gb-action="toggle-signbar">Toggle Sign Strip</button>
+                <button type="button" class="win95-menu-item" data-gb-action="copy-all">Copy All Entries</button>
+                <button type="button" class="win95-menu-item" data-gb-action="clear">Clear Form</button>
+              </div>
+            </div>
+
+            <div class="gb-menu-group">
+              <button type="button" class="win95-menubar-item gb-menu-btn" data-gb-menu="help" aria-haspopup="true"><u>H</u>elp</button>
+              <div class="win95-menu-dropdown gb-menu-dd" data-gb-dd="help" hidden>
+                <button type="button" class="win95-menu-item" data-gb-action="about">About Guest book.txt...</button>
+              </div>
             </div>
           </div>
-          <div class="gb-counter-wrap">
-            <span class="gb-counter-label">VISITORS</span>
-            <div class="gb-counter-led" aria-label="Visitor hit counter">${escapeHtml(hitDigits)}</div>
+
+          <div class="gb-menu-counter" aria-label="Visitor hit counter" title="Total visitors">
+            Visitor #${escapeHtml(hitDigits)}
           </div>
         </div>
 
-        <div class="gb-badges" aria-label="Retro web badges">
-          <span class="gb-badge gb-badge-teal">RIZKYOS 95</span>
-          <span class="gb-badge gb-badge-navy">ITS SURABAYA</span>
-          <span class="gb-badge gb-badge-slate">GROQ AI INSIDE</span>
-          <span class="gb-badge gb-badge-maroon">HTML5 · NO FRAMES</span>
-        </div>
-
-        <fieldset class="win95-groupbox gb-form-box">
-          <legend>Sign the Guestbook</legend>
-          <form class="gb-form" data-gb="form" novalidate>
-            <div class="gb-form-grid">
-              <label class="gb-field-group">
-                <span class="gb-label">Name *</span>
+        <section class="gb-sign-bar" data-gb="sign-bar" aria-label="Sign Guestbook">
+          <form class="gb-sign-form" data-gb="form" novalidate>
+            <div class="gb-sign-row">
+              <label class="gb-sign-field gb-sign-name">
+                <span class="gb-sign-label">Name *</span>
                 <input
                   type="text"
                   name="name"
                   class="win95-field gb-input"
                   maxlength="40"
-                  placeholder="Nama atau handle kamu"
+                  placeholder="Nama / handle"
                   required
                 />
               </label>
-              <label class="gb-field-group">
-                <span class="gb-label">Origin / Company</span>
+
+              <label class="gb-sign-field gb-sign-origin">
+                <span class="gb-sign-label">Origin</span>
                 <input
                   type="text"
                   name="from"
                   class="win95-field gb-input"
                   maxlength="50"
-                  placeholder="Surabaya / Recruiter / ITS"
+                  placeholder="Kota / Instansi"
                 />
+              </label>
+
+              <label class="gb-sign-field gb-sign-mood">
+                <span class="gb-sign-label">Mood</span>
+                <select name="mood" class="win95-field gb-mood-select" aria-label="Mood">
+                  ${MOOD_OPTIONS.map(
+                    (m) =>
+                      `<option value="${escapeHtml(m.badge)}">${escapeHtml(m.badge)} ${escapeHtml(m.label)}</option>`
+                  ).join('')}
+                </select>
               </label>
             </div>
 
-            <div class="gb-mood-row">
-              <span class="gb-label">Mood:</span>
-              <div class="gb-mood-list" data-gb="moods">
-                ${MOOD_OPTIONS.map(
-                  (m, i) => `
-                  <button
-                    type="button"
-                    class="win95-btn gb-mood-btn${i === 0 ? ' is-active' : ''}"
-                    data-mood="${escapeHtml(m.badge)}"
-                    title="${escapeHtml(m.label)}"
-                  ><span class="gb-mood-code">${escapeHtml(m.badge)}</span> ${escapeHtml(m.label)}</button>`
-                ).join('')}
+            <div class="gb-sign-row-msg">
+              <label class="gb-sign-field gb-sign-msg-wrap">
+                <span class="gb-sign-label">Message * <span class="gb-char-count" data-gb="chars">(0/280)</span></span>
+                <textarea
+                  name="message"
+                  class="win95-field gb-textarea"
+                  rows="2"
+                  maxlength="280"
+                  placeholder="Tulis catatan singkat untuk Guest book.txt..."
+                  required
+                ></textarea>
+              </label>
+              <div class="gb-sign-actions">
+                <button type="submit" class="win95-btn primary gb-sign-btn">Sign</button>
               </div>
             </div>
 
-            <label class="gb-field-group">
-              <div class="gb-label-row">
-                <span class="gb-label">Message *</span>
-                <span class="gb-char-count" data-gb="chars">0 / 280</span>
-              </div>
-              <textarea
-                name="message"
-                class="win95-field gb-textarea"
-                rows="3"
-                maxlength="280"
-                placeholder="Tinggalkan pesan, kesan, atau feedback untuk Rizky..."
-                required
-              ></textarea>
-            </label>
-
-            <div class="gb-form-footer">
-              <span class="gb-feedback" data-gb="feedback" aria-live="polite"></span>
-              <div class="gb-form-actions">
-                <button type="button" class="win95-btn" data-gb="clear">Clear</button>
-                <button type="submit" class="win95-btn primary gb-submit-btn">Post Entry</button>
-              </div>
-            </div>
+            <div class="gb-feedback" data-gb="feedback" aria-live="polite" hidden></div>
           </form>
-        </fieldset>
+        </section>
 
-        <div class="gb-entries-header">
-          <strong>Recent Signatures</strong>
-          <span class="gb-entries-count" data-gb="count">0 entries</span>
+        <div class="gb-log win95-sunken win95-scrollbar win95-selectable" data-gb="log" tabindex="0">
+          <pre class="gb-doc-header">================================================================
+GUEST BOOK - ${escapeHtml(String(PROFILE?.name || 'Rizky Alviando').toUpperCase())} (${escapeHtml(siteDomain)})
+Sign above to append your message to Guest book.txt
+================================================================</pre>
+          <div class="gb-entries" data-gb="entries"></div>
+          <div class="gb-doc-footer" data-gb="footer"></div>
         </div>
-
-        <div class="gb-entries" data-gb="entries"></div>
       </div>
     `;
 
+    const signBarEl = containerEl.querySelector('[data-gb="sign-bar"]');
     const formEl = containerEl.querySelector('[data-gb="form"]');
     const nameInput = formEl.elements.name;
     const fromInput = formEl.elements.from;
+    const moodSelect = formEl.elements.mood;
     const msgInput = formEl.elements.message;
     const charsEl = containerEl.querySelector('[data-gb="chars"]');
     const feedbackEl = containerEl.querySelector('[data-gb="feedback"]');
+    const logEl = containerEl.querySelector('[data-gb="log"]');
     const entriesEl = containerEl.querySelector('[data-gb="entries"]');
-    const countEl = containerEl.querySelector('[data-gb="count"]');
-    const moodBtns = containerEl.querySelectorAll('.gb-mood-btn');
+    const footerEl = containerEl.querySelector('[data-gb="footer"]');
 
-    function renderEntries() {
+    function closeMenus() {
+      if (!openMenu) return;
+      openMenu = null;
+      containerEl.querySelectorAll('.gb-menu-dd').forEach((el) => {
+        el.hidden = true;
+      });
+      containerEl.querySelectorAll('.gb-menu-btn').forEach((el) => {
+        el.classList.remove('is-open');
+      });
+    }
+
+    function toggleMenu(name) {
+      if (openMenu === name) {
+        closeMenus();
+        return;
+      }
+      closeMenus();
+      openMenu = name;
+      const dd = containerEl.querySelector(`.gb-menu-dd[data-gb-dd="${name}"]`);
+      const btn = containerEl.querySelector(`.gb-menu-btn[data-gb-menu="${name}"]`);
+      if (dd) dd.hidden = false;
+      if (btn) btn.classList.add('is-open');
+    }
+
+    function getAllEntries() {
       const localEntries = loadLocalGuestbook();
       const seedEntries = Array.isArray(GUESTBOOK_SEED) ? GUESTBOOK_SEED : [];
-      const allEntries = [
+      return [
         ...localEntries.map((e) => ({ ...e, _local: true })),
         ...seedEntries.map((e) => ({ ...e, _local: false })),
       ];
+    }
 
-      countEl.textContent = `${allEntries.length} ${allEntries.length === 1 ? 'entry' : 'entries'}`;
-      winApi.setStatus(`RizkyBook 95 — ${allEntries.length} signatures | Visitor #${hitDigits}`);
+    function buildPlainTextTranscript(entries) {
+      const header = [
+        '================================================================',
+        `GUEST BOOK - ${String(PROFILE?.name || 'Rizky Alviando').toUpperCase()} (${siteDomain})`,
+        `Visitor Counter: #${hitDigits} | Total Signatures: ${entries.length}`,
+        '================================================================',
+        '',
+      ].join('\n');
+
+      const body = entries
+        .map((e) => {
+          const dt = e.date || '';
+          const author = e.name || 'Anonymous';
+          const origin = e.from ? ` (${e.from})` : '';
+          const mood = e.mood ? `  ${e.mood}` : '';
+          return `[${dt}] ${author}${origin}${mood}\n${e.message || ''}\n----------------------------------------------------------------`;
+        })
+        .join('\n\n');
+
+      return `${header}${body}\n`;
+    }
+
+    function setFeedback(text, isError = false) {
+      if (!text) {
+        feedbackEl.textContent = '';
+        feedbackEl.hidden = true;
+        feedbackEl.classList.remove('is-error');
+        return;
+      }
+      feedbackEl.textContent = text;
+      feedbackEl.hidden = false;
+      feedbackEl.classList.toggle('is-error', isError);
+    }
+
+    function renderEntries() {
+      const allEntries = getAllEntries();
+      winApi.setStatus(`Guest book.txt | ${allEntries.length} signatures | Visitor #${hitDigits}`);
 
       if (allEntries.length === 0) {
-        entriesEl.innerHTML = '<div class="gb-empty win95-sunken">Belum ada pesan. Jadilah yang pertama menandatangani guestbook ini!</div>';
+        entriesEl.innerHTML = '<div class="gb-empty">(Belum ada catatan. Isi form di atas untuk menandatangani Guest book.txt.)</div>';
+        footerEl.textContent = `--- End of Guest book.txt (0 signatures · Visitor #${hitDigits}) ---`;
         return;
       }
 
       entriesEl.innerHTML = allEntries
-        .map((entry) => {
+        .map((entry, idx) => {
           const mood = escapeHtml(entry.mood || ':-)');
           const name = escapeHtml(entry.name || 'Anonymous');
-          const from = escapeHtml(entry.from || 'Internet Visitor');
+          const from = entry.from ? ` (${escapeHtml(entry.from)})` : '';
           const date = escapeHtml(entry.date || '');
           const message = escapeHtml(entry.message || '');
           const idAttr = escapeHtml(entry.id || '');
-          const deleteBtn = entry._local
-            ? `<button type="button" class="win95-btn gb-del-btn" data-delete-id="${idAttr}" title="Remove your local entry">Remove</button>`
+          const removeLink = entry._local
+            ? ` <button type="button" class="gb-remove-link" data-delete-id="${idAttr}" title="Remove your local entry">[Remove]</button>`
             : '';
+          const sep = idx < allEntries.length - 1 ? '<div class="gb-entry-sep" aria-hidden="true"></div>' : '';
 
           return `
-            <article class="gb-card win95-raised">
-              <div class="gb-card-head">
-                <div class="gb-card-author">
-                  <span class="gb-card-mood" aria-hidden="true">${mood}</span>
-                  <strong class="gb-card-name">${name}</strong>
-                  <span class="gb-card-from">${from}</span>
-                </div>
-                <div class="gb-card-meta">
-                  <span class="gb-card-date">${date}</span>
-                  ${deleteBtn}
-                </div>
+            <article class="gb-entry">
+              <div class="gb-entry-head">
+                <span class="gb-entry-date">[${date}]</span>
+                <strong class="gb-entry-name">${name}</strong><span class="gb-entry-origin">${from}</span>
+                <span class="gb-entry-mood">${mood}</span>${removeLink}
               </div>
-              <p class="gb-card-msg">${message}</p>
+              <div class="gb-entry-body">${message}</div>
             </article>
+            ${sep}
           `;
         })
         .join('');
-    }
 
-    function setFeedback(text, isError = false) {
-      feedbackEl.textContent = text;
-      feedbackEl.classList.toggle('is-error', isError);
+      footerEl.textContent = `--- End of Guest book.txt (${allEntries.length} signatures · Visitor #${hitDigits}) ---`;
     }
 
     msgInput.addEventListener('input', () => {
-      charsEl.textContent = `${msgInput.value.length} / 280`;
+      charsEl.textContent = `(${msgInput.value.length}/280)`;
     });
 
+    async function handleMenuAction(act) {
+      closeMenus();
+      if (act === 'focus-sign') {
+        signBarVisible = true;
+        signBarEl.hidden = false;
+        nameInput.focus();
+      } else if (act === 'export') {
+        const txt = buildPlainTextTranscript(getAllEntries());
+        downloadTextFile('Guest_book_RizkyOS95.txt', txt);
+        winApi.setStatus('Exported Guest_book_RizkyOS95.txt');
+      } else if (act === 'close') {
+        winApi.close();
+      } else if (act === 'toggle-signbar') {
+        signBarVisible = !signBarVisible;
+        signBarEl.hidden = !signBarVisible;
+      } else if (act === 'copy-all') {
+        const ok = await copyText(buildPlainTextTranscript(getAllEntries()));
+        setFeedback(ok ? 'Semua catatan disalin ke clipboard.' : 'Gagal menyalin catatan.', !ok);
+      } else if (act === 'clear') {
+        formEl.reset();
+        charsEl.textContent = '(0/280)';
+        setFeedback('');
+      } else if (act === 'about') {
+        winApi.os.showDialog({
+          title: 'About Guest book.txt',
+          icon: 'guestbook',
+          message:
+            `Guest book.txt - RizkyBook 95\n` +
+            `Public Visitor Log for ${PROFILE?.fullName || 'Rizky Alviando'} (${siteDomain}).\n\n` +
+            `Catatan yang kamu kirim disimpan di localStorage browser ini dan dapat diekspor ke berkas teks polos (.txt).`,
+          buttons: ['OK'],
+        });
+      }
+    }
+
     containerEl.addEventListener('click', (e) => {
-      const moodBtn = e.target.closest('.gb-mood-btn');
-      if (moodBtn) {
-        selectedMood = moodBtn.dataset.mood || MOOD_OPTIONS[0].badge;
-        moodBtns.forEach((b) => b.classList.toggle('is-active', b === moodBtn));
+      const menuBtn = e.target.closest('.gb-menu-btn');
+      if (menuBtn) {
+        e.stopPropagation();
         sound.playClick();
+        toggleMenu(menuBtn.dataset.gbMenu);
         return;
       }
 
-      const clearBtn = e.target.closest('[data-gb="clear"]');
-      if (clearBtn) {
-        formEl.reset();
-        charsEl.textContent = '0 / 280';
-        setFeedback('');
+      const menuAction = e.target.closest('[data-gb-action]');
+      if (menuAction) {
         sound.playClick();
+        handleMenuAction(menuAction.dataset.gbAction);
         return;
       }
+
+      if (openMenu) closeMenus();
 
       const delBtn = e.target.closest('[data-delete-id]');
       if (delBtn) {
@@ -286,7 +430,7 @@ export const guestbookApp = {
         const next = loadLocalGuestbook().filter((item) => String(item.id) !== targetId);
         saveLocalGuestbook(next);
         sound.playClick();
-        setFeedback('Entry removed.');
+        setFeedback('Catatan lokal dihapus.');
         renderEntries();
       }
     });
@@ -295,10 +439,11 @@ export const guestbookApp = {
       e.preventDefault();
       const name = nameInput.value.trim();
       const from = fromInput.value.trim() || 'Internet Visitor';
+      const mood = moodSelect.value || MOOD_OPTIONS[0].badge;
       const message = msgInput.value.trim();
 
       if (!name) {
-        setFeedback('Nama wajib diisi.', true);
+        setFeedback('Nama wajib diisi sebelum menandatangani Guest book.txt.', true);
         sound.playError();
         nameInput.focus();
         return;
@@ -314,7 +459,7 @@ export const guestbookApp = {
         id: `local_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
         name: name.slice(0, 40),
         from: from.slice(0, 50),
-        mood: selectedMood,
+        mood,
         date: formatTodayDate(),
         message: message.slice(0, 280),
       };
@@ -323,40 +468,56 @@ export const guestbookApp = {
       saveLocalGuestbook([newEntry, ...existing]);
 
       formEl.reset();
-      charsEl.textContent = '0 / 280';
-      setFeedback('Terima kasih! Pesan kamu sudah tersimpan.');
+      charsEl.textContent = '(0/280)';
+      setFeedback('Ditambahkan ke Guest book.txt.');
       sound.playMessage();
       renderEntries();
+      logEl.scrollTop = 0;
     });
 
+    const onDocClick = (e) => {
+      if (openMenu && !containerEl.contains(e.target)) closeMenus();
+    };
+    const onDocKeydown = (e) => {
+      if (e.key === 'Escape' && openMenu) closeMenus();
+    };
+    document.addEventListener('click', onDocClick);
+    document.addEventListener('keydown', onDocKeydown);
+
     renderEntries();
+
+    winApi.onClose(() => {
+      document.removeEventListener('click', onDocClick);
+      document.removeEventListener('keydown', onDocKeydown);
+    });
   },
 };
 
 // ============================================================================
-// APP 2: DISPLAY PROPERTIES — AUTHENTIC WIN95 TABBED DIALOG + MINI-CRT PREVIEW
+// APP 2: DISPLAY PROPERTIES - AUTHENTIC WIN95 CONTROL PANEL DIALOG
 // ============================================================================
 
 export const displayApp = {
   id: 'display',
   title: 'Display Properties',
   icon: 'display',
-  width: 470,
-  height: 495,
-  minWidth: 380,
-  minHeight: 430,
+  width: 448,
+  height: 468,
+  minWidth: 368,
+  minHeight: 410,
   singleton: true,
   resizable: false,
 
   onOpen(containerEl, winApi) {
     const wallpapers = Array.isArray(WALLPAPERS) && WALLPAPERS.length > 0
       ? WALLPAPERS
-      : [{ id: 'teal', name: 'Classic Teal (#008080)', previewColor: '#008080', cssClass: 'wp-teal' }];
+      : [{ id: 'teal', name: 'Windows 95 Classic Teal', previewColor: '#018281', cssClass: 'wp-teal' }];
 
+    const siteDomain = getSiteDomain();
     let activeTab = 'background';
     let appliedWp = typeof winApi.os.getWallpaper === 'function' ? winApi.os.getWallpaper() : wallpapers[0].id;
     let draftWp = appliedWp;
-    let appliedCrt = typeof winApi.os.isCRTEnabled === 'function' ? winApi.os.isCRTEnabled() : false;
+    let appliedCrt = typeof winApi.os.isCRTEnabled === 'function' ? winApi.os.isCRTEnabled() : true;
     let draftCrt = appliedCrt;
     let appliedSoundOn = !sound.isMuted();
     let draftSoundOn = appliedSoundOn;
@@ -397,7 +558,7 @@ export const displayApp = {
           </div>
 
           <section class="disp-panel" data-panel="background">
-            <fieldset class="win95-groupbox">
+            <fieldset class="win95-groupbox disp-group">
               <legend>Wallpaper</legend>
               <div class="disp-wp-list win95-field win95-scrollbar" data-disp="wp-list" role="listbox" aria-label="Select wallpaper">
                 ${wallpapers
@@ -410,22 +571,22 @@ export const displayApp = {
                     aria-selected="${wp.id === draftWp ? 'true' : 'false'}"
                     data-wp-id="${escapeHtml(wp.id)}"
                   >
-                    <span class="disp-wp-swatch" style="background:${escapeHtml(wp.previewColor || '#008080')}"></span>
+                    <span class="disp-wp-swatch" style="background:${escapeHtml(wp.previewColor || '#018281')}"></span>
                     <span class="disp-wp-name">${escapeHtml(wp.name || wp.id)}</span>
                   </button>`
                   )
                   .join('')}
               </div>
-              <p class="disp-hint">Select a wallpaper to preview it on the monitor above, then click Apply or OK.</p>
+              <p class="disp-hint">Select a desktop pattern above, then click Apply or OK.</p>
             </fieldset>
           </section>
 
           <section class="disp-panel" data-panel="effects" hidden>
             <fieldset class="win95-groupbox disp-group">
-              <legend>CRT &amp; Audio</legend>
+              <legend>CRT Display &amp; Audio</legend>
               <label class="disp-check-row">
                 <input type="checkbox" data-disp="crt-check" ${draftCrt ? 'checked' : ''} />
-                <span>Enable CRT Scanlines &amp; Monitor Vignette</span>
+                <span>Enable CRT Scanlines &amp; Aperture Grille</span>
               </label>
               <label class="disp-check-row">
                 <input type="checkbox" data-disp="sound-check" ${draftSoundOn ? 'checked' : ''} />
@@ -437,23 +598,23 @@ export const displayApp = {
             </fieldset>
 
             <fieldset class="win95-groupbox disp-group">
-              <legend>System Diagnostics</legend>
+              <legend>Display Diagnostics</legend>
               <div class="disp-action-row">
                 <button type="button" class="win95-btn" data-disp-action="matrix">Toggle Matrix Rain</button>
-                <button type="button" class="win95-btn" data-disp-action="bsod">Test BSOD Screen</button>
+                <button type="button" class="win95-btn" data-disp-action="bsod">Test BSOD Recovery</button>
               </div>
             </fieldset>
           </section>
 
           <section class="disp-panel" data-panel="system" hidden>
             <fieldset class="win95-groupbox disp-group">
-              <legend>RizkyOS 95 Information</legend>
+              <legend>System Properties</legend>
               <div class="disp-sys-row">
                 <div class="disp-sys-icon">${getIconSVG('computer', 32)}</div>
                 <div class="disp-sys-info">
-                  <div><strong>Microsoft(R) RizkyOS 95</strong></div>
-                  <div>Version 4.00.950 · InspiredOS Architecture</div>
+                  <div><strong>RizkyOS 95</strong> (Version 4.00.950)</div>
                   <div>Registered to: ${escapeHtml(PROFILE?.fullName || 'Rizky Alviando')}</div>
+                  <div>Domain: ${escapeHtml(siteDomain)}</div>
                   <div>Co-Processor: Groq LLM + ITS Math FPU</div>
                 </div>
               </div>
@@ -493,7 +654,7 @@ export const displayApp = {
     function syncPreview() {
       const wp = wallpapers.find((w) => w.id === draftWp) || wallpapers[0];
       screenEl.className = `disp-monitor-screen ${wp.cssClass || ''}`.trim();
-      screenEl.style.backgroundColor = wp.previewColor || '#008080';
+      screenEl.style.backgroundColor = wp.previewColor || '#018281';
       scanlinesEl.hidden = !draftCrt;
 
       wpItems.forEach((btn) => {
@@ -505,7 +666,7 @@ export const displayApp = {
       crtCheck.checked = draftCrt;
       soundCheck.checked = draftSoundOn;
       applyBtn.disabled = !isDirty();
-      winApi.setStatus(`Preview: ${wp.name || wp.id} | CRT: ${draftCrt ? 'ON' : 'OFF'} | Audio: ${draftSoundOn ? 'ON' : 'MUTED'}`);
+      winApi.setStatus(`Wallpaper: ${wp.name || wp.id} | CRT: ${draftCrt ? 'ON' : 'OFF'} | Audio: ${draftSoundOn ? 'ON' : 'MUTED'}`);
     }
 
     function applySettings() {
@@ -600,7 +761,7 @@ export const displayApp = {
         winApi.close();
       } else if (action === 'test-sound') {
         if (sound.isMuted()) {
-          winApi.setStatus('System audio is currently muted — enable Audio & Apply first.');
+          winApi.setStatus('System audio is muted. Enable Audio & Apply first.');
         } else {
           sound.playStartup();
           winApi.setStatus('Playing Windows 95 startup chime...');
@@ -648,12 +809,12 @@ export const displayApp = {
 };
 
 // ============================================================================
-// APP 3: 3D ROOM — OPEN WORLD (Embeds existing Three.js open-world.html)
+// APP 3: 3D ROOM - OPEN WORLD (Embeds existing Three.js open-world.html)
 // ============================================================================
 
 export const room3dApp = {
   id: 'room3d',
-  title: '3D Room — Open World',
+  title: '3D Room - Open World',
   icon: 'room3d',
   width: 840,
   height: 560,
@@ -706,7 +867,7 @@ export const room3dApp = {
 
     function hideLoading() {
       loadingEl.hidden = true;
-      winApi.setStatus('3D Isometric Room active — open-world.html');
+      winApi.setStatus('3D Isometric Room active (open-world.html)');
     }
 
     function showLoading() {

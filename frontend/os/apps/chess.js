@@ -1,5 +1,5 @@
 /**
- * RizkyOS 95 — Catur 95 (Pure Vanilla JS Chess Engine + RizkyBot AI + Win95 UI)
+ * RizkyOS 95 - Catur 95 (Pure Vanilla JS Chess Engine + RizkyBot AI + Win95 UI)
  * Zero external dependencies. 100% legal FIDE rules: pins, checks, castling,
  * en passant, promotion picker, checkmate, stalemate, 50-move, insufficient
  * material, and threefold repetition detection.
@@ -888,7 +888,7 @@ function formatMoveSAN(pos, move, allLegalMoves, nextPos = null) {
 }
 
 // ============================================================================
-// 3. AI OPPONENT ("RizkyBot Chess") — ALPHA-BETA MINIMAX + PST + MVV-LVA
+// 3. AI OPPONENT ("RizkyBot Chess") - ALPHA-BETA MINIMAX + PST + MVV-LVA
 // ============================================================================
 
 const MATE_SCORE = 100000;
@@ -1255,12 +1255,12 @@ export const ChessEngine = {
 };
 
 // ============================================================================
-// 5. CATUR 95 — AUTHENTIC WINDOWS 95 APPLICATION MODULE
+// 5. CATUR 95 - AUTHENTIC WINDOWS 95 APPLICATION MODULE
 // ============================================================================
 
 export const chessApp = {
   id: 'chess',
-  title: 'Catur 95 — Lawan Rizky AI',
+  title: 'Catur 95 - Lawan Rizky AI',
   icon: 'chess',
   width: 620,
   height: 500,
@@ -1709,7 +1709,7 @@ export const chessApp = {
           } else {
             statusSubEl.textContent = `Pertandingan selesai dalam ${plyCount} langkah.`;
           }
-          winApi.setStatus(`Skakmat — ${winnerName} menang (${plyCount} langkah). Klik "Baru" untuk main lagi.`);
+          winApi.setStatus(`Skakmat: ${winnerName} menang (${plyCount} langkah). Klik "Baru" untuk main lagi.`);
         } else {
           const drawReasons = {
             stalemate: 'Pat (Stalemate)',
@@ -1720,7 +1720,7 @@ export const chessApp = {
           const reasonText = drawReasons[gameStatus.reason] || 'Seri';
           turnTextEl.textContent = 'REMIS (Seri)';
           statusSubEl.textContent = reasonText;
-          winApi.setStatus(`Permainan Remis — ${reasonText} (${plyCount} langkah).`);
+          winApi.setStatus(`Permainan Remis: ${reasonText} (${plyCount} langkah).`);
         }
       } else if (aiThinking) {
         turnSwatchEl.classList.add('is-thinking');
@@ -1732,8 +1732,8 @@ export const chessApp = {
         if (gameStatus.inCheck) {
           turnSwatchEl.classList.add('is-check');
           turnTextEl.textContent = `SKAK! Giliran ${sideLabel}`;
-          statusSubEl.textContent = `Raja ${sideLabel} terancam — wajib selamatkan!`;
-          winApi.setStatus(`SKAK! Giliran ${sideLabel} — ${legalMoves.length} langkah legal tersedia.`);
+          statusSubEl.textContent = `Raja ${sideLabel} terancam, wajib selamatkan!`;
+          winApi.setStatus(`SKAK! Giliran ${sideLabel}: ${legalMoves.length} langkah legal tersedia.`);
         } else {
           turnTextEl.textContent = `Giliran: ${sideLabel}`;
           statusSubEl.textContent = cfg.label;

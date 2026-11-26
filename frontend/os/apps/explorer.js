@@ -1,10 +1,11 @@
 import {
   PROFILE,
+  PROJECTS,
   CERTIFICATES,
   VIRTUAL_FS,
   RECYCLE_ITEMS
 } from '../data.js';
-import { getIconSVG } from '../icons.js';
+import { getIconSVG, ICON_KEYS } from '../icons.js';
 import { sound } from '../sound.js';
 
 function escapeHtml(value) {
@@ -33,9 +34,10 @@ function safeAssetUrl(rawPath) {
 }
 
 const VALID_ICON_KEYS = new Set([
+  ...ICON_KEYS,
   'computer', 'ie', 'messenger', 'dos', 'notepad', 'wordpad', 'folder',
-  'folder-open', 'pdf', 'game', 'minesweeper', 'guestbook', 'room3d',
-  'display', 'recycle-empty', 'recycle-full', 'start', 'sound-on',
+  'folder-open', 'pdf', 'game', 'minesweeper', 'chess', 'rubik', 'guestbook',
+  'room3d', 'display', 'recycle-empty', 'recycle-full', 'start', 'sound-on',
   'sound-off', 'info', 'warning', 'error', 'file', 'link', 'ai',
   'shutdown', 'programs', 'documents', 'settings'
 ]);
@@ -77,12 +79,119 @@ function describeNodeType(node) {
     case 'txt':
       return 'Text Document';
     case 'app':
-      return 'Application (.exe)';
+      return 'Application';
     case 'link':
       return 'Web Shortcut';
     default:
       return 'File';
   }
+}
+
+function parseSizeToBytes(sizeStr) {
+  const raw = String(sizeStr ?? '').trim().toUpperCase();
+  const match = raw.match(/([\d.]+)\s*(B|KB|MB|GB)?/);
+  if (!match) return 0;
+  const val = Number(match[1]) || 0;
+  const unit = match[2] || 'B';
+  if (unit === 'GB') return val * 1024 * 1024 * 1024;
+  if (unit === 'MB') return val * 1024 * 1024;
+  if (unit === 'KB') return val * 1024;
+  return val;
+}
+
+function parseDateComparable(dateStr) {
+  const raw = String(dateStr ?? '').trim();
+  if (!raw) return '';
+  const dmy = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
+  const yearMatch = raw.match(/(20\d{2}|19\d{2})/);
+  if (yearMatch) return `${yearMatch[1]}-00-00`;
+  return raw;
+}
+
+function enrichNodeMeta(node) {
+  if (!node) return null;
+  let cert = null;
+  if (node.type === 'pdf') {
+    cert = (CERTIFICATES || []).find(
+      (c) => (node.certId && c.id === node.certId) || (node.file && c.file === node.file)
+    );
+  }
+  let proj = null;
+  if (node.type === 'ie' && typeof node.page === 'string' && node.page.startsWith('project:')) {
+    const slug = node.page.slice('project:'.length);
+    proj = (PROJECTS || []).find((p) => p.slug === slug || p.id === slug);
+  }
+
+  const title = node.title || cert?.title || proj?.title || node.name;
+  const issuerOrCategory =
+    node.issuer ||
+    cert?.issuer ||
+    node.category ||
+    proj?.category ||
+    cert?.category ||
+    (node.type === 'folder' ? `${(node.children || []).length} item` : describeNodeType(node));
+  const date = node.date || cert?.date || cert?.year || proj?.date || '';
+  const credentialId = node.credentialId || cert?.credentialId || '';
+  const verifyUrl = node.verifyUrl || cert?.verifyUrl || '';
+  const size = node.size || cert?.size || (node.type === 'folder' ? '-' : '1 KB');
+  const summary =
+    node.summary ||
+    node.description ||
+    proj?.summary ||
+    proj?.subtitle ||
+    (cert
+      ? `Diterbitkan oleh ${cert.issuer} (${cert.date || cert.year}). Kategori: ${cert.category || 'Sertifikasi'}.`
+      : node.type === 'folder'
+      ? getFolderDescription(node.name)
+      : '');
+  const techStack = Array.isArray(node.techStack)
+    ? node.techStack
+    : Array.isArray(proj?.techStack)
+    ? proj.techStack
+    : [];
+  const metrics = Array.isArray(node.metrics)
+    ? node.metrics
+    : Array.isArray(proj?.metrics)
+    ? proj.metrics
+    : [];
+
+  return {
+    ...node,
+    certId: node.certId || cert?.id,
+    title,
+    issuerOrCategory,
+    date,
+    credentialId,
+    verifyUrl,
+    size,
+    summary,
+    techStack,
+    metrics
+  };
+}
+
+function getFolderDescription(folderName) {
+  const key = String(folderName ?? '').toLowerCase();
+  if (key.includes('cert')) {
+    return 'CV resmi, slide deck portofolio AI & ML, serta seluruh sertifikat kompetensi terverifikasi Rizky Alviando.';
+  }
+  if (key.includes('proj')) {
+    return 'Arsip 13 studi kasus rekayasa AI, Graph-RAG, fine-tuning LLM, pipeline data, dan riset terapan.';
+  }
+  if (key.includes('about')) {
+    return 'Biografi, kontak resmi, dokumen latar belakang pendidikan, dan tautan profil Rizky Alviando.';
+  }
+  if (key.includes('exp')) {
+    return 'Rekam jejak karier di DJED Komdigi, Bangkit Academy, BPS Jatim, dan Departemen Matematika ITS.';
+  }
+  if (key.includes('skill')) {
+    return 'Daftar keahlian teknis AI Engineering, Data Engineering, Matematika Terapan, dan Analitik.';
+  }
+  if (key.includes('game')) {
+    return 'Koleksi aplikasi dan gim klasik yang terpasang di sistem operasi RizkyOS 95.';
+  }
+  return 'Direktori utama portofolio Rizky Alviando (AI Engineer & S1 Matematika ITS Cum Laude).';
 }
 
 function normalizeRootFs() {
@@ -192,17 +301,17 @@ async function copyTextToClipboard(text) {
 }
 
 /* ============================================================================
- * 1. WINDOWS 95 EXPLORER (explorerApp)
+ * 1. WINDOWS 95 / 98 EXPLORER (explorerApp)
  * ========================================================================== */
 
 export const explorerApp = {
   id: 'explorer',
   title: 'Exploring - C:\\Rizky',
   icon: 'computer',
-  width: 720,
-  height: 500,
-  minWidth: 420,
-  minHeight: 320,
+  width: 820,
+  height: 540,
+  minWidth: 460,
+  minHeight: 340,
   singleton: true,
   resizable: true,
 
@@ -214,8 +323,13 @@ export const explorerApp = {
     let navIndex = -1;
     let currentSegments = [];
     let currentFolder = rootFs;
+    let displayedItems = [];
     let selectedIndex = -1;
     let viewMode = 'icons'; // 'icons' | 'list'
+    let userForcedViewMode = false;
+    let showPreview = !winApi?.os?.isMobile?.();
+    let sortCol = null; // 'name' | 'info' | 'type' | 'size' | 'date'
+    let sortDir = 'asc';
     let openMenuName = null;
 
     containerEl.innerHTML = `
@@ -234,6 +348,8 @@ export const explorerApp = {
             <div class="win95-menu-dropdown exp-menu-dropdown" data-dropdown="view" hidden>
               <button type="button" class="win95-menu-item exp-menu-item" data-action="view-icons">Large Icons</button>
               <button type="button" class="win95-menu-item exp-menu-item" data-action="view-list">Details List</button>
+              <div class="win95-menu-sep"></div>
+              <button type="button" class="win95-menu-item exp-menu-item" data-action="toggle-preview">Preview Pane</button>
               <div class="win95-menu-sep"></div>
               <button type="button" class="win95-menu-item exp-menu-item" data-action="refresh">Refresh</button>
             </div>
@@ -259,8 +375,9 @@ export const explorerApp = {
           <button type="button" class="win95-toolbar-btn exp-tb-btn" data-action="back" disabled>◀ Back</button>
           <button type="button" class="win95-toolbar-btn exp-tb-btn" data-action="up" disabled>▲ Up</button>
           <span class="win95-toolbar-sep" aria-hidden="true"></span>
-          <button type="button" class="win95-toolbar-btn exp-tb-btn is-active" data-action="view-icons" title="Large Icons">Icons</button>
+          <button type="button" class="win95-toolbar-btn exp-tb-btn" data-action="view-icons" title="Large Icons">Icons</button>
           <button type="button" class="win95-toolbar-btn exp-tb-btn" data-action="view-list" title="Details List">Details</button>
+          <button type="button" class="win95-toolbar-btn exp-tb-btn" data-action="toggle-preview" title="Toggle Folder Preview Pane">Preview</button>
           <span class="win95-toolbar-sep" aria-hidden="true"></span>
           <button type="button" class="win95-toolbar-btn exp-tb-btn" data-action="open-selected" disabled>Open</button>
         </div>
@@ -275,13 +392,17 @@ export const explorerApp = {
 
         <div class="exp-split">
           <aside class="exp-tree win95-sunken win95-scrollbar" aria-label="Folder Tree"></aside>
-          <section class="exp-files win95-sunken win95-scrollbar" aria-label="Folder Contents"></section>
+          <div class="exp-main-area win95-sunken">
+            <aside class="exp-preview-pane win95-scrollbar" aria-label="Folder and File Inspector"></aside>
+            <section class="exp-files win95-scrollbar" aria-label="Folder Contents"></section>
+          </div>
         </div>
       </div>
     `;
 
     const rootEl = containerEl.querySelector('.exp-app');
     const treeEl = containerEl.querySelector('.exp-tree');
+    const previewEl = containerEl.querySelector('.exp-preview-pane');
     const filesEl = containerEl.querySelector('.exp-files');
     const addrTextEl = containerEl.querySelector('.exp-addr-text');
     const backBtn = containerEl.querySelector('[data-action="back"]');
@@ -289,6 +410,7 @@ export const explorerApp = {
     const openSelBtn = containerEl.querySelector('.exp-tb-btn[data-action="open-selected"]');
     const iconsBtn = containerEl.querySelector('.exp-tb-btn[data-action="view-icons"]');
     const listBtn = containerEl.querySelector('.exp-tb-btn[data-action="view-list"]');
+    const previewBtn = containerEl.querySelector('.exp-tb-btn[data-action="toggle-preview"]');
 
     function closeMenus() {
       openMenuName = null;
@@ -313,7 +435,33 @@ export const explorerApp = {
       if (btn) btn.classList.add('is-open');
     }
 
-    function renderTreeBranch(folderNode, segments, depth = 0) {
+    function computeSortedItems() {
+      const rawChildren = (currentFolder.children || []).map(enrichNodeMeta);
+      if (!sortCol) return rawChildren;
+
+      const factor = sortDir === 'asc' ? 1 : -1;
+      return [...rawChildren].sort((a, b) => {
+        // Keep folders grouped ahead of files when sorting
+        if (a.type === 'folder' && b.type !== 'folder') return -1;
+        if (a.type !== 'folder' && b.type === 'folder') return 1;
+
+        if (sortCol === 'size') {
+          return (parseSizeToBytes(a.size) - parseSizeToBytes(b.size)) * factor;
+        }
+        if (sortCol === 'date') {
+          return parseDateComparable(a.date).localeCompare(parseDateComparable(b.date)) * factor;
+        }
+        if (sortCol === 'info') {
+          return String(a.issuerOrCategory || '').localeCompare(String(b.issuerOrCategory || '')) * factor;
+        }
+        if (sortCol === 'type') {
+          return describeNodeType(a).localeCompare(describeNodeType(b)) * factor;
+        }
+        return String(a.name || '').localeCompare(String(b.name || '')) * factor;
+      });
+    }
+
+    function renderTreeBranch(folderNode, segments, depth = 0, isLast = true) {
       const key = segments.join('\\');
       const subfolders = (folderNode.children || []).filter((c) => c.type === 'folder');
       const hasChildren = subfolders.length > 0;
@@ -323,7 +471,7 @@ export const explorerApp = {
       const label = depth === 0 ? rootName : folderNode.name;
 
       let html = `
-        <div class="exp-tree-node" style="--depth: ${depth}">
+        <div class="exp-tree-node ${isLast ? 'is-last' : ''}" data-depth="${depth}" style="--depth: ${depth}">
           <div class="exp-tree-row ${isCurrent ? 'is-selected' : ''}">
             ${
               hasChildren
@@ -339,9 +487,14 @@ export const explorerApp = {
 
       if (hasChildren && isExpanded) {
         html += `<div class="exp-tree-children">`;
-        for (const sub of subfolders) {
-          html += renderTreeBranch(sub, [...segments, sub.name], depth + 1);
-        }
+        subfolders.forEach((sub, idx) => {
+          html += renderTreeBranch(
+            sub,
+            [...segments, sub.name],
+            depth + 1,
+            idx === subfolders.length - 1
+          );
+        });
         html += `</div>`;
       }
 
@@ -349,24 +502,156 @@ export const explorerApp = {
       return html;
     }
 
+    function renderPreviewPane() {
+      previewEl.hidden = !showPreview;
+      if (!showPreview) return;
+
+      const folderLabel = currentSegments.length
+        ? currentSegments[currentSegments.length - 1]
+        : rootName;
+      const folderIcon = currentSegments.length ? 'folder-open' : 'computer';
+      const totalCount = displayedItems.length;
+      const selected = selectedIndex >= 0 ? displayedItems[selectedIndex] : null;
+
+      let detailsHtml = '';
+      if (!selected) {
+        detailsHtml = `
+          <div class="exp-preview-empty">
+            <p class="exp-preview-desc">${escapeHtml(currentFolder?.description || getFolderDescription(folderLabel))}</p>
+            <div class="exp-preview-count">${totalCount} object(s) in this folder</div>
+            <p class="exp-preview-tip">Klik satu kali pada file untuk memeriksa rincian dokumen, penerbit, atau ringkasan proyek. Klik dua kali untuk membuka.</p>
+          </div>
+        `;
+      } else {
+        const iconKey = resolveNodeIcon(selected, false);
+        const safePdfHref = selected.type === 'pdf' ? safeAssetUrl(selected.file) : '';
+        const safeVerify = safeHref(selected.verifyUrl);
+        const safeLink = selected.type === 'link' ? safeHref(selected.href) : '#';
+
+        detailsHtml = `
+          <div class="exp-preview-card">
+            <div class="exp-preview-file-head">
+              <span class="exp-preview-file-ico">${getIconSVG(iconKey, 32)}</span>
+              <div class="exp-preview-file-titles">
+                <div class="exp-preview-title">${escapeHtml(selected.title)}</div>
+                <div class="exp-preview-filename">${escapeHtml(selected.name)}</div>
+              </div>
+            </div>
+
+            <dl class="exp-preview-meta">
+              <div class="exp-preview-meta-row">
+                <dt>Type</dt>
+                <dd>${escapeHtml(describeNodeType(selected))}</dd>
+              </div>
+              ${
+                selected.issuerOrCategory
+                  ? `<div class="exp-preview-meta-row">
+                      <dt>${selected.type === 'pdf' ? 'Issuer' : 'Category'}</dt>
+                      <dd>${escapeHtml(selected.issuerOrCategory)}</dd>
+                    </div>`
+                  : ''
+              }
+              ${
+                selected.date
+                  ? `<div class="exp-preview-meta-row">
+                      <dt>Date</dt>
+                      <dd>${escapeHtml(selected.date)}</dd>
+                    </div>`
+                  : ''
+              }
+              ${
+                selected.credentialId
+                  ? `<div class="exp-preview-meta-row">
+                      <dt>Credential</dt>
+                      <dd><code>${escapeHtml(selected.credentialId)}</code></dd>
+                    </div>`
+                  : ''
+              }
+              ${
+                selected.size && selected.size !== '-'
+                  ? `<div class="exp-preview-meta-row">
+                      <dt>Size</dt>
+                      <dd>${escapeHtml(selected.size)}</dd>
+                    </div>`
+                  : ''
+              }
+            </dl>
+
+            ${selected.summary ? `<p class="exp-preview-summary">${escapeHtml(selected.summary)}</p>` : ''}
+
+            ${
+              selected.metrics && selected.metrics.length
+                ? `<div class="exp-preview-metrics">
+                    ${selected.metrics
+                      .slice(0, 3)
+                      .map((m) => `<div><strong>${escapeHtml(m.value)}</strong> - ${escapeHtml(m.label)}</div>`)
+                      .join('')}
+                  </div>`
+                : ''
+            }
+
+            ${
+              selected.techStack && selected.techStack.length
+                ? `<div class="exp-preview-stack"><strong>Stack:</strong> ${escapeHtml(selected.techStack.join(' · '))}</div>`
+                : ''
+            }
+
+            <div class="exp-preview-actions">
+              <button type="button" class="win95-btn primary exp-preview-btn" data-action="open-selected">Open</button>
+              ${
+                safePdfHref
+                  ? `<a class="win95-btn exp-preview-btn" href="${escapeHtml(safePdfHref)}" download>Download PDF</a>`
+                  : ''
+              }
+              ${
+                safeVerify !== '#'
+                  ? `<a class="win95-btn exp-ext-icon-btn" href="${escapeHtml(safeVerify)}" target="_blank" rel="noopener noreferrer" title="Verifikasi kredensial di tab baru" aria-label="Verifikasi kredensial di tab baru">${getIconSVG('external-link', 14)}</a>`
+                  : ''
+              }
+              ${
+                safeLink !== '#'
+                  ? `<a class="win95-btn exp-ext-icon-btn" href="${escapeHtml(safeLink)}" target="_blank" rel="noopener noreferrer" title="Buka tautan di tab baru" aria-label="Buka tautan di tab baru">${getIconSVG('external-link', 14)}</a>`
+                  : ''
+              }
+            </div>
+          </div>
+        `;
+      }
+
+      previewEl.innerHTML = `
+        <div class="exp-preview-head">
+          <span class="exp-preview-folder-ico">${getIconSVG(folderIcon, 28)}</span>
+          <div class="exp-preview-folder-name">${escapeHtml(folderLabel)}</div>
+        </div>
+        <div class="exp-preview-rule" aria-hidden="true"></div>
+        ${detailsHtml}
+      `;
+    }
+
     function updateStatusForSelection() {
-      const children = currentFolder.children || [];
       const pathStr = buildPathString(currentSegments, rootName);
-      if (selectedIndex >= 0 && children[selectedIndex]) {
-        const item = children[selectedIndex];
-        const parts = [item.title || item.name, describeNodeType(item)];
-        if (item.size) parts.push(item.size);
+      if (selectedIndex >= 0 && displayedItems[selectedIndex]) {
+        const item = displayedItems[selectedIndex];
+        const parts = [item.title || item.name, item.issuerOrCategory || describeNodeType(item)];
+        if (item.size && item.size !== '-') parts.push(item.size);
         winApi?.setStatus?.(`Selected: ${parts.join(' · ')}`);
         openSelBtn.disabled = false;
       } else {
-        winApi?.setStatus?.(`${children.length} object(s) — ${pathStr}`);
+        winApi?.setStatus?.(`${displayedItems.length} object(s) - ${pathStr}`);
         openSelBtn.disabled = true;
       }
+      renderPreviewPane();
+    }
+
+    function renderSortHeader(colKey, label) {
+      const isSorted = sortCol === colKey;
+      const arrow = isSorted ? (sortDir === 'asc' ? ' ▲' : ' ▼') : '';
+      return `<th><button type="button" class="exp-sort-btn ${isSorted ? 'is-sorted' : ''}" data-sort-col="${colKey}">${escapeHtml(label)}${arrow}</button></th>`;
     }
 
     function renderFiles() {
-      const children = currentFolder.children || [];
-      if (!children.length) {
+      displayedItems = computeSortedItems();
+      if (!displayedItems.length) {
         filesEl.innerHTML = `<div class="exp-empty">Folder ini kosong.</div>`;
         updateStatusForSelection();
         return;
@@ -377,14 +662,15 @@ export const explorerApp = {
           <table class="exp-list-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Size</th>
-                <th>Date</th>
+                ${renderSortHeader('name', 'Name')}
+                ${renderSortHeader('info', 'Info / Issuer')}
+                ${renderSortHeader('type', 'Type')}
+                ${renderSortHeader('size', 'Size')}
+                ${renderSortHeader('date', 'Date')}
               </tr>
             </thead>
             <tbody>
-              ${children
+              ${displayedItems
                 .map((item, idx) => {
                   const iconKey = resolveNodeIcon(item, false);
                   return `
@@ -393,9 +679,10 @@ export const explorerApp = {
                         <span class="exp-item-ico-sm">${getIconSVG(iconKey, 16)}</span>
                         <span>${escapeHtml(item.name)}</span>
                       </td>
+                      <td class="exp-cell-info">${escapeHtml(item.issuerOrCategory || '-')}</td>
                       <td>${escapeHtml(describeNodeType(item))}</td>
-                      <td>${escapeHtml(item.size || (item.type === 'folder' ? '—' : '1 KB'))}</td>
-                      <td>${escapeHtml(item.date || '2026')}</td>
+                      <td class="exp-cell-size">${escapeHtml(item.size)}</td>
+                      <td class="exp-cell-date">${escapeHtml(item.date || '-')}</td>
                     </tr>
                   `;
                 })
@@ -406,7 +693,7 @@ export const explorerApp = {
       } else {
         filesEl.innerHTML = `
           <div class="exp-grid">
-            ${children
+            ${displayedItems
               .map((item, idx) => {
                 const iconKey = resolveNodeIcon(item, false);
                 return `
@@ -436,7 +723,8 @@ export const explorerApp = {
       upBtn.disabled = currentSegments.length === 0;
       iconsBtn.classList.toggle('is-active', viewMode === 'icons');
       listBtn.classList.toggle('is-active', viewMode === 'list');
-      treeEl.innerHTML = renderTreeBranch(rootFs, [], 0);
+      previewBtn.classList.toggle('is-active', showPreview);
+      treeEl.innerHTML = renderTreeBranch(rootFs, [], 0, true);
       renderFiles();
     }
 
@@ -455,7 +743,15 @@ export const explorerApp = {
       currentFolder = found.node;
       currentSegments = found.segments;
       selectedIndex = -1;
+      sortCol = null;
+      sortDir = 'asc';
       expandAncestors(currentSegments);
+
+      // Default Certificates & Projects to Details List view for clean readability
+      const leaf = (currentSegments[currentSegments.length - 1] || '').toLowerCase();
+      if (!userForcedViewMode) {
+        viewMode = leaf === 'certificates' || leaf === 'projects' ? 'list' : 'icons';
+      }
 
       if (pushHistory) {
         const key = currentSegments.join('\\');
@@ -486,7 +782,7 @@ export const explorerApp = {
         winApi?.os?.openApp?.('pdf-viewer', {
           file: node.file,
           title: node.title || node.name,
-          issuer: node.issuer,
+          issuer: node.issuer || node.issuerOrCategory,
           year: node.date,
           certId: node.certId
         });
@@ -497,7 +793,7 @@ export const explorerApp = {
           winApi?.os?.openApp?.('pdf-viewer', {
             certId: 'cv-rizky-alviando',
             file: PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf',
-            title: 'Curriculum Vitae (CV) — Rizky Alviando'
+            title: 'Curriculum Vitae (CV) - Rizky Alviando'
           });
           return;
         }
@@ -533,6 +829,21 @@ export const explorerApp = {
         return;
       }
 
+      const sortBtn = e.target.closest('[data-sort-col]');
+      if (sortBtn) {
+        sound.playClick();
+        const col = sortBtn.dataset.sortCol;
+        if (sortCol === col) {
+          sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+          sortCol = col;
+          sortDir = 'asc';
+        }
+        selectedIndex = -1;
+        renderFiles();
+        return;
+      }
+
       const jumpEl = e.target.closest('[data-jump]');
       if (jumpEl) {
         sound.playClick();
@@ -547,7 +858,7 @@ export const explorerApp = {
         const key = toggleEl.dataset.toggleKey;
         if (expandedKeys.has(key)) expandedKeys.delete(key);
         else expandedKeys.add(key);
-        treeEl.innerHTML = renderTreeBranch(rootFs, [], 0);
+        treeEl.innerHTML = renderTreeBranch(rootFs, [], 0, true);
         return;
       }
 
@@ -572,15 +883,20 @@ export const explorerApp = {
         } else if (act === 'up' && currentSegments.length > 0) {
           navigateToSegments(currentSegments.slice(0, -1), true);
         } else if (act === 'view-icons') {
+          userForcedViewMode = true;
           viewMode = 'icons';
           renderAll();
         } else if (act === 'view-list') {
+          userForcedViewMode = true;
           viewMode = 'list';
+          renderAll();
+        } else if (act === 'toggle-preview') {
+          showPreview = !showPreview;
           renderAll();
         } else if (act === 'refresh') {
           renderAll();
         } else if (act === 'open-selected') {
-          const item = (currentFolder.children || [])[selectedIndex];
+          const item = displayedItems[selectedIndex];
           if (item) openNode(item);
         } else if (act === 'close') {
           winApi?.close?.();
@@ -589,7 +905,7 @@ export const explorerApp = {
             title: 'About Rizky Explorer',
             icon: 'computer',
             message:
-              'Windows 95 Explorer — RizkyOS Edition\n\nTelusuri seluruh berkas portofolio, 14 sertifikat PDF, 13 studi kasus proyek, dan aplikasi di sistem berkas C:\\Rizky.',
+              'Windows Explorer - RizkyOS 95 Edition\n\nTelusuri seluruh berkas portofolio, sertifikat PDF terverifikasi, studi kasus AI, dan aplikasi di C:\\Rizky.',
             buttons: ['OK']
           });
         }
@@ -599,7 +915,7 @@ export const explorerApp = {
       const itemEl = e.target.closest('[data-item-idx]');
       if (itemEl) {
         const idx = Number(itemEl.dataset.itemIdx);
-        const item = (currentFolder.children || [])[idx];
+        const item = displayedItems[idx];
         selectedIndex = idx;
         filesEl.querySelectorAll('[data-item-idx]').forEach((el) => {
           el.classList.toggle('is-selected', Number(el.dataset.itemIdx) === selectedIndex);
@@ -627,13 +943,13 @@ export const explorerApp = {
       const itemEl = e.target.closest('[data-item-idx]');
       if (!itemEl) return;
       const idx = Number(itemEl.dataset.itemIdx);
-      const item = (currentFolder.children || [])[idx];
+      const item = displayedItems[idx];
       if (item) openNode(item);
     });
 
     filesEl.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && selectedIndex >= 0) {
-        const item = (currentFolder.children || [])[selectedIndex];
+        const item = displayedItems[selectedIndex];
         if (item) {
           e.preventDefault();
           openNode(item);
@@ -656,6 +972,7 @@ export const explorerApp = {
 
     winApi?.onArgs?.((newArgs = {}) => {
       if (newArgs && newArgs.path) {
+        userForcedViewMode = false;
         navigateToPath(newArgs.path, true);
       }
     });
@@ -681,15 +998,16 @@ function getReadmeText() {
   const name = PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando';
   return [
     '====================================================================',
-    '  RIZKYOS 95 — README.TXT',
+    '  RIZKYOS 95 - README.TXT',
     `  Desktop Portfolio of ${name}`,
     '====================================================================',
     '',
-    `${name} — ${PROFILE?.role || 'AI Engineer & Data Specialist'}`,
+    `${name} - ${PROFILE?.role || 'AI Engineer & Data Specialist'}`,
     `${PROFILE?.university || 'Institut Teknologi Sepuluh Nopember (ITS)'} (${PROFILE?.gpa || 'Cum Laude'})`,
     '',
     'KONTAK:',
     `  Email    : ${PROFILE?.email || 'risky.alviando@gmail.com'}`,
+    `  Website  : ${PROFILE?.website || 'https://rizkyalviando.ai.id'}`,
     `  LinkedIn : ${PROFILE?.linkedin || ''}`,
     `  GitHub   : ${PROFILE?.github || ''}`
   ].join('\n');
@@ -697,7 +1015,7 @@ function getReadmeText() {
 
 export const notepadApp = {
   id: 'notepad',
-  title: 'README.txt — Notepad',
+  title: 'README.txt - Notepad',
   icon: 'notepad',
   width: 660,
   height: 500,
@@ -716,7 +1034,7 @@ export const notepadApp = {
       winApi?.os?.openApp?.('pdf-viewer', {
         certId: 'cv-rizky-alviando',
         file: PROFILE?.cvPdf || 'assets/certs/Rizky_Alviando_CV_ID.pdf',
-        title: 'Curriculum Vitae (CV) — Rizky Alviando'
+        title: 'Curriculum Vitae (CV) - Rizky Alviando'
       });
     }
 
@@ -819,7 +1137,7 @@ export const notepadApp = {
 
     function renderMode() {
       const text = mode === 'custom' ? customContent : getReadmeText();
-      const title = mode === 'custom' ? `${customTitle} — Notepad` : 'README.txt — Notepad';
+      const title = mode === 'custom' ? `${customTitle} - Notepad` : 'README.txt - Notepad';
       winApi?.setTitle?.(title);
       toolbarEl.innerHTML = `
         <button type="button" class="win95-toolbar-btn np-tb-btn" data-action="copy-all">Copy All</button>
@@ -870,6 +1188,7 @@ export const notepadApp = {
         const contactStr = [
           PROFILE?.fullName || PROFILE?.name || 'Rizky Alviando',
           `Email: ${PROFILE?.email || 'risky.alviando@gmail.com'}`,
+          `Website: ${PROFILE?.website || 'https://rizkyalviando.ai.id'}`,
           PROFILE?.phone ? `Phone: ${PROFILE.phone}` : '',
           PROFILE?.linkedin ? `LinkedIn: ${PROFILE.linkedin}` : '',
           PROFILE?.github ? `GitHub: ${PROFILE.github}` : ''
@@ -890,7 +1209,7 @@ export const notepadApp = {
           title: 'About Notepad 95',
           icon: 'notepad',
           message:
-            'Notepad — RizkyOS 95\n\nMenampilkan README.txt monospace klasik serta inspeksi file teks dan log di RizkyOS 95.',
+            'Notepad - RizkyOS 95\n\nMenampilkan README.txt monospace klasik serta inspeksi file teks dan log di RizkyOS 95.',
           buttons: ['OK']
         });
       }
@@ -936,12 +1255,12 @@ export const notepadApp = {
 };
 
 /* ============================================================================
- * 3. PDF VIEWER (pdfViewerApp)
+ * 3. ACROBAT READER 95 - PDF VIEWER (pdfViewerApp)
  * ========================================================================== */
 
 export const pdfViewerApp = {
   id: 'pdf-viewer',
-  title: 'Acrobat Reader 95 — PDF Viewer',
+  title: 'Acrobat Reader 95 - PDF Viewer',
   icon: 'pdf',
   width: 780,
   height: 580,
@@ -972,34 +1291,57 @@ export const pdfViewerApp = {
       currentCert = certs[0];
     }
 
+    const primaryDocs = [];
+    const certDocs = [];
+    certs.forEach((c, idx) => {
+      const isPrimary =
+        c.id === 'cv-rizky-alviando' ||
+        c.id === 'portfolio-deck' ||
+        /cv|resume|portofolio|portfolio/i.test(String(c.category || ''));
+      if (isPrimary) primaryDocs.push({ cert: c, idx });
+      else certDocs.push({ cert: c, idx });
+    });
+
+    const renderOptions = (list) =>
+      list
+        .map(
+          ({ cert, idx }) =>
+            `<option value="${idx}">${escapeHtml(cert.title)} (${escapeHtml(cert.year || '')})</option>`
+        )
+        .join('');
+
     containerEl.innerHTML = `
       <div class="pdf-app">
         <div class="win95-toolbar pdf-toolbar">
           <label class="pdf-select-wrap">
             <span class="pdf-select-ico">${getIconSVG('pdf', 15)}</span>
             <span class="pdf-select-label">Dokumen:</span>
-            <select class="win95-field pdf-cert-select" aria-label="Pilih Sertifikat PDF">
-              ${certs
-                .map(
-                  (c, idx) =>
-                    `<option value="${idx}">${escapeHtml(c.title)} (${escapeHtml(c.year || '')})</option>`
-                )
-                .join('')}
+            <select class="win95-field pdf-cert-select" aria-label="Pilih Dokumen PDF">
+              ${
+                primaryDocs.length
+                  ? `<optgroup label="Dokumen Utama (CV &amp; Portofolio)">${renderOptions(primaryDocs)}</optgroup>`
+                  : ''
+              }
+              ${
+                certDocs.length
+                  ? `<optgroup label="Sertifikat &amp; Kredensial">${renderOptions(certDocs)}</optgroup>`
+                  : ''
+              }
             </select>
           </label>
           <div class="pdf-toolbar-actions">
-            <a class="win95-btn win95-btn-sm pdf-action-link pdf-verify-btn" href="#" target="_blank" rel="noopener noreferrer" hidden>Verify ↗</a>
+            <a class="win95-btn win95-btn-sm pdf-icon-btn pdf-verify-btn" href="#" target="_blank" rel="noopener noreferrer" title="Verifikasi kredensial di tab baru" aria-label="Verifikasi kredensial di tab baru" hidden>${getIconSVG('external-link', 14)}</a>
             <a class="win95-btn win95-btn-sm pdf-action-link pdf-download-btn" href="#" download>Download PDF</a>
-            <a class="win95-btn win95-btn-sm pdf-action-link pdf-newtab-btn" href="#" target="_blank" rel="noopener noreferrer">Open in New Tab ↗</a>
+            <a class="win95-btn win95-btn-sm pdf-icon-btn pdf-newtab-btn" href="#" target="_blank" rel="noopener noreferrer" title="Buka PDF di tab baru" aria-label="Buka PDF di tab baru">${getIconSVG('external-link', 14)}</a>
           </div>
         </div>
 
         <div class="pdf-frame-wrap win95-sunken">
-          <iframe class="pdf-iframe" title="PDF Certificate Preview"></iframe>
+          <iframe class="pdf-iframe" title="PDF Document Preview"></iframe>
         </div>
 
         <div class="pdf-mobile-note">
-          <span>Catatan: Jika pratinjau PDF tidak tampil inline di browser mobile, gunakan tombol <strong>Open in New Tab</strong> atau <strong>Download PDF</strong> di atas.</span>
+          <span>Catatan: Jika pratinjau PDF tidak tampil pada browser mobile, gunakan ikon buka di tab baru atau tombol <strong>Download PDF</strong> di atas.</span>
         </div>
       </div>
     `;
@@ -1014,7 +1356,7 @@ export const pdfViewerApp = {
       if (!certObj || !certObj.file) {
         iframeEl.src = 'about:blank';
         verifyBtn.hidden = true;
-        winApi?.setTitle?.('Acrobat Reader 95 — No File');
+        winApi?.setTitle?.('Acrobat Reader 95 - No File');
         winApi?.setStatus?.('Tidak ada dokumen PDF dipilih.');
         return;
       }
@@ -1040,7 +1382,7 @@ export const pdfViewerApp = {
       const idx = certs.findIndex((c) => c.file === certObj.file);
       if (idx >= 0) selectEl.value = String(idx);
 
-      winApi?.setTitle?.(`${certObj.title || 'PDF Document'} — Acrobat Reader 95`);
+      winApi?.setTitle?.(`${certObj.title || 'PDF Document'} - Acrobat Reader 95`);
       const meta = [certObj.issuer, certObj.date || certObj.year, certObj.credentialId]
         .filter(Boolean)
         .join(' · ');
@@ -1069,7 +1411,7 @@ export const recycleBinApp = {
   id: 'recycle-bin',
   title: 'Recycle Bin',
   icon: 'recycle-full',
-  width: 630,
+  width: 640,
   height: 430,
   minWidth: 360,
   minHeight: 280,
@@ -1080,6 +1422,8 @@ export const recycleBinApp = {
     const seedItems = Array.isArray(RECYCLE_ITEMS) ? RECYCLE_ITEMS : [];
     let items = seedItems.map((item) => ({ ...item }));
     let selectedIndex = -1;
+    let sortCol = null;
+    let sortDir = 'asc';
 
     containerEl.innerHTML = `
       <div class="rb-app">
@@ -1112,6 +1456,23 @@ export const recycleBinApp = {
     const emptyBtn = containerEl.querySelector('[data-action="empty"]');
     const refillBtn = containerEl.querySelector('[data-action="refill"]');
 
+    function sortItems() {
+      if (!sortCol) return;
+      const factor = sortDir === 'asc' ? 1 : -1;
+      items.sort((a, b) => {
+        if (sortCol === 'size') {
+          return (parseSizeToBytes(a.size) - parseSizeToBytes(b.size)) * factor;
+        }
+        if (sortCol === 'date') {
+          return parseDateComparable(a.deletedDate).localeCompare(parseDateComparable(b.deletedDate)) * factor;
+        }
+        if (sortCol === 'path') {
+          return String(a.originalPath || '').localeCompare(String(b.originalPath || '')) * factor;
+        }
+        return String(a.name || '').localeCompare(String(b.name || '')) * factor;
+      });
+    }
+
     function updateButtons() {
       const hasSelection = selectedIndex >= 0 && selectedIndex < items.length;
       inspectBtn.disabled = !hasSelection;
@@ -1120,9 +1481,15 @@ export const recycleBinApp = {
       refillBtn.hidden = items.length > 0;
       winApi?.setStatus?.(
         items.length
-          ? `${items.length} deleted item(s) — Double-click untuk melihat isi file`
+          ? `${items.length} deleted item(s) - Double-click untuk melihat isi file`
           : 'Recycle Bin kosong (0 items)'
       );
+    }
+
+    function renderSortTh(col, label) {
+      const isSorted = sortCol === col;
+      const arrow = isSorted ? (sortDir === 'asc' ? ' ▲' : ' ▼') : '';
+      return `<th><button type="button" class="exp-sort-btn ${isSorted ? 'is-sorted' : ''}" data-rb-sort="${col}">${escapeHtml(label)}${arrow}</button></th>`;
     }
 
     function renderTable() {
@@ -1142,10 +1509,10 @@ export const recycleBinApp = {
         <table class="rb-table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Original Location</th>
-              <th>Date Deleted</th>
-              <th>Size</th>
+              ${renderSortTh('name', 'Name')}
+              ${renderSortTh('path', 'Original Location')}
+              ${renderSortTh('date', 'Date Deleted')}
+              ${renderSortTh('size', 'Size')}
             </tr>
           </thead>
           <tbody>
@@ -1231,6 +1598,22 @@ export const recycleBinApp = {
     }
 
     rootEl.addEventListener('click', (e) => {
+      const sortBtn = e.target.closest('[data-rb-sort]');
+      if (sortBtn) {
+        sound.playClick();
+        const col = sortBtn.dataset.rbSort;
+        if (sortCol === col) {
+          sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+          sortCol = col;
+          sortDir = 'asc';
+        }
+        selectedIndex = -1;
+        sortItems();
+        renderTable();
+        return;
+      }
+
       const btn = e.target.closest('[data-action]');
       if (btn) {
         const act = btn.dataset.action;
@@ -1241,6 +1624,7 @@ export const recycleBinApp = {
           sound.playClick();
           items = seedItems.map((item) => ({ ...item }));
           selectedIndex = -1;
+          sortItems();
           renderTable();
         }
         return;

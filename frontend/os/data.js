@@ -1,4 +1,4 @@
-// RizkyOS 95 — Structured Portfolio Data Module
+// RizkyOS 95 - Structured Portfolio Data Module
 // Grounded strictly in Rizky Alviando's verified CV, portfolio records, and disk assets.
 
 export const PROFILE = {
@@ -13,6 +13,7 @@ export const PROFILE = {
   phone: '+62 813-5744-0027',
   github: 'https://github.com/RizkyAl01',
   linkedin: 'https://www.linkedin.com/in/rizky-alviando-31b47021b/',
+  website: 'https://rizkyalviando.ai.id',
   instagram: '',
   canvaPortfolio: 'https://canva.link/Rizky-Alviando-PortoAIML26',
   cvPdf: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
@@ -137,7 +138,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'komdigi-intern',
-    role: 'AI Engineer (Magang / Proyek — Predikat: Sangat Baik)',
+    role: 'AI Engineer (Magang / Proyek, Predikat: Sangat Baik)',
     org: 'Kementerian Komunikasi dan Digital (Komdigi)',
     period: 'Nov 2025 - Mei 2026',
     location: 'Jakarta Pusat, Indonesia',
@@ -253,7 +254,7 @@ export const PROJECTS = [
   {
     id: 'proj-aegislake',
     slug: 'aegislake',
-    url: 'https://rizky.os/projects/aegislake',
+    url: 'https://rizkyalviando.ai.id/projects/aegislake',
     title: 'AegisLake: Pipeline Data Medallion & Sandbox Pelatihan AI',
     subtitle:
       'Mengelola alur data bertahap Bronze–Silver–Gold dengan penyensoran data pribadi (PII) otomatis sesuai UU PDP sebelum data dipakai melatih model AI.',
@@ -307,7 +308,7 @@ export const PROJECTS = [
   {
     id: 'proj-lexgraph',
     slug: 'lexgraph',
-    url: 'https://rizky.os/projects/lexgraph',
+    url: 'https://rizkyalviando.ai.id/projects/lexgraph',
     title: 'LexGraph: Pencarian Regulasi & Dokumen Hukum dengan Graph-RAG',
     subtitle:
       'Memadukan pemotongan dokumen per Pasal–Ayat, pencarian hibrida BM25 + pgvector (RRF), FlashRank ONNX, dan graf relasi pasal di Neo4j.',
@@ -358,7 +359,7 @@ export const PROJECTS = [
   {
     id: 'proj-sentineleval',
     slug: 'sentineleval',
-    url: 'https://rizky.os/projects/sentineleval',
+    url: 'https://rizkyalviando.ai.id/projects/sentineleval',
     title: 'SentinelEval: Uji Keamanan & Evaluasi Risiko Model Bahasa (LLM)',
     subtitle:
       'Rangkaian skenario uji otomatis terhadap prompt berbahaya, karakter homoglyph, bahasa percakapan lokal Nusantara, dan dasbor pencatatan risiko AI.',
@@ -408,7 +409,7 @@ export const PROJECTS = [
   {
     id: 'proj-nusantara-asr',
     slug: 'nusantara-asr',
-    url: 'https://rizky.os/projects/nusantara-asr',
+    url: 'https://rizkyalviando.ai.id/projects/nusantara-asr',
     title: 'NusantaraASR: Transkripsi YouTube & Koreksi Bahasa Daerah',
     subtitle:
       'Pipeline audio-ke-teks otomatis dengan WhisperX large-v3, perataan waktu Wav2Vec2, pemisahan pembicara Pyannote, dan koreksi kata meragukan oleh LLM.',
@@ -458,7 +459,7 @@ export const PROJECTS = [
   {
     id: 'proj-smart-agentic-rag',
     slug: 'smart-agentic-rag',
-    url: 'https://rizky.os/projects/smart-agentic-rag',
+    url: 'https://rizkyalviando.ai.id/projects/smart-agentic-rag',
     title: 'Smart Agentic RAG: AI Document Assistant',
     subtitle:
       'Aplikasi tanya-jawab dokumen PDF berbasis LangGraph, FastAPI, Groq LLM, dan Supabase pgvector yang mampu menulis ulang kueri serta memverifikasi relevansi kutipan.',
@@ -507,7 +508,7 @@ export const PROJECTS = [
   {
     id: 'proj-komdigi-audio',
     slug: 'komdigi-audio-pipeline',
-    url: 'https://rizky.os/projects/komdigi-audio-pipeline',
+    url: 'https://rizkyalviando.ai.id/projects/komdigi-audio-pipeline',
     title: 'Otomasi Dataset Audio, Fine-Tuning LLM & Klasifikasi DTSEN (Komdigi)',
     subtitle:
       'Rekayasa pipeline transkripsi audio skala besar (workflow success rate 95%), SFT/CPT Qwen & Gemma (72,04%), dan model penalaran Desil DTSEN 1–10.',
@@ -563,7 +564,7 @@ export const PROJECTS = [
   {
     id: 'proj-cyberpulse',
     slug: 'cyberpulse',
-    url: 'https://rizky.os/projects/cyberpulse',
+    url: 'https://rizkyalviando.ai.id/projects/cyberpulse',
     title: 'CyberPulse: Crawler Web Paralel & Pemantauan Konten',
     subtitle:
       'Pengumpulan halaman web secara paralel menggunakan Selenium, tangkapan layar OCR, dan klasifikasi teks di backend FastAPI.',
@@ -611,10 +612,10 @@ export const PROJECTS = [
   {
     id: 'proj-chattering-tokyo',
     slug: 'chattering-detection-tokyo',
-    url: 'https://rizky.os/projects/chattering-detection-tokyo',
+    url: 'https://rizkyalviando.ai.id/projects/chattering-detection-tokyo',
     title: 'Deteksi Dini Chattering pada Proses Pemesinan (GPBL Tokyo)',
     subtitle:
-      'Ekstraksi fitur sinyal domain waktu–frekuensi (FFT) dan model klasifikasi XGBoost di Shibaura Institute of Technology, Tokyo — akurasi 92,83% & Presentasi Terbaik.',
+      'Ekstraksi fitur sinyal domain waktu-frekuensi (FFT) dan model klasifikasi XGBoost di Shibaura Institute of Technology, Tokyo dengan akurasi 92,83% dan Presentasi Terbaik.',
     category: 'Research & ML',
     readTime: '5 min read',
     date: 'Sep 2025',
@@ -662,7 +663,7 @@ export const PROJECTS = [
   {
     id: 'proj-tbum-aviation',
     slug: 't-bum-aviation',
-    url: 'https://rizky.os/projects/t-bum-aviation',
+    url: 'https://rizkyalviando.ai.id/projects/t-bum-aviation',
     title: 'Penemuan Pola Penyebab Kecelakaan Pesawat dengan Metode T-BUM',
     subtitle:
       'Riset algoritma data mining Matematika ITS: merancang generasi dan penggabungan kandidat pola yang lebih efisien pada Targeted Balanced Utility Pattern Mining.',
@@ -710,7 +711,7 @@ export const PROJECTS = [
   {
     id: 'proj-rizkyos-portfolio',
     slug: 'rizkyos-portfolio-ai',
-    url: 'https://rizky.os/projects/rizkyos-portfolio-ai',
+    url: 'https://rizkyalviando.ai.id/projects/rizkyos-portfolio-ai',
     title: 'Portofolio Web Interaktif & Asisten AI Pribadi (RizkyOS 95)',
     subtitle:
       'Portofolio bergaya desktop Windows 95 dan ruang 3D interaktif yang terhubung langsung ke backend chatbot FastAPI + Groq LLM + memori Supabase.',
@@ -761,7 +762,7 @@ export const PROJECTS = [
   {
     id: 'proj-sugaryzer',
     slug: 'sugaryzer-bangkit',
-    url: 'https://rizky.os/projects/sugaryzer-bangkit',
+    url: 'https://rizkyalviando.ai.id/projects/sugaryzer-bangkit',
     title: 'Sugaryzer: Aplikasi Analisis & Rekomendasi Konsumsi Gula Harian',
     subtitle:
       'Capstone Project Bangkit Academy 2024: tim lintas fungsi 6 orang membangun OCR pembaca barcode/nutrisi dan klasifikasi konsumsi gula TensorFlow (akurasi 89%).',
@@ -812,7 +813,7 @@ export const PROJECTS = [
   {
     id: 'proj-garuda-sentimen',
     slug: 'garuda-sentimen',
-    url: 'https://rizky.os/projects/garuda-sentimen',
+    url: 'https://rizkyalviando.ai.id/projects/garuda-sentimen',
     title: 'GarudaSentimen: Analisis Opini Publik Sepak Bola Indonesia',
     subtitle:
       'Memetakan ribuan komentar suporter media sosial ke dalam aspek pelatih, pemain, federasi, dan taktik menggunakan kamus slang Indonesia dan TF-IDF N-Gram.',
@@ -860,7 +861,7 @@ export const PROJECTS = [
   {
     id: 'proj-transformer-bdc',
     slug: 'transformer-sentiment-bdc',
-    url: 'https://rizky.os/projects/transformer-sentiment-bdc',
+    url: 'https://rizkyalviando.ai.id/projects/transformer-sentiment-bdc',
     title: 'Analisis Sentimen Multi-Kelas Transformer (Big Data Challenge 2024)',
     subtitle:
       'Implementasi dan fine-tuning IndoBERT serta RoBERTa untuk klasifikasi teks bahasa Indonesia pada 8 kelas sentimen dengan F1-score 70%.',
@@ -1030,7 +1031,7 @@ export const SKILLS = [
 export const CERTIFICATES = [
   {
     id: 'cv-rizky-alviando',
-    title: 'Curriculum Vitae (CV) — Rizky Alviando',
+    title: 'Curriculum Vitae (CV) - Rizky Alviando',
     issuer: 'Rizky Alviando, S.Mat. (Dokumen CV Resmi)',
     year: '2026',
     date: '2026',
@@ -1191,7 +1192,7 @@ export const CERTIFICATES = [
   },
   {
     id: 'portfolio-deck',
-    title: 'Slide Deck Portofolio AI & Machine Learning — Rizky Alviando',
+    title: 'Slide Deck Portofolio AI & Machine Learning - Rizky Alviando',
     issuer: 'Rizky Alviando (Visual Portfolio Showcase)',
     year: '2026',
     date: '2026',
@@ -1212,7 +1213,7 @@ Pemilik    : ${PROFILE.fullName}
 Peran      : ${PROFILE.role}
 Pendidikan : ${PROFILE.degree}, ${PROFILE.university}
 IPK        : ${PROFILE.gpa}
-Saat Ini   : AI Engineer — Direktorat KA & Ekosistem Teknologi Baru, DJED Komdigi
+Saat Ini   : AI Engineer - Direktorat KA & Ekosistem Teknologi Baru, DJED Komdigi
 
 PANDUAN APLIKASI:
   1. Internet Explorer -> Profil, pengalaman kerja, keahlian, dan 13 studi kasus proyek.
@@ -1233,11 +1234,11 @@ KONTAK:
 Catatan: Coba buka Recycle Bin atau masukkan Konami Code di desktop.
 `;
 
-const BIO_TXT = `PROFIL — ${PROFILE.fullName}
+const BIO_TXT = `PROFIL - ${PROFILE.fullName}
 ${'='.repeat(54)}
 Peran      : ${PROFILE.role}
 Domisili   : ${PROFILE.location}
-Pendidikan : ${PROFILE.degree} — ${PROFILE.university} (${PROFILE.gpa})
+Pendidikan : ${PROFILE.degree} - ${PROFILE.university} (${PROFILE.gpa})
 
 ${PROFILE.bioParagraphs.join('\n\n')}
 
@@ -1245,7 +1246,7 @@ MINAT DI LUAR PEKERJAAN:
 - ${PROFILE.interests.join('\n- ')}
 `;
 
-const CAREER_TXT = `PENGALAMAN PROFESIONAL & ORGANISASI — ${PROFILE.name.toUpperCase()}
+const CAREER_TXT = `PENGALAMAN PROFESIONAL & ORGANISASI - ${PROFILE.name.toUpperCase()}
 ${'='.repeat(64)}
 
 ${EXPERIENCES.map(
@@ -1253,7 +1254,7 @@ ${EXPERIENCES.map(
 ).join('\n\n')}
 `;
 
-const SKILLS_TXT = `KEAHLIAN TEKNIS & KEPEMIMPINAN — ${PROFILE.name.toUpperCase()}
+const SKILLS_TXT = `KEAHLIAN TEKNIS & KEPEMIMPINAN - ${PROFILE.name.toUpperCase()}
 ${'='.repeat(58)}
 
 ${SKILLS.map(
@@ -1261,7 +1262,7 @@ ${SKILLS.map(
 ).join('\n\n')}
 `;
 
-const CV_PLAIN_TXT = `CURRICULUM VITAE — ${PROFILE.fullName}
+const CV_PLAIN_TXT = `CURRICULUM VITAE - ${PROFILE.fullName}
 ${PROFILE.role}
 Email: ${PROFILE.email} | Telp: ${PROFILE.phone}
 LinkedIn: ${PROFILE.linkedin} | GitHub: ${PROFILE.github}
@@ -1277,13 +1278,48 @@ PENGALAMAN PROFESIONAL & ORGANISASI:
 ${EXPERIENCES.map((e) => `- ${e.role} | ${e.org} (${e.period})\n${e.highlights.map((h) => `  * ${h}`).join('\n')}`).join('\n\n')}
 
 SERTIFIKASI TERVERIFIKASI (${CERTIFICATES.length} DOKUMEN PDF):
-${CERTIFICATES.map((c) => `- [${c.year}] ${c.title} — ${c.issuer} (${c.credentialId})`).join('\n')}
+${CERTIFICATES.map((c) => `- [${c.year}] ${c.title} - ${c.issuer} (${c.credentialId})`).join('\n')}
 `;
+
+const CERT_DISPLAY_NAMES = {
+  'cv-rizky-alviando': 'CV_Rizky_Alviando_ID.pdf',
+  'pasas-cisde': 'PASAS_CISDE_Data_Engineering.pdf',
+  'bnsp-ads': 'BNSP_Associate_Data_Scientist.pdf',
+  'komdigi-ai-intern': 'Sertifikat_Magang_AI_Komdigi.pdf',
+  'bangkit-2024': 'Bangkit_Academy_2024_Graduate.pdf',
+  'bangkit-merged': 'Bangkit_Academy_2024_Transcript_Bundle.pdf',
+  'coursera-tf-dev': 'Coursera_TensorFlow_Developer.pdf',
+  'coursera-tf-adv': 'Coursera_TensorFlow_Advanced.pdf',
+  'coursera-ml-spec': 'Coursera_Machine_Learning_Stanford.pdf',
+  'coursera-structuring-ml': 'Coursera_Structuring_ML_Projects.pdf',
+  'coursera-linalg': 'Coursera_Linear_Algebra_ML.pdf',
+  'coursera-genai': 'Coursera_Generative_AI_Everyone.pdf',
+  'fga-ds': 'FGA_Komdigi_Intermediate_Data_Science.pdf',
+  'toep-plti': 'TOEP_PLTI_English_Proficiency.pdf',
+  'portfolio-deck': 'Portofolio_ML_AI_Rizky_Alviando.pdf',
+};
+
+const PROJECT_DISPLAY_NAMES = {
+  aegislake: '01_AegisLake_Medallion_AI.ie',
+  lexgraph: '02_LexGraph_Legal_GraphRAG.ie',
+  sentineleval: '03_SentinelEval_LLM_Safety.ie',
+  'nusantara-asr': '04_NusantaraASR_Speech_NLP.ie',
+  'smart-agentic-rag': '05_Smart_Agentic_RAG.ie',
+  'komdigi-audio-pipeline': '06_Komdigi_LLM_DTSEN_Pipeline.ie',
+  cyberpulse: '07_CyberPulse_Web_Crawler.ie',
+  'chattering-detection-tokyo': '08_Chattering_Detection_Tokyo.ie',
+  't-bum-aviation': '09_TBUM_Aviation_DataMining.ie',
+  'rizkyos-portfolio-ai': '10_RizkyOS_95_Portfolio_AI.ie',
+  'sugaryzer-bangkit': '11_Sugaryzer_Bangkit_Capstone.ie',
+  'garuda-sentimen': '12_GarudaSentimen_NLP.ie',
+  'transformer-sentiment-bdc': '13_Transformer_Sentiment_BDC.ie',
+};
 
 export const VIRTUAL_FS = {
   name: 'C:\\Rizky',
   type: 'folder',
   icon: 'computer',
+  description: 'Direktori utama portofolio Rizky Alviando: dokumen CV, 13 studi kasus proyek AI & data, 15 berkas sertifikasi PDF, keahlian, dan aplikasi.',
   children: [
     {
       name: 'README.txt',
@@ -1292,6 +1328,9 @@ export const VIRTUAL_FS = {
       size: '2 KB',
       date: '19/11/2026',
       docKey: 'readme',
+      title: 'README - Panduan RizkyOS 95',
+      category: 'Dokumen Panduan',
+      summary: 'Ringkasan navigasi aplikasi, perintah MS-DOS Prompt, dan kontak resmi Rizky Alviando.',
       content: README_TXT,
     },
     {
@@ -1300,7 +1339,12 @@ export const VIRTUAL_FS = {
       icon: 'pdf',
       size: '656 KB',
       date: '2026-11-19',
-      title: 'Curriculum Vitae (CV) — Rizky Alviando',
+      certId: 'cv-rizky-alviando',
+      title: 'Curriculum Vitae (CV) - Rizky Alviando',
+      issuer: 'Rizky Alviando, S.Mat. (Dokumen CV Resmi)',
+      category: 'CV & Resume',
+      credentialId: 'CV-RIZKY-ID',
+      summary: 'Curriculum Vitae resmi bahasa Indonesia mencakup pendidikan S1 Matematika ITS (Cum Laude, IPK 3,67), pengalaman DJED Komdigi, Bangkit Academy, dan sertifikasi.',
       file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
     },
     {
@@ -1309,7 +1353,13 @@ export const VIRTUAL_FS = {
       icon: 'pdf',
       size: '3.33 MB',
       date: '2026-11-19',
-      title: 'Portofolio AI & ML — Rizky Alviando',
+      certId: 'portfolio-deck',
+      title: 'Portofolio AI & ML - Rizky Alviando',
+      issuer: 'Rizky Alviando (Visual Portfolio Showcase)',
+      category: 'Portfolio',
+      credentialId: 'PORTFOLIO-AIML-2026',
+      verifyUrl: PROFILE.canvaPortfolio,
+      summary: 'Slide deck visual yang merangkum arsitektur proyek AI Engineering, Fine-Tuning LLM, Graph-RAG, dan Machine Learning.',
       file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
     },
     {
@@ -1317,6 +1367,7 @@ export const VIRTUAL_FS = {
       type: 'folder',
       icon: 'folder',
       date: '19/11/2026',
+      description: 'Biografi, latar belakang pendidikan S1 Matematika ITS & GPBL SIT Tokyo, dokumen CV, serta saluran kontak resmi.',
       children: [
         {
           name: 'Bio_Rizky.txt',
@@ -1325,6 +1376,9 @@ export const VIRTUAL_FS = {
           size: '4 KB',
           date: '19/11/2026',
           docKey: 'bio',
+          title: 'Biografi Singkat - Rizky Alviando',
+          category: 'Profil',
+          summary: 'Ringkasan perjalanan akademik di Matematika ITS, GPBL Shibaura Tokyo, karier AI Engineer di Komdigi, dan aktivitas organisasi.',
           content: BIO_TXT,
         },
         {
@@ -1333,7 +1387,12 @@ export const VIRTUAL_FS = {
           icon: 'pdf',
           size: '656 KB',
           date: '2026-11-19',
-          title: 'Curriculum Vitae (CV) — Rizky Alviando',
+          certId: 'cv-rizky-alviando',
+          title: 'Curriculum Vitae (CV) - Rizky Alviando',
+          issuer: 'Rizky Alviando, S.Mat. (Dokumen CV Resmi)',
+          category: 'CV & Resume',
+          credentialId: 'CV-RIZKY-ID',
+          summary: 'Berkas CV PDF asli siap baca dan unduh.',
           file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
         },
         {
@@ -1342,6 +1401,9 @@ export const VIRTUAL_FS = {
           icon: 'ie',
           size: '12 KB',
           date: '19/11/2026',
+          title: 'Halaman Profil & Pendidikan - rizkyalviando.ai.id/about',
+          category: 'Halaman Web',
+          summary: 'Profil lengkap, pendidikan formal (ITS Cum Laude, SIT Tokyo, SMAN 2 Nganjuk), dan pengalaman organisasi.',
           page: 'about',
         },
         {
@@ -1350,6 +1412,9 @@ export const VIRTUAL_FS = {
           icon: 'ie',
           size: '8 KB',
           date: '19/11/2026',
+          title: 'Saluran Kontak & Kolaborasi - rizkyalviando.ai.id/contact',
+          category: 'Halaman Web',
+          summary: 'Email, telepon, LinkedIn, GitHub, Canva Portfolio, serta ekosistem bot Telegram.',
           page: 'contact',
         },
         {
@@ -1358,7 +1423,13 @@ export const VIRTUAL_FS = {
           icon: 'pdf',
           size: '3.33 MB',
           date: '06/11/2026',
-          title: 'Slide Deck Portofolio AI & ML — Rizky Alviando',
+          certId: 'portfolio-deck',
+          title: 'Slide Deck Portofolio AI & ML - Rizky Alviando',
+          issuer: 'Rizky Alviando (Visual Portfolio Showcase)',
+          category: 'Portfolio',
+          credentialId: 'PORTFOLIO-AIML-2026',
+          verifyUrl: PROFILE.canvaPortfolio,
+          summary: 'Presentasi visual portofolio AI & Machine Learning lengkap dengan metrik dan studi kasus.',
           file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
         },
         {
@@ -1367,6 +1438,10 @@ export const VIRTUAL_FS = {
           icon: 'link',
           size: '1 KB',
           date: '19/11/2026',
+          title: 'Profil LinkedIn Resmi - Rizky Alviando',
+          issuer: 'linkedin.com',
+          category: 'Tautan Eksternal',
+          summary: 'Jejak karier, pengalaman profesional, dan jaringan koneksi LinkedIn resmi.',
           href: PROFILE.linkedin,
         },
         {
@@ -1375,6 +1450,10 @@ export const VIRTUAL_FS = {
           icon: 'link',
           size: '1 KB',
           date: '19/11/2026',
+          title: 'GitHub @RizkyAl01 - Repositori Kode',
+          issuer: 'github.com',
+          category: 'Tautan Eksternal',
+          summary: 'Kumpulan repositori open-source proyek AI Engineering, RAG, dan Machine Learning.',
           href: PROFILE.github,
         },
         {
@@ -1383,6 +1462,10 @@ export const VIRTUAL_FS = {
           icon: 'link',
           size: '1 KB',
           date: '19/11/2026',
+          title: 'Portofolio Visual AI & ML (Canva)',
+          issuer: 'canva.link',
+          category: 'Tautan Eksternal',
+          summary: 'Versi daring interaktif dari slide deck portofolio AI & Machine Learning.',
           href: PROFILE.canvaPortfolio,
         },
       ],
@@ -1392,6 +1475,7 @@ export const VIRTUAL_FS = {
       type: 'folder',
       icon: 'folder',
       date: '19/11/2026',
+      description: 'Rekam jejak 9 pengalaman profesional, magang, pengajaran akademik, dan kepemimpinan organisasi.',
       children: [
         {
           name: 'Career_Timeline.txt',
@@ -1400,6 +1484,9 @@ export const VIRTUAL_FS = {
           size: '6 KB',
           date: '19/11/2026',
           docKey: 'experience',
+          title: 'Garis Waktu Karier & Organisasi',
+          category: 'Ringkasan Karier',
+          summary: 'Daftar lengkap 9 pengalaman dari DJED Komdigi, Magang Komdigi, Bangkit Academy, BPS Jatim, hingga Koordinator 30+ Asisten ITS.',
           content: CAREER_TXT,
         },
         {
@@ -1408,24 +1495,37 @@ export const VIRTUAL_FS = {
           icon: 'ie',
           size: '18 KB',
           date: '19/11/2026',
+          title: 'Daftar Pengalaman Profesional - rizkyalviando.ai.id/experience',
+          category: 'Halaman Web',
+          summary: 'Tampilan editorial rekam jejak karier profesional, magang, dan kepemimpinan organisasi.',
           page: 'experience',
         },
         {
-          name: 'Sertifikat_Magang_Komdigi.pdf',
+          name: 'Sertifikat_Magang_AI_Komdigi.pdf',
           type: 'pdf',
           icon: 'pdf',
           size: '251 KB',
-          date: '06/11/2026',
+          date: 'Mei 2026',
+          certId: 'komdigi-ai-intern',
           title: 'Sertifikat Pemagangan AI Engineer Komdigi (Predikat: Sangat Baik)',
+          issuer: 'Kemnaker RI & Pusbang Talenta Digital BPSDM Komdigi',
+          category: 'AI & LLM',
+          credentialId: 'MN.031.017197.02.2025',
+          summary: 'Bukti kelulusan pemagangan AI Engineer di Kementerian Komunikasi dan Digital (Nov 2025 – Mei 2026) dengan predikat Sangat Baik.',
           file: 'assets/certs/sertifikat_dff5d104-76a7-4fe8-924b-a61df52a3010.pdf',
         },
         {
-          name: 'Sertifikat_Bangkit_2024.pdf',
+          name: 'Bangkit_Academy_2024_Graduate.pdf',
           type: 'pdf',
           icon: 'pdf',
           size: '436 KB',
-          date: '06/11/2026',
-          title: 'Bangkit Academy 2024 Graduate: Machine Learning Path',
+          date: 'Jan 2025',
+          certId: 'bangkit-2024',
+          title: 'Bangkit Academy 2024 Graduate: Machine Learning Path (Nilai 92,79)',
+          issuer: 'Bangkit Academy led by Google, GoTo, & Traveloka',
+          category: 'Machine Learning',
+          credentialId: 'BA24/GRAD/XXIV-01/M004B4KY3923',
+          summary: 'Sertifikat kelulusan 900+ jam kurikulum Machine Learning & Deep Learning (12 kursus) dengan nilai akhir 92,79.',
           file: 'assets/certs/Bangkit_Academy_2024.pdf',
         },
       ],
@@ -1435,22 +1535,33 @@ export const VIRTUAL_FS = {
       type: 'folder',
       icon: 'folder',
       date: '19/11/2026',
+      description: '13 studi kasus proyek teknis mencakup Data & AI Pipeline, LLM/Graph-RAG/Governance, NLP & Speech, serta Riset ML.',
       children: [
         {
-          name: '_Index_Semua_Proyek.ie',
+          name: '00_Semua_Proyek.ie',
           type: 'ie',
           icon: 'ie',
           size: '24 KB',
-          date: '19/11/2026',
+          date: '2026',
+          title: 'Indeks Lengkap 13 Proyek Portofolio',
+          category: 'Arsip Proyek',
+          summary: 'Buka daftar editorial seluruh 13 proyek AI Engineering, pipeline data, NLP, dan riset ML lengkap dengan filter kategori.',
           page: 'projects',
         },
         ...PROJECTS.map((proj) => ({
-          name: `${proj.slug}.ie`,
+          name: PROJECT_DISPLAY_NAMES[proj.slug] || `${proj.coverEmoji}_${proj.slug}.ie`,
           type: 'ie',
           icon: 'ie',
           size: '16 KB',
           date: proj.date,
           title: proj.title,
+          category: proj.category,
+          issuer: `${proj.category} · ${proj.readTime}`,
+          summary: proj.summary,
+          techStack: proj.techStack,
+          metrics: proj.metrics,
+          readTime: proj.readTime,
+          url: proj.url,
           page: `project:${proj.slug}`,
         })),
       ],
@@ -1459,15 +1570,21 @@ export const VIRTUAL_FS = {
       name: 'Certificates',
       type: 'folder',
       icon: 'folder',
-      date: '06/11/2026',
+      date: '2026',
+      description: '15 dokumen PDF resmi terverifikasi: CV, Slide Portofolio, CISDE PASAS, BNSP, Pemagangan Komdigi, Bangkit, 6 Coursera, FGA, dan TOEP.',
       children: CERTIFICATES.map((cert) => ({
-        name: cert.file.split('/').pop(),
+        name: CERT_DISPLAY_NAMES[cert.id] || cert.file.split('/').pop(),
         type: 'pdf',
         icon: 'pdf',
         size: cert.size,
-        date: cert.year,
+        date: cert.date || cert.year,
+        certId: cert.id,
         title: cert.title,
         issuer: cert.issuer,
+        category: cert.category,
+        credentialId: cert.credentialId,
+        verifyUrl: cert.verifyUrl || '',
+        summary: `${cert.issuer} (${cert.date || cert.year}) · ID: ${cert.credentialId}`,
         file: cert.file,
       })),
     },
@@ -1476,6 +1593,7 @@ export const VIRTUAL_FS = {
       type: 'folder',
       icon: 'folder',
       date: '19/11/2026',
+      description: 'Spesifikasi kompetensi teknis LLM/RAG, Data Engineering, Machine Learning/Matematika, BI/Excel, dan kepemimpinan.',
       children: [
         {
           name: 'Tech_Stack.txt',
@@ -1484,6 +1602,9 @@ export const VIRTUAL_FS = {
           size: '5 KB',
           date: '19/11/2026',
           docKey: 'skills',
+          title: 'Daftar Keahlian Teknis & Kepemimpinan',
+          category: 'Spesifikasi Teknis',
+          summary: 'Ringkasan teks polos dari 5 domain keahlian inti Rizky Alviando.',
           content: SKILLS_TXT,
         },
         {
@@ -1492,6 +1613,9 @@ export const VIRTUAL_FS = {
           icon: 'ie',
           size: '14 KB',
           date: '19/11/2026',
+          title: 'Spesifikasi Keahlian - rizkyalviando.ai.id/skills',
+          category: 'Halaman Web',
+          summary: 'Tabel terstruktur kompetensi teknis, stack pemrograman, dan pengalaman penerapan di proyek nyata.',
           page: 'skills',
         },
       ],
@@ -1501,6 +1625,7 @@ export const VIRTUAL_FS = {
       type: 'folder',
       icon: 'folder',
       date: '19/11/2026',
+      description: 'Koleksi aplikasi interaktif dan permainan klasik bawaan RizkyOS 95.',
       children: [
         {
           name: 'Ojek_Rush_95.exe',
@@ -1508,6 +1633,9 @@ export const VIRTUAL_FS = {
           icon: 'game',
           size: '640 KB',
           date: '19/11/2026',
+          title: 'Ojek Rush 95: Surabaya Edition',
+          category: 'Arcade Game',
+          summary: 'Gim balap skuter ojek online pseudo-3D 60fps melewati lalu lintas Surabaya (Angkot, Bus Suroboyo, Bajaj, Gerobak Bakso).',
           appId: 'ojek-rush',
         },
         {
@@ -1516,6 +1644,9 @@ export const VIRTUAL_FS = {
           icon: 'minesweeper',
           size: '128 KB',
           date: '19/11/2026',
+          title: 'Minesweeper 95',
+          category: 'Puzzle Game',
+          summary: 'Permainan klasik Windows 95 mode Beginner (9x9) dan Intermediate (16x16) dengan jaminan klik pertama aman.',
           appId: 'minesweeper',
         },
         {
@@ -1524,6 +1655,9 @@ export const VIRTUAL_FS = {
           icon: 'chess',
           size: '64 KB',
           date: '1995-08-24',
+          title: 'Catur 95 - Lawan Rizky AI',
+          category: 'Board Game',
+          summary: 'Engine catur legal terverifikasi Perft lengkap dengan lawan AI berbasis Alpha-Beta Minimax & Quiescence Search.',
           appId: 'chess',
         },
         {
@@ -1532,6 +1666,9 @@ export const VIRTUAL_FS = {
           icon: 'rubik',
           size: '96 KB',
           date: '1995-08-24',
+          title: 'Rubik Solver 95 (3x3x3)',
+          category: 'Puzzle & Math',
+          summary: 'Simulator Rubik 3D dengan mode lukis stiker 2D, validator paritas matematika, dan solver otomatis 7-tahap.',
           appId: 'rubik',
         },
         {
@@ -1540,6 +1677,9 @@ export const VIRTUAL_FS = {
           icon: 'room3d',
           size: '2.4 MB',
           date: '19/11/2026',
+          title: 'Ruang Kerja 3D Interaktif',
+          category: '3D Experience',
+          summary: 'Ruang kerja isometrik Three.js dengan objek interaktif Buku Dossier Flipbook, Papan Catur, dan Workstation PC.',
           appId: 'room3d',
         },
         {
@@ -1548,6 +1688,9 @@ export const VIRTUAL_FS = {
           icon: 'messenger',
           size: '512 KB',
           date: '19/11/2026',
+          title: 'RizkyBot Messenger (AI Chat)',
+          category: 'AI Assistant',
+          summary: 'Asisten percakapan berbasis CV yang ditenagai FastAPI, Groq LLM, dan BM25 semantic chunk retrieval.',
           appId: 'messenger',
         },
         {
@@ -1556,6 +1699,9 @@ export const VIRTUAL_FS = {
           icon: 'dos',
           size: '96 KB',
           date: '19/11/2026',
+          title: 'MS-DOS Prompt (RIZKY.EXE)',
+          category: 'System Utility',
+          summary: 'Terminal baris perintah klasik mendukung dir, cd, tree, neofetch, projects, certs, dan ask <pertanyaan>.',
           appId: 'terminal',
         },
       ],
@@ -1585,7 +1731,7 @@ Catatan: Tetap simpan salinan di 3 flashdisk, Google Drive, dan chat pribadi.`,
     originalPath: 'C:\\Rizky\\Projects\\ML_Experiments',
     deletedDate: '02/03/2026',
     size: '842 MB',
-    content: `[MODEL ARTIFACT INSPECTOR — PICKLE DUMP]
+    content: `[MODEL ARTIFACT INSPECTOR - PICKLE DUMP]
 Model       : XGBoostClassifier(max_depth=42, n_estimators=9999)
 Train Acc   : 99.98%
 Val Acc     : 41.20%
@@ -1631,7 +1777,7 @@ Catatan Evaluasi SentinelEval:
 1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6
 6. Bg5 e6 7. f4 Be7 8. Qf3 Qc7 9. O-O-O Nbd7
 10. g4 b5 11. Bxf6 Nxf6 12. Qh5?? Nxh5!
-{Evaluasi engine: -9.8 — menteri hilang gratis di langkah 12.}
+{Evaluasi engine: -9.8, menteri hilang gratis di langkah 12.}
 0-1`,
   },
   {
@@ -1767,7 +1913,7 @@ export const DESKTOP_ICONS = [
     args: {
       certId: 'cv-rizky-alviando',
       file: 'assets/certs/Rizky_Alviando_CV_ID.pdf',
-      title: 'Curriculum Vitae (CV) — Rizky Alviando',
+      title: 'Curriculum Vitae (CV) - Rizky Alviando',
     },
   },
   {
@@ -1778,7 +1924,7 @@ export const DESKTOP_ICONS = [
     args: {
       certId: 'portfolio-deck',
       file: 'assets/certs/Portofolio_ML_AI_Rizky_Alviando.pdf',
-      title: 'Portofolio AI & ML — Rizky Alviando',
+      title: 'Portofolio AI & ML - Rizky Alviando',
     },
   },
   {

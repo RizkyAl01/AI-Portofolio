@@ -1,5 +1,5 @@
 /**
- * RizkyOS 95 — Core Window Manager, Desktop Shell, BIOS POST & Easter Eggs
+ * RizkyOS 95 - Core Window Manager, Desktop Shell, BIOS POST & Easter Eggs
  * Inspired by InspiredOS & authentic Windows 95 (4.00.950).
  */
 
@@ -34,7 +34,7 @@ const DEFAULT_START_MENU = [
       { label: 'My Computer', icon: 'computer', appId: 'explorer' },
       { label: 'MS-DOS Prompt', icon: 'dos', appId: 'terminal' },
       { label: 'WordPad (CV)', icon: 'wordpad', appId: 'notepad', args: { doc: 'cv' } },
-      { label: '3D Room — Open World', icon: 'room3d', appId: 'room3d' },
+      { label: '3D Room - Open World', icon: 'room3d', appId: 'room3d' },
     ],
   },
   {
@@ -191,7 +191,7 @@ const state = {
   mobileStartStack: [],
 
   // Dynamic idle / unfocused document title easter eggs
-  baseTitle: 'RizkyOS 95 — Rizky Alviando',
+  baseTitle: 'RizkyOS 95 - Rizky Alviando',
   idleTimer: null,
   hiddenTitleTimer: null,
   hiddenTitleIdx: 0,
@@ -1181,7 +1181,7 @@ function runBootSequence() {
           <div class="os-splash-flag-q4"></div>
         </div>
         <div class="os-splash-brand">RizkyOS <span>95</span></div>
-        <div class="os-splash-sub">AI Engineer Edition &mdash; Starting Windows 95...</div>
+        <div class="os-splash-sub">AI Engineer Edition - Starting Windows 95...</div>
         <div class="os-splash-progress" aria-hidden="true">
           <div class="os-splash-progress-fill"></div>
         </div>
@@ -1274,7 +1274,7 @@ function runBootSequence() {
    ========================================================================== */
 
 const HIDDEN_TITLES = [
-  'RizkyOS 95 — Minimized to System Tray',
+  'RizkyOS 95 - Minimized to System Tray',
   'It is now safe to return to RizkyOS 95',
   'RizkyBot AI: menunggu pesan kamu...',
 ];
@@ -1300,7 +1300,7 @@ function resetIdleTitleTimer() {
   state.idleTimer = setTimeout(() => {
     if (!document.hidden && !state.bootActive) {
       state.isIdleTitle = true;
-      document.title = 'RizkyOS 95 — Screensaver Standby...';
+      document.title = 'RizkyOS 95 - Screensaver Standby...';
     }
   }, 60000);
 }
@@ -1448,7 +1448,7 @@ function attachGlobalListeners() {
           sound.playStartup();
           RizkyOS.triggerMatrixEasterEgg(true);
           RizkyOS.showDialog({
-            title: 'Cheat Code Activated — RizkyOS 95',
+            title: 'Cheat Code Activated - RizkyOS 95',
             icon: 'ai',
             message:
               'KONAMI CODE UNLOCKED!\n\n' +
@@ -2510,7 +2510,7 @@ export const RizkyOS = {
       title: 'About RizkyOS 95',
       icon: 'computer',
       message:
-        'RizkyOS 95 — Interactive Desktop Portfolio\n' +
+        'RizkyOS 95 - Interactive Desktop Portfolio\n' +
         'Version 4.00.950 (AI Engineer Edition)\n\n' +
         'Built for Rizky Alviando\n' +
         'AI Engineer (DJED Komdigi) | S1 Matematika ITS (Cum Laude, IPK 3.67)\n\n' +

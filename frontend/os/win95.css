@@ -1,6 +1,6 @@
 /* ==========================================================================
-   RizkyOS 95 — Authentic Windows 95 Core Stylesheet & Shell Chrome
-   Calibrated to InspiredOS / real Windows 95 (4.00.950) — zero AI-slop.
+   RizkyOS 95 - Authentic Windows 95 Core Stylesheet & Shell Chrome
+   Calibrated to InspiredOS / real Windows 95 (4.00.950), zero AI-slop.
    Strict border-radius: 0 everywhere, hard pixel shadows only.
    ========================================================================== */
 
@@ -524,7 +524,7 @@ code,
 }
 
 /* ==========================================================================
-   Global CRT Overlay (ON by default — 2px scanlines + 3px RGB aperture grille)
+   Global CRT Overlay (ON by default: 2px scanlines + 3px RGB aperture grille)
    ========================================================================== */
 
 .os-shell.crt-enabled::after {
@@ -1334,8 +1334,8 @@ code,
 
 /* ==========================================================================
    2-Phase Boot Sequence:
-   Phase 1 — Authentic #000 BIOS POST with #aaaaaa Courier New (NO neon green!)
-   Phase 2 — Classic #018281 Teal Splash + 4-Quadrant Flag + 8px Navy Blocks Bar
+   Phase 1: Authentic #000 BIOS POST with #aaaaaa Courier New (NO neon green!)
+   Phase 2: Classic #018281 Teal Splash + 4-Quadrant Flag + 8px Navy Blocks Bar
    ========================================================================== */
 
 .os-boot-overlay {
@@ -1593,7 +1593,7 @@ code,
 }
 
 /* ==========================================================================
-   Responsive Mobile Adaptation (<= 768px — InspiredOS Mobile Mode)
+   Responsive Mobile Adaptation (<= 768px: InspiredOS Mobile Mode)
    ========================================================================== */
 
 @media (max-width: 768px) {
