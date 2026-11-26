@@ -18,10 +18,6 @@ Memory and conversational context are maintained via **Supabase**.
    - The messages are ordered chronologically and appended to the prompt sent to Groq. 
    - This means the LLM can "remember" the immediate past of the conversation up to exactly 10 past message exchanges before it starts forgetting older parts of the conversation.
 
-3. **User Identification**:
-   - The system prompt allows for specific behavior based on usernames (e.g. `alv_rrr`, `elizabethapr`).
-   - In the Web UI, the user can change their `Username` which gets sent to the API and alters the behavior according to the `SYSTEM_PROMPT`.
-
 ## Logging
 
 Every interaction, whether it succeeds via the primary LLM (Qwen) or falls back to the secondary LLM (Llama 3.3), is logged into Google Sheets. The logs record the `chat_id` (which can be a Telegram ID or a web session ID), the username, request time, and the user's message along with the bot's response.
